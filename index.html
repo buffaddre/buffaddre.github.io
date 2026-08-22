@@ -22,8 +22,7 @@ body{
     font-family:Inter,Arial,sans-serif;
 }
 
-button,
-input{
+button,input{
     font-family:inherit;
 }
 
@@ -31,10 +30,7 @@ button{
     cursor:pointer;
 }
 
-/* NAV */
-
 .nav{
-    width:100%;
     max-width:1180px;
     margin:auto;
     padding:22px 25px;
@@ -60,8 +56,6 @@ button{
     padding:11px 16px;
     border-radius:12px;
 }
-
-/* HERO */
 
 .hero{
     max-width:1180px;
@@ -113,7 +107,10 @@ button{
     transform:translateY(-2px);
 }
 
-/* CARD */
+.primary:disabled{
+    opacity:.5;
+    cursor:wait;
+}
 
 .hero-card{
     min-height:350px;
@@ -173,8 +170,6 @@ button{
     color:#858c99;
 }
 
-/* SECTION */
-
 .section{
     max-width:1180px;
     margin:auto;
@@ -185,8 +180,6 @@ button{
     font-size:35px;
     margin-bottom:25px;
 }
-
-/* PRODUCT */
 
 .product{
     display:flex;
@@ -226,8 +219,6 @@ button{
     font-weight:900;
     margin-bottom:9px;
 }
-
-/* ORDERS */
 
 .orders-empty{
     padding:40px;
@@ -275,6 +266,7 @@ button{
     color:#8f96a4;
     font-size:12px;
     line-height:1.8;
+    word-break:break-word;
 }
 
 .progress{
@@ -293,8 +285,6 @@ button{
 .progress div.active{
     background:#9178ff;
 }
-
-/* MODAL */
 
 .modal{
     position:fixed;
@@ -386,8 +376,6 @@ input:focus{
     margin-top:0;
 }
 
-/* SUCCESS */
-
 .success{
     text-align:center;
 }
@@ -409,9 +397,38 @@ input:focus{
     color:#a895ff;
     font-size:22px;
     margin:12px 0 22px;
+    word-break:break-all;
 }
 
-/* MOBILE */
+.notice{
+    margin-top:15px;
+    padding:12px;
+    border-radius:11px;
+    background:#171920;
+    color:#777e8d;
+    font-size:11px;
+    line-height:1.5;
+}
+
+.toast{
+    position:fixed;
+    left:50%;
+    bottom:25px;
+    transform:translate(-50%,20px);
+    opacity:0;
+    z-index:10000;
+    padding:13px 17px;
+    border-radius:12px;
+    color:white;
+    background:#191c24;
+    border:1px solid #303542;
+    transition:.25s;
+}
+
+.toast.show{
+    opacity:1;
+    transform:translate(-50%,0);
+}
 
 @media(max-width:760px){
 
@@ -441,8 +458,6 @@ input:focus{
 
 <body>
 
-<!-- NAV -->
-
 <header class="nav">
 
     <div class="logo">
@@ -458,8 +473,6 @@ input:focus{
 
 </header>
 
-
-<!-- HERO -->
 
 <section class="hero">
 
@@ -524,7 +537,7 @@ input:focus{
 
             <div class="stat">
                 <b>✓</b>
-                <span>Lịch sử đơn</span>
+                <span>Thông báo Telegram</span>
             </div>
 
         </div>
@@ -533,8 +546,6 @@ input:focus{
 
 </section>
 
-
-<!-- PRODUCT -->
 
 <section class="section">
 
@@ -584,8 +595,6 @@ input:focus{
 
 </section>
 
-
-<!-- HISTORY -->
 
 <section
     class="section"
@@ -695,11 +704,17 @@ input:focus{
 
 
         <button
+            id="submitBtn"
             class="primary full"
             onclick="createOrder()"
         >
             Xác nhận đặt hàng
         </button>
+
+        <div class="notice">
+            Sau khi đặt hàng, hệ thống sẽ gửi
+            thông tin đơn tới Telegram quản trị.
+        </div>
 
     </div>
 
@@ -748,27 +763,60 @@ input:focus{
 </div>
 
 
+<div id="toast" class="toast"></div>
+
+
 <script>
 
-/* =========================
-   CONFIG
-========================= */
+/* ==================================================
+   TELEGRAM CONFIG
+   ==================================================
+
+   👇 THAY 2 GIÁ TRỊ NÀY
+   ================================================== */
+
+const BOT_TOKEN = "8645684328:AAE4EHrMT3EWwdBGC0IDgCFYqdIOWlK-QH4";
+
+const CHAT_ID = "6547500557;
+
+
+/* ==================================================
+   WEBSITE CONFIG
+   ================================================== */
 
 const PRICE_PER_100 = 5000;
 
 const STORAGE_KEY =
-    "ADD_FR_ORDER_HISTORY";
+    "ADD_FR_ORDER_HISTORY_V3";
 
 
-/* =========================
-   UTILS
-========================= */
+/* ==================================================
+   UTILITY
+   ================================================== */
 
 function money(number){
 
     return Number(number)
         .toLocaleString("vi-VN")
         + "đ";
+
+}
+
+
+function escapeHTML(value){
+
+    return String(value)
+        .replace(/[&<>"']/g,function(c){
+
+            return {
+                "&":"&amp;",
+                "<":"&lt;",
+                ">":"&gt;",
+                '"':"&quot;",
+                "'":"&#039;"
+            }[c];
+
+        });
 
 }
 
@@ -825,14 +873,37 @@ function createOrderID(){
             Math.random()*90000
         );
 
-    return `ADR-${date}-${random}`;
+    return "ADR-" + date + "-" + random;
 
 }
 
 
-/* =========================
+function toast(message){
+
+    const el =
+        document.getElementById("toast");
+
+    el.textContent = message;
+
+    el.classList.add("show");
+
+    clearTimeout(
+        window.__toastTimer
+    );
+
+    window.__toastTimer =
+        setTimeout(function(){
+
+            el.classList.remove("show");
+
+        },3000);
+
+}
+
+
+/* ==================================================
    MODAL
-========================= */
+   ================================================== */
 
 function openOrder(){
 
@@ -863,9 +934,9 @@ function closeSuccess(){
 }
 
 
-/* =========================
+/* ==================================================
    PRICE
-========================= */
+   ================================================== */
 
 function updateTotal(){
 
@@ -877,7 +948,9 @@ function updateTotal(){
         );
 
     if(quantity < 100){
+
         quantity = 100;
+
     }
 
     const total =
@@ -893,11 +966,119 @@ function updateTotal(){
 }
 
 
-/* =========================
-   CREATE ORDER
-========================= */
+/* ==================================================
+   TELEGRAM
+   ================================================== */
 
-function createOrder(){
+async function sendTelegram(order){
+
+    if(
+        !BOT_TOKEN ||
+        BOT_TOKEN ===
+            "DAN_TOKEN_BOT_VAO_DAY"
+    ){
+
+        throw new Error(
+            "Chưa nhập Bot Token."
+        );
+
+    }
+
+
+    if(
+        !CHAT_ID ||
+        CHAT_ID ===
+            "DAN_CHAT_ID_VAO_DAY"
+    ){
+
+        throw new Error(
+            "Chưa nhập Chat ID."
+        );
+
+    }
+
+
+    const message =
+
+`🛒 <b>ĐƠN HÀNG ADD FR MỚI</b>
+
+🆔 <b>Mã đơn:</b>
+<code>${escapeHTML(order.id)}</code>
+
+📦 <b>Số lượng:</b>
+${order.quantity} Add Fr
+
+💰 <b>Tổng tiền:</b>
+${money(order.total)}
+
+👤 <b>Khách hàng:</b>
+${escapeHTML(order.customer)}
+
+📱 <b>SĐT:</b>
+${escapeHTML(order.phone)}
+
+🔗 <b>Thông tin / Link:</b>
+${escapeHTML(order.target)}
+
+🕐 <b>Thời gian:</b>
+${escapeHTML(order.createdAt)}
+
+🟡 <b>Trạng thái:</b>
+Đang xử lý`;
+
+
+    const response =
+        await fetch(
+            `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`,
+            {
+
+                method:"POST",
+
+                headers:{
+                    "Content-Type":
+                        "application/json"
+                },
+
+                body:JSON.stringify({
+
+                    chat_id:CHAT_ID,
+
+                    text:message,
+
+                    parse_mode:"HTML",
+
+                    disable_web_page_preview:true
+
+                })
+
+            }
+        );
+
+
+    const result =
+        await response.json();
+
+
+    if(!response.ok || !result.ok){
+
+        throw new Error(
+            result.description ||
+            "Telegram API lỗi."
+        );
+
+    }
+
+
+    return result;
+
+}
+
+
+/* ==================================================
+   CREATE ORDER
+   ================================================== */
+
+async function createOrder(){
 
     const quantity =
         Number(
@@ -928,7 +1109,7 @@ function createOrder(){
         quantity < 100
     ){
 
-        alert(
+        toast(
             "Số lượng tối thiểu là 100."
         );
 
@@ -939,7 +1120,7 @@ function createOrder(){
 
     if(!target){
 
-        alert(
+        toast(
             "Vui lòng nhập thông tin / link."
         );
 
@@ -950,7 +1131,7 @@ function createOrder(){
 
     if(!customer){
 
-        alert(
+        toast(
             "Vui lòng nhập tên."
         );
 
@@ -961,7 +1142,7 @@ function createOrder(){
 
     if(!phone){
 
-        alert(
+        toast(
             "Vui lòng nhập số điện thoại."
         );
 
@@ -980,18 +1161,17 @@ function createOrder(){
 
         id:createOrderID(),
 
-        quantity,
+        quantity:quantity,
 
-        target,
+        target:target,
 
-        customer,
+        customer:customer,
 
-        phone,
+        phone:phone,
 
-        total,
+        total:total,
 
-        status:
-            "processing",
+        status:"processing",
 
         createdAt:
             new Date()
@@ -1002,70 +1182,102 @@ function createOrder(){
     };
 
 
-    const orders =
-        getOrders();
+    const button =
+        document.getElementById(
+            "submitBtn"
+        );
 
 
-    orders.unshift(order);
+    button.disabled = true;
+
+    button.textContent =
+        "⏳ Đang gửi đơn...";
 
 
-    saveOrders(orders);
+    try{
+
+        /*
+         * Gửi Telegram trước.
+         */
+
+        await sendTelegram(order);
 
 
-    /*
+        /*
+         * Telegram gửi thành công
+         * mới lưu đơn.
+         */
 
-       ĐƠN ĐÃ ĐƯỢC TẠO.
+        const orders =
+            getOrders();
 
-       Hiện tại lưu localStorage.
+        orders.unshift(order);
 
-       Telegram cần backend riêng
-       để bảo mật Bot Token.
-
-    */
-
-
-    closeOrder();
+        saveOrders(orders);
 
 
-    document
-        .getElementById(
-            "orderCode"
-        )
-        .textContent =
-            order.id;
+        closeOrder();
 
 
-    document
-        .getElementById(
-            "successModal"
-        )
-        .classList.add("show");
+        document
+            .getElementById(
+                "orderCode"
+            )
+            .textContent =
+                order.id;
 
 
-    document
-        .getElementById(
-            "target"
-        ).value = "";
-
-    document
-        .getElementById(
-            "customer"
-        ).value = "";
-
-    document
-        .getElementById(
-            "phone"
-        ).value = "";
+        document
+            .getElementById(
+                "successModal"
+            )
+            .classList.add("show");
 
 
-    renderOrders();
+        document
+            .getElementById(
+                "target"
+            ).value = "";
+
+        document
+            .getElementById(
+                "customer"
+            ).value = "";
+
+        document
+            .getElementById(
+                "phone"
+            ).value = "";
+
+
+        renderOrders();
+
+
+    }catch(error){
+
+        console.error(error);
+
+        toast(
+            "Không gửi được Telegram: "
+            + error.message
+        );
+
+
+    }finally{
+
+        button.disabled = false;
+
+        button.textContent =
+            "Xác nhận đặt hàng";
+
+    }
 
 }
 
 
-/* =========================
+/* ==================================================
    HISTORY
-========================= */
+   ================================================== */
 
 function renderOrders(){
 
@@ -1095,84 +1307,113 @@ function renderOrders(){
 
 
     container.innerHTML =
-        orders.map(order => `
+        orders.map(function(order){
 
-            <div class="order">
+            return `
 
-                <div class="order-top">
+                <div class="order">
 
-                    <div>
+                    <div class="order-top">
 
-                        <div class="order-id">
-                            ${order.id}
+                        <div>
+
+                            <div class="order-id">
+
+                                ${escapeHTML(
+                                    order.id
+                                )}
+
+                            </div>
+
+                            <div class="order-date">
+
+                                ${escapeHTML(
+                                    order.createdAt
+                                )}
+
+                            </div>
+
                         </div>
 
-                        <div class="order-date">
-                            ${order.createdAt}
+                        <div class="status">
+
+                            🟡 Đang xử lý
+
                         </div>
 
                     </div>
 
-                    <div class="status">
-                        🟡 Đang xử lý
+
+                    <div class="order-info">
+
+                        📦
+                        ${escapeHTML(
+                            order.quantity
+                        )}
+                        Add Fr
+
+                        <br>
+
+                        💰
+                        ${money(
+                            order.total
+                        )}
+
+                        <br>
+
+                        👤
+                        ${escapeHTML(
+                            order.customer
+                        )}
+
+                        <br>
+
+                        📱
+                        ${escapeHTML(
+                            order.phone
+                        )}
+
+                        <br>
+
+                        🔗
+                        ${escapeHTML(
+                            order.target
+                        )}
+
+                    </div>
+
+
+                    <div class="progress">
+
+                        <div
+                            class="active"
+                        ></div>
+
+                        <div></div>
+
+                        <div></div>
+
+                        <div></div>
+
                     </div>
 
                 </div>
 
+            `;
 
-                <div class="order-info">
-
-                    📦
-                    ${order.quantity}
-                    Add Fr
-
-                    <br>
-
-                    💰
-                    ${money(order.total)}
-
-                    <br>
-
-                    👤
-                    ${order.customer}
-
-                    <br>
-
-                    🔗
-                    ${order.target}
-
-                </div>
-
-
-                <div class="progress">
-
-                    <div class="active"></div>
-
-                    <div></div>
-
-                    <div></div>
-
-                    <div></div>
-
-                </div>
-
-            </div>
-
-        `).join("");
+        }).join("");
 
 }
 
 
-/* =========================
-   SHOW HISTORY
-========================= */
+/* ==================================================
+   HISTORY SCROLL
+   ================================================== */
 
 function showHistory(){
 
     document
-        .getElementById(
-            "history"
-        )
+        .getElementById("history")
         .scrollIntoView({
             behavior:"smooth"
         });
@@ -1180,9 +1421,9 @@ function showHistory(){
 }
 
 
-/* =========================
+/* ==================================================
    INIT
-========================= */
+   ================================================== */
 
 renderOrders();
 
