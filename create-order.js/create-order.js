@@ -12,8 +12,8 @@ export default async function handler(req,res){
   const createdAt=new Date().toISOString();
 
   // Không đặt BOT_TOKEN ở frontend. Khai báo trong Vercel Environment Variables.
-  const token=process.env.BOT_TOKEN;
-  const chatId=process.env.TELEGRAM_CHAT_ID;
+  const token=process.env.8645684328:AAE4EHrMT3EWwdBGC0IDgCFYqdIOWlK-QH4;
+  const chatId=process.env.6547500557;
   if(!token||!chatId) return res.status(500).json({error:"Backend chưa cấu hình Telegram"});
 
   const text=[
