@@ -6,7 +6,11 @@
 <title>ADD FR - Dịch Vụ Online</title>
 
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
 
 body{
     background:#08090d;
@@ -21,6 +25,13 @@ button,input{
 button{
     cursor:pointer;
 }
+
+button:disabled{
+    cursor:not-allowed;
+    opacity:.55;
+}
+
+/* NAV */
 
 .nav{
     max-width:1150px;
@@ -48,6 +59,8 @@ button{
     background:#111319;
     color:white;
 }
+
+/* HERO */
 
 .hero{
     max-width:1150px;
@@ -91,10 +104,12 @@ h1 span{
     color:white;
     font-weight:bold;
     background:linear-gradient(135deg,#a087ff,#644cff);
+    transition:.2s;
 }
 
-.primary:disabled{
-    opacity:.5;
+.primary:hover{
+    transform:translateY(-2px);
+    filter:brightness(1.08);
 }
 
 .hero-card{
@@ -120,6 +135,7 @@ h1 span{
     background:#55df8c;
     border-radius:50%;
     margin-right:7px;
+    box-shadow:0 0 10px #55df8c;
 }
 
 .hero-add{
@@ -154,6 +170,8 @@ h1 span{
     font-size:10px;
 }
 
+/* SECTION */
+
 .section{
     max-width:1150px;
     margin:auto;
@@ -164,6 +182,8 @@ h1 span{
     font-size:35px;
     margin-bottom:25px;
 }
+
+/* PRODUCT */
 
 .product{
     display:flex;
@@ -200,6 +220,8 @@ h1 span{
     font-weight:900;
     margin-bottom:7px;
 }
+
+/* ORDERS */
 
 .orders-empty{
     padding:40px;
@@ -240,32 +262,101 @@ h1 span{
     background:#29233f;
     color:#b9aaff;
     font-size:10px;
+    white-space:nowrap;
 }
 
-.order-info{
-    margin-top:14px;
-    color:#8f96a4;
-    font-size:12px;
-    line-height:1.9;
-    word-break:break-word;
+.status.completed{
+    background:#173324;
+    color:#5fe398;
 }
 
-.progress{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:5px;
-    margin-top:14px;
+.status.cancelled{
+    background:#3a1d22;
+    color:#ff7d8c;
 }
 
-.progress div{
-    height:5px;
-    border-radius:10px;
-    background:#292d36;
+/* PROGRESS */
+
+.order-progress{
+    margin-top:17px;
 }
 
-.progress .active{
-    background:#9178ff;
+.progress-info{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:8px;
+    font-size:11px;
+    color:#7f8796;
 }
+
+.progress-percent{
+    color:#a895ff;
+    font-weight:800;
+}
+
+.progress-bar{
+    width:100%;
+    height:8px;
+    overflow:hidden;
+    border-radius:20px;
+    background:#252934;
+    position:relative;
+}
+
+.progress-fill{
+    height:100%;
+    width:0%;
+    border-radius:20px;
+    background:linear-gradient(
+        90deg,
+        #644cff,
+        #a895ff
+    );
+    transition:width .7s ease;
+    box-shadow:0 0 14px rgba(145,120,255,.4);
+    position:relative;
+}
+
+.progress-fill::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:linear-gradient(
+        90deg,
+        transparent,
+        rgba(255,255,255,.3),
+        transparent
+    );
+    animation:shine 1.5s linear infinite;
+}
+
+@keyframes shine{
+    from{
+        transform:translateX(-100%);
+    }
+
+    to{
+        transform:translateX(100%);
+    }
+}
+
+.progress-status{
+    margin-top:7px;
+    color:#747c8b;
+    font-size:10px;
+}
+
+.completed-progress{
+    background:linear-gradient(
+        90deg,
+        #35bd72,
+        #65e49a
+    );
+    box-shadow:0 0 14px rgba(70,220,140,.3);
+}
+
+/* MODAL */
 
 .modal{
     position:fixed;
@@ -292,6 +383,7 @@ h1 span{
     border:1px solid #2c3039;
     border-radius:23px;
     background:#111319;
+    box-shadow:0 25px 80px rgba(0,0,0,.5);
 }
 
 .close{
@@ -335,6 +427,7 @@ input{
 
 input:focus{
     border-color:#9178ff;
+    box-shadow:0 0 0 3px rgba(145,120,255,.08);
 }
 
 .total{
@@ -356,6 +449,8 @@ input:focus{
     margin-top:0;
 }
 
+/* SUCCESS */
+
 .success{
     text-align:center;
 }
@@ -370,6 +465,7 @@ input:focus{
     background:#173324;
     color:#5fe398;
     font-size:30px;
+    box-shadow:0 0 25px rgba(95,227,152,.15);
 }
 
 .order-code{
@@ -378,6 +474,8 @@ input:focus{
     color:#a895ff;
     font-size:21px;
 }
+
+/* TOAST */
 
 #toast{
     position:fixed;
@@ -392,6 +490,7 @@ input:focus{
     opacity:0;
     transform:translate(-50%,20px);
     transition:.25s;
+    pointer-events:none;
 }
 
 #toast.show{
@@ -399,13 +498,21 @@ input:focus{
     transform:translate(-50%,0);
 }
 
+/* MOBILE */
+
 @media(max-width:750px){
+
     .hero{
         grid-template-columns:1fr;
         margin-top:20px;
+        gap:30px;
     }
 
     h1{
+        font-size:48px;
+    }
+
+    .hero-add{
         font-size:48px;
     }
 
@@ -416,6 +523,15 @@ input:focus{
     .product{
         flex-wrap:wrap;
     }
+
+    .product > div:last-child{
+        width:100%;
+    }
+
+    .product > div:last-child .primary{
+        width:100%;
+    }
+
 }
 </style>
 </head>
@@ -423,20 +539,28 @@ input:focus{
 <body>
 
 <header class="nav">
+
     <div class="logo">
         <span>ADD</span> FR
     </div>
 
-    <button class="history-btn" onclick="goHistory()">
+    <button
+        class="history-btn"
+        onclick="goHistory()"
+    >
         Lịch sử đơn
     </button>
+
 </header>
 
 
 <section class="hero">
 
     <div>
-        <div class="badge">DỊCH VỤ ONLINE</div>
+
+        <div class="badge">
+            DỊCH VỤ ONLINE
+        </div>
 
         <h1>
             Mua Add Fr
@@ -450,9 +574,13 @@ input:focus{
             một giao diện.
         </p>
 
-        <button class="primary" onclick="openOrder()">
+        <button
+            class="primary"
+            onclick="openOrder()"
+        >
             Mua ngay →
         </button>
+
     </div>
 
 
@@ -464,10 +592,15 @@ input:focus{
         </div>
 
         <div>
-            <div class="hero-add">ADD FR</div>
+
+            <div class="hero-add">
+                ADD FR
+            </div>
+
             <div class="hero-small">
                 Xử lý đơn theo từng trạng thái
             </div>
+
         </div>
 
         <div class="stats">
@@ -488,6 +621,7 @@ input:focus{
             </div>
 
         </div>
+
     </div>
 
 </section>
@@ -495,7 +629,9 @@ input:focus{
 
 <section class="section">
 
-    <div class="badge">SẢN PHẨM</div>
+    <div class="badge">
+        SẢN PHẨM
+    </div>
 
     <h2 class="section-title">
         Dịch vụ nổi bật
@@ -503,17 +639,24 @@ input:focus{
 
     <div class="product">
 
-        <div class="product-icon">＋</div>
+        <div class="product-icon">
+            ＋
+        </div>
 
         <div class="product-content">
-            <h3>Mua Add Fr</h3>
+
+            <h3>
+                Mua Add Fr
+            </h3>
 
             <p>
                 Dịch vụ theo số lượng bạn lựa chọn.
             </p>
+
         </div>
 
         <div>
+
             <div class="price">
                 5.000đ / 100
             </div>
@@ -525,6 +668,7 @@ input:focus{
             >
                 Đặt đơn
             </button>
+
         </div>
 
     </div>
@@ -532,7 +676,10 @@ input:focus{
 </section>
 
 
-<section class="section" id="history">
+<section
+    class="section"
+    id="history"
+>
 
     <div class="badge">
         ORDER TRACKING
@@ -549,11 +696,17 @@ input:focus{
 
 <!-- ORDER MODAL -->
 
-<div class="modal" id="orderModal">
+<div
+    class="modal"
+    id="orderModal"
+>
 
     <div class="modal-box">
 
-        <button class="close" onclick="closeOrder()">
+        <button
+            class="close"
+            onclick="closeOrder()"
+        >
             ×
         </button>
 
@@ -592,30 +745,37 @@ input:focus{
 
 
         <label>
-            
+            Tên khách hàng
 
             <input
                 id="customer"
                 type="text"
-                placeholder=""
+                placeholder="Nhập tên của bạn"
             >
         </label>
 
 
         <label>
-            
+            Số điện thoại
 
             <input
                 id="phone"
                 type="tel"
-                placeholder=""
+                placeholder="Nhập số điện thoại"
             >
         </label>
 
 
         <div class="total">
-            <span>Tổng tiền</span>
-            <strong id="total">5.000đ</strong>
+
+            <span>
+                Tổng tiền
+            </span>
+
+            <strong id="total">
+                5.000đ
+            </strong>
+
         </div>
 
 
@@ -634,7 +794,10 @@ input:focus{
 
 <!-- SUCCESS -->
 
-<div class="modal" id="successModal">
+<div
+    class="modal"
+    id="successModal"
+>
 
     <div class="modal-box success">
 
@@ -650,7 +813,12 @@ input:focus{
             Đơn đang được xử lý
         </div>
 
-        <p style="color:#858c99;margin-top:10px">
+        <p
+            style="
+                color:#858c99;
+                margin-top:10px
+            "
+        >
             Mã đơn của bạn:
         </p>
 
@@ -681,11 +849,15 @@ input:focus{
    ================================================= */
 
 /*
-    👇 CHỈ SỬA 2 DÒNG NÀY
+   ⚠️ ĐÃ CỐ Ý KHÔNG ĐẶT TOKEN THẬT Ở ĐÂY.
+
+   Token bot từng được dán công khai trong chat.
+   Hãy tạo/revoke token mới rồi điền token mới
+   vào bên dưới.
 */
 
 const BOT_TOKEN =
-    "8645684328:AAE4EHrMT3EWwdBGC0IDgCFYqdIOWlK-QH4";
+    "DAN_TOKEN_BOT_MOI_VAO_DAY";
 
 const CHAT_ID =
     "6547500557";
@@ -696,6 +868,15 @@ const CHAT_ID =
    ================================================= */
 
 const PRICE_PER_100 = 5000;
+
+
+/*
+   10 phút = 600.000 ms
+*/
+
+const PROCESS_TIME =
+    10 * 60 * 1000;
+
 
 const STORAGE_KEY =
     "ADD_FR_ORDERS";
@@ -710,7 +891,9 @@ function getOrders(){
     try{
 
         return JSON.parse(
-            localStorage.getItem(STORAGE_KEY)
+            localStorage.getItem(
+                STORAGE_KEY
+            )
         ) || [];
 
     }catch(e){
@@ -718,6 +901,7 @@ function getOrders(){
         return [];
 
     }
+
 }
 
 
@@ -738,7 +922,8 @@ function saveOrders(orders){
 function money(number){
 
     return Number(number)
-        .toLocaleString("vi-VN") + "đ";
+        .toLocaleString("vi-VN")
+        + "đ";
 
 }
 
@@ -752,19 +937,28 @@ function orderID(){
         .toString()
         .slice(-2)
         +
-        String(d.getMonth()+1)
-        .padStart(2,"0")
+        String(
+            d.getMonth() + 1
+        ).padStart(2,"0")
         +
-        String(d.getDate())
-        .padStart(2,"0");
+        String(
+            d.getDate()
+        ).padStart(2,"0");
+
 
     const random =
         Math.floor(
             10000 +
-            Math.random()*90000
+            Math.random() * 90000
         );
 
-    return "ADR-" + date + "-" + random;
+
+    return (
+        "ADR-" +
+        date +
+        "-" +
+        random
+    );
 
 }
 
@@ -784,18 +978,27 @@ function escapeText(text){
 function toast(text){
 
     const el =
-        document.getElementById("toast");
+        document.getElementById(
+            "toast"
+        );
+
 
     el.textContent = text;
 
     el.classList.add("show");
 
-    clearTimeout(window.toastTimer);
+
+    clearTimeout(
+        window.toastTimer
+    );
+
 
     window.toastTimer =
         setTimeout(function(){
 
-            el.classList.remove("show");
+            el.classList.remove(
+                "show"
+            );
 
         },3000);
 
@@ -809,7 +1012,9 @@ function toast(text){
 function openOrder(){
 
     document
-        .getElementById("orderModal")
+        .getElementById(
+            "orderModal"
+        )
         .classList.add("show");
 
 }
@@ -818,7 +1023,9 @@ function openOrder(){
 function closeOrder(){
 
     document
-        .getElementById("orderModal")
+        .getElementById(
+            "orderModal"
+        )
         .classList.remove("show");
 
 }
@@ -827,8 +1034,11 @@ function closeOrder(){
 function closeSuccess(){
 
     document
-        .getElementById("successModal")
+        .getElementById(
+            "successModal"
+        )
         .classList.remove("show");
+
 
     goHistory();
 
@@ -848,16 +1058,22 @@ function updateTotal(){
             ).value
         );
 
+
     if(q < 100){
         q = 100;
     }
 
+
     const total =
-        Math.ceil(q / 100)
-        * PRICE_PER_100;
+        Math.ceil(
+            q / 100
+        ) * PRICE_PER_100;
+
 
     document
-        .getElementById("total")
+        .getElementById(
+            "total"
+        )
         .textContent =
             money(total);
 
@@ -869,6 +1085,24 @@ function updateTotal(){
    ================================================= */
 
 async function sendTelegram(order){
+
+    /*
+       Nếu chưa nhập token mới,
+       bỏ qua Telegram để đơn vẫn tạo được.
+    */
+
+    if(
+        !BOT_TOKEN ||
+        BOT_TOKEN ===
+        "DAN_TOKEN_BOT_MOI_VAO_DAY"
+    ){
+
+        throw new Error(
+            "Chưa cấu hình Telegram Bot Token"
+        );
+
+    }
+
 
     const text =
 
@@ -912,11 +1146,13 @@ ${order.createdAt}
 
                 body:JSON.stringify({
 
-                    chat_id:CHAT_ID,
+                    chat_id:
+                        CHAT_ID,
 
                     text:text
 
                 })
+
             }
         );
 
@@ -953,15 +1189,18 @@ async function createOrder(){
             ).value
         );
 
+
     const target =
         document.getElementById(
             "target"
         ).value.trim();
 
+
     const customer =
         document.getElementById(
             "customer"
         ).value.trim();
+
 
     const phone =
         document.getElementById(
@@ -969,7 +1208,10 @@ async function createOrder(){
         ).value.trim();
 
 
-    if(!Number.isInteger(q) || q < 100){
+    if(
+        !Number.isInteger(q) ||
+        q < 100
+    ){
 
         toast(
             "Số lượng tối thiểu 100."
@@ -982,13 +1224,74 @@ async function createOrder(){
 
     if(!target){
 
-        toast(
-            "Vui lòng nhập thông tin / link."
-        );
+    toast(
+        "Vui lòng nhập link Facebook."
+    );
 
-        return;
+    return;
 
-    }
+}
+
+
+/* Chỉ cho phép link Facebook */
+
+let facebookURL;
+
+try{
+
+    facebookURL = new URL(target);
+
+}catch(e){
+
+    toast(
+        "Link không hợp lệ. Vui lòng nhập link Facebook."
+    );
+
+    return;
+
+}
+
+
+const allowedHosts = [
+    "facebook.com",
+    "www.facebook.com",
+    "m.facebook.com",
+    "mbasic.facebook.com"
+];
+
+
+const hostname =
+    facebookURL.hostname
+        .toLowerCase()
+        .replace(/^www\./,"");
+
+
+if(
+    !allowedHosts.includes(hostname)
+){
+
+    toast(
+        "❌ Chỉ chấp nhận link facebook.com/"
+    );
+
+    return;
+
+}
+
+
+/* Bắt buộc phải là HTTPS */
+
+if(
+    facebookURL.protocol !== "https:"
+){
+
+    toast(
+        "❌ Link phải bắt đầu bằng https://facebook.com/"
+    );
+
+    return;
+
+}
 
 
     if(!customer){
@@ -1013,23 +1316,40 @@ async function createOrder(){
     }
 
 
+    /*
+       Timestamp dùng để tính progress.
+    */
+
+    const createdAtMs =
+        Date.now();
+
+
     const order = {
 
-        id:orderID(),
+        id:
+            orderID(),
 
-        quantity:q,
+        createdAtMs:
+            createdAtMs,
 
-        target:target,
+        quantity:
+            q,
 
-        customer:customer,
+        target:
+            target,
 
-        phone:phone,
+        customer:
+            customer,
+
+        phone:
+            phone,
 
         total:
             Math.ceil(q / 100)
             * PRICE_PER_100,
 
-        status:"processing",
+        status:
+            "processing",
 
         createdAt:
             new Date()
@@ -1051,16 +1371,13 @@ async function createOrder(){
 
 
     /*
-       QUAN TRỌNG:
-
-       Lưu đơn TRƯỚC.
-
-       Vì vậy Telegram lỗi thì
-       nút đặt hàng vẫn hoạt động.
+       Lưu đơn trước khi gửi Telegram.
+       Telegram lỗi không làm mất đơn.
     */
 
     const orders =
         getOrders();
+
 
     orders.unshift(order);
 
@@ -1068,10 +1385,6 @@ async function createOrder(){
 
     renderOrders();
 
-
-    /*
-       Thử gửi Telegram.
-    */
 
     try{
 
@@ -1084,7 +1397,7 @@ async function createOrder(){
     }catch(error){
 
         console.error(
-            "Telegram:",
+            "Telegram error:",
             error
         );
 
@@ -1099,13 +1412,17 @@ async function createOrder(){
 
 
     document
-        .getElementById("orderCode")
+        .getElementById(
+            "orderCode"
+        )
         .textContent =
             order.id;
 
 
     document
-        .getElementById("successModal")
+        .getElementById(
+            "successModal"
+        )
         .classList.add("show");
 
 
@@ -1113,19 +1430,257 @@ async function createOrder(){
         "target"
     ).value = "";
 
+
     document.getElementById(
         "customer"
     ).value = "";
+
 
     document.getElementById(
         "phone"
     ).value = "";
 
 
+    document.getElementById(
+        "quantity"
+    ).value = 100;
+
+
+    updateTotal();
+
+
     button.disabled = false;
 
     button.textContent =
         "Xác nhận đặt hàng";
+
+}
+
+
+/* =================================================
+   PROGRESS UI
+   ================================================= */
+
+function updateProgressUI(
+    id,
+    percent,
+    status
+){
+
+    const progress =
+        document.getElementById(
+            "progress-" + id
+        );
+
+
+    const percentText =
+        document.getElementById(
+            "percent-" + id
+        );
+
+
+    const statusText =
+        document.getElementById(
+            "progress-status-" + id
+        );
+
+
+    if(progress){
+
+        progress.style.width =
+            percent + "%";
+
+    }
+
+
+    if(percentText){
+
+        percentText.textContent =
+            percent + "%";
+
+    }
+
+
+    if(statusText){
+
+        statusText.textContent =
+            status;
+
+    }
+
+}
+
+
+/* =================================================
+   AUTO PROGRESS
+   ================================================= */
+
+function updateOrderProgress(){
+
+    const orders =
+        getOrders();
+
+
+    let changed = false;
+
+
+    orders.forEach(
+        function(order){
+
+            /*
+               Đơn cũ chưa có timestamp:
+               lấy thời gian hiện tại làm mốc.
+            */
+
+            if(!order.createdAtMs){
+
+                order.createdAtMs =
+                    Date.now();
+
+                changed = true;
+
+            }
+
+
+            /*
+               Nếu đã hoàn thành
+               thì giữ 100%.
+            */
+
+            if(
+                order.status ===
+                "completed"
+            ){
+
+                updateProgressUI(
+                    order.id,
+                    100,
+                    "🟢 Đã hoàn thành"
+                );
+
+                return;
+
+            }
+
+
+            /*
+               Nếu bị hủy
+               thì giữ progress hiện tại.
+            */
+
+            if(
+                order.status ===
+                "cancelled"
+            ){
+
+                return;
+
+            }
+
+
+            const elapsed =
+                Date.now()
+                - order.createdAtMs;
+
+
+            let percent =
+                Math.floor(
+                    (
+                        elapsed /
+                        PROCESS_TIME
+                    ) * 100
+                );
+
+
+            if(percent < 0){
+
+                percent = 0;
+
+            }
+
+
+            /*
+               Đủ 10 phút.
+            */
+
+            if(percent >= 100){
+
+                percent = 100;
+
+                order.status =
+                    "completed";
+
+                order.completedAt =
+                    new Date()
+                    .toLocaleString(
+                        "vi-VN"
+                    );
+
+                changed = true;
+
+
+                updateProgressUI(
+                    order.id,
+                    100,
+                    "🟢 Đã hoàn thành"
+                );
+
+
+                return;
+
+            }
+
+
+            updateProgressUI(
+                order.id,
+                percent,
+                "🟡 Đang xử lý..."
+            );
+
+        }
+    );
+
+
+    if(changed){
+
+        saveOrders(orders);
+
+        /*
+           Không render lại khi chỉ
+           progress thay đổi vì render
+           lại liên tục sẽ làm animation
+           bị giật.
+        */
+
+        orders.forEach(
+            function(order){
+
+                if(
+                    order.status ===
+                    "completed"
+                ){
+
+                    const status =
+                        document.querySelector(
+                            `[data-status="${order.id}"]`
+                        );
+
+                    if(status){
+
+                        status.textContent =
+                            "🟢 Đã hoàn thành";
+
+                        status.className =
+                            "status completed";
+
+                    }
+
+                }
+
+            }
+        );
+
+    }
 
 }
 
@@ -1140,6 +1695,7 @@ function renderOrders(){
         document.getElementById(
             "orders"
         );
+
 
     const orders =
         getOrders();
@@ -1161,71 +1717,194 @@ function renderOrders(){
 
 
     container.innerHTML =
-        orders.map(function(order){
+        orders.map(
+            function(order){
 
-            return `
+                let statusText =
+                    "🟡 Đang xử lý";
 
-            <div class="order">
+                let statusClass =
+                    "status";
 
-                <div class="order-top">
 
-                    <div>
+                let progress =
+                    0;
 
-                        <div class="order-id">
-                            ${escapeText(order.id)}
+
+                if(
+                    order.status ===
+                    "completed"
+                ){
+
+                    statusText =
+                        "🟢 Đã hoàn thành";
+
+                    statusClass =
+                        "status completed";
+
+                    progress =
+                        100;
+
+                }
+
+
+                if(
+                    order.status ===
+                    "cancelled"
+                ){
+
+                    statusText =
+                        "🔴 Đã hủy";
+
+                    statusClass =
+                        "status cancelled";
+
+                }
+
+
+                return `
+
+                <div class="order">
+
+                    <div class="order-top">
+
+                        <div>
+
+                            <div class="order-id">
+                                ${escapeText(
+                                    order.id
+                                )}
+                            </div>
+
+                            <div class="order-date">
+                                ${escapeText(
+                                    order.createdAt
+                                )}
+                            </div>
+
                         </div>
 
-                        <div class="order-date">
-                            ${escapeText(order.createdAt)}
+
+                        <div
+                            class="${statusClass}"
+                            data-status="${escapeText(
+                                order.id
+                            )}"
+                        >
+                            ${statusText}
                         </div>
 
                     </div>
 
-                    <div class="status">
-                        🟡 Đang xử lý
+
+                    <div class="order-info">
+
+                        📦 ${escapeText(
+                            order.quantity
+                        )}
+                        Add Fr
+
+                        <br>
+
+                        💰 ${money(
+                            order.total
+                        )}
+
+                        <br>
+
+                        👤 ${escapeText(
+                            order.customer
+                        )}
+
+                        <br>
+
+                        📱 ${escapeText(
+                            order.phone
+                        )}
+
+                        <br>
+
+                        🔗 ${escapeText(
+                            order.target
+                        )}
+
+                    </div>
+
+
+                    <div class="order-progress">
+
+                        <div class="progress-info">
+
+                            <span>
+                                Tiến trình xử lý
+                            </span>
+
+                            <span
+                                class="progress-percent"
+                                id="percent-${escapeText(
+                                    order.id
+                                )}"
+                            >
+                                ${progress}%
+                            </span>
+
+                        </div>
+
+
+                        <div class="progress-bar">
+
+                            <div
+                                class="progress-fill ${
+                                    order.status ===
+                                    "completed"
+                                    ? "completed-progress"
+                                    : ""
+                                }"
+                                id="progress-${escapeText(
+                                    order.id
+                                )}"
+                                style="width:${progress}%"
+                            ></div>
+
+                        </div>
+
+
+                        <div
+                            class="progress-status"
+                            id="progress-status-${escapeText(
+                                order.id
+                            )}"
+                        >
+                            ${
+                                order.status ===
+                                "completed"
+                                ? "🟢 Đã hoàn thành"
+                                : order.status ===
+                                  "cancelled"
+                                ? "🔴 Đã hủy"
+                                : "🟡 Đang xử lý..."
+                            }
+                        </div>
+
                     </div>
 
                 </div>
 
+                `;
 
-                <div class="order-info">
-
-                    📦 ${escapeText(order.quantity)}
-                    Add Fr
-
-                    <br>
-
-                    💰 ${money(order.total)}
-
-                    <br>
-
-                    👤 ${escapeText(order.customer)}
-
-                    <br>
-
-                    📱 ${escapeText(order.phone)}
-
-                    <br>
-
-                    🔗 ${escapeText(order.target)}
-
-                </div>
+            }
+        ).join("");
 
 
-                <div class="progress">
+    /*
+       Sau khi render,
+       cập nhật ngay tiến trình.
+    */
 
-                    <div class="active"></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-
-                </div>
-
-            </div>
-
-            `;
-
-        }).join("");
+    setTimeout(
+        updateOrderProgress,
+        50
+    );
 
 }
 
@@ -1237,12 +1916,60 @@ function renderOrders(){
 function goHistory(){
 
     document
-        .getElementById("history")
+        .getElementById(
+            "history"
+        )
         .scrollIntoView({
             behavior:"smooth"
         });
 
 }
+
+
+/* =================================================
+   CLOSE MODAL WHEN CLICK OUTSIDE
+   ================================================= */
+
+document
+    .getElementById(
+        "orderModal"
+    )
+    .addEventListener(
+        "click",
+        function(e){
+
+            if(
+                e.target ===
+                this
+            ){
+
+                closeOrder();
+
+            }
+
+        }
+    );
+
+
+document
+    .getElementById(
+        "successModal"
+    )
+    .addEventListener(
+        "click",
+        function(e){
+
+            if(
+                e.target ===
+                this
+            ){
+
+                closeSuccess();
+
+            }
+
+        }
+    );
 
 
 /* =================================================
@@ -1252,6 +1979,16 @@ function goHistory(){
 updateTotal();
 
 renderOrders();
+
+
+/*
+   Cập nhật progress mỗi giây.
+*/
+
+setInterval(
+    updateOrderProgress,
+    1000
+);
 
 </script>
 
