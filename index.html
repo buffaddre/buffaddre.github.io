@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>ADD FR — Dịch Vụ Mua Add Fr</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="nav">
+  <div class="brand"><span class="brand-dot"></span> ADD FR</div>
+  <button class="ghost" onclick="scrollToOrders()">Lịch sử đơn</button>
+</header>
+
+<main>
+  <section class="hero">
+    <div>
+      <p class="eyebrow">DỊCH VỤ ONLINE</p>
+      <h1>Mua Add Fr<br><span>nhanh & chuyên nghiệp.</span></h1>
+      <p class="sub">Đặt dịch vụ, theo dõi tiến trình và lịch sử đơn hàng ngay trên một giao diện.</p>
+      <button class="primary" onclick="openOrder()">Mua ngay <b>→</b></button>
+    </div>
+    <div class="hero-card">
+      <div class="live"><i></i> HỆ THỐNG HOẠT ĐỘNG</div>
+      <div class="big">ADD FR</div>
+      <div class="mini">Xử lý đơn theo từng trạng thái</div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div><p class="eyebrow">SẢN PHẨM</p><h2>Dịch vụ nổi bật</h2></div>
+    </div>
+    <div class="product">
+      <div class="product-icon">＋</div>
+      <div class="product-main">
+        <h3>Mua Add Fr</h3>
+        <p>Dịch vụ theo số lượng bạn lựa chọn.</p>
+        <div class="chips"><span>⚡ Xử lý nhanh</span><span>🔒 Theo dõi đơn</span></div>
+      </div>
+      <div class="product-buy">
+        <strong id="pricePreview">Liên hệ</strong>
+        <button class="primary small" onclick="openOrder()">Đặt đơn</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="orders">
+    <div class="section-head">
+      <div><p class="eyebrow">ORDER TRACKING</p><h2>Lịch sử đơn hàng</h2></div>
+    </div>
+    <div id="ordersList" class="orders-empty">Chưa có đơn hàng trên thiết bị này.</div>
+  </section>
+</main>
+
+<div class="modal" id="orderModal">
+  <div class="modal-box">
+    <button class="close" onclick="closeOrder()">×</button>
+    <p class="eyebrow">TẠO ĐƠN HÀNG</p>
+    <h2>Mua Add Fr</h2>
+    <form id="orderForm">
+      <label>Số lượng<input id="quantity" type="number" min="1" value="100" required></label>
+      <label>Thông tin / Link<input id="target" type="text" placeholder="Nhập thông tin cần xử lý" required></label>
+      <label>Tên khách hàng<input id="customer" type="text" placeholder="Tên của bạn" required></label>
+      <label>Số điện thoại<input id="phone" type="tel" placeholder="Số điện thoại" required></label>
+      <div class="total">Tổng tiền <b id="total">0đ</b></div>
+      <button class="primary full" type="submit">Xác nhận đặt hàng</button>
+      <p class="hint">Sau khi tạo đơn, mã đơn sẽ được lưu trên trình duyệt và gửi thông báo tới hệ thống quản trị.</p>
+    </form>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+<script src="app.js"></script>
+</body>
+</html>
