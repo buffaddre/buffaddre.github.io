@@ -1,4 +1,4 @@
-const API_BASE = "https://YOUR-VERCEL-DOMAIN.vercel.app";
+const API_BASE = "https://buffaddre.github.io/";
 const PRICE_PER_UNIT = 500; // 500đ / 100 Add Fr => đổi theo giá của bạn
 
 const $ = s => document.querySelector(s);
