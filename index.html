@@ -3,7 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>ADD FR - Dịch Vụ Online</title>
+
+<title>ADD FR - Admin</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
 *{
@@ -26,50 +29,104 @@ button{
     cursor:pointer;
 }
 
-button:disabled{
-    cursor:not-allowed;
-    opacity:.55;
+.login{
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
 }
 
-/* NAV */
-
-.nav{
-    max-width:1150px;
-    margin:auto;
-    padding:22px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
+.login-box{
+    width:100%;
+    max-width:420px;
+    padding:30px;
+    border:1px solid #292d38;
+    border-radius:24px;
+    background:#111319;
 }
 
 .logo{
-    font-size:21px;
+    font-size:24px;
     font-weight:900;
     letter-spacing:2px;
+    margin-bottom:8px;
 }
 
 .logo span{
     color:#9276ff;
 }
 
-.history-btn{
-    padding:11px 16px;
-    border-radius:11px;
-    border:1px solid #292d38;
-    background:#111319;
-    color:white;
+.subtitle{
+    color:#777e8d;
+    font-size:13px;
+    margin-bottom:25px;
 }
 
-/* HERO */
+label{
+    display:block;
+    color:#9299a8;
+    font-size:12px;
+    margin-top:15px;
+}
 
-.hero{
-    max-width:1150px;
-    margin:55px auto;
-    padding:25px;
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:55px;
+input{
+    width:100%;
+    padding:13px;
+    margin-top:7px;
+    border:1px solid #292d36;
+    border-radius:11px;
+    background:#0b0c10;
+    color:#fff;
+    outline:none;
+}
+
+input:focus{
+    border-color:#9178ff;
+}
+
+.btn{
+    width:100%;
+    margin-top:20px;
+    padding:14px;
+    border:0;
+    border-radius:12px;
+    background:linear-gradient(135deg,#a087ff,#644cff);
+    color:#fff;
+    font-weight:bold;
+}
+
+.error{
+    color:#ff7777;
+    font-size:12px;
+    margin-top:12px;
+}
+
+#admin{
+    display:none;
+}
+
+.nav{
+    max-width:1200px;
+    margin:auto;
+    padding:22px;
+    display:flex;
     align-items:center;
+    justify-content:space-between;
+}
+
+.logout{
+    padding:10px 15px;
+    border:1px solid #292d38;
+    border-radius:10px;
+    background:#111319;
+    color:#fff;
+}
+
+.container{
+    max-width:1200px;
+    margin:auto;
+    padding:20px 22px 80px;
 }
 
 .badge{
@@ -77,895 +134,395 @@ button:disabled{
     font-size:11px;
     font-weight:bold;
     letter-spacing:3px;
-    margin-bottom:15px;
+    margin-bottom:10px;
 }
 
 h1{
-    font-size:65px;
-    line-height:.98;
-    letter-spacing:-4px;
-}
-
-h1 span{
-    color:#858b9b;
-}
-
-.hero p{
-    color:#9299a8;
-    line-height:1.7;
-    margin-top:25px;
-}
-
-.primary{
-    margin-top:25px;
-    padding:14px 20px;
-    border:0;
-    border-radius:12px;
-    color:white;
-    font-weight:bold;
-    background:linear-gradient(135deg,#a087ff,#644cff);
-    transition:.2s;
-}
-
-.primary:hover{
-    transform:translateY(-2px);
-    filter:brightness(1.08);
-}
-
-.hero-card{
-    min-height:330px;
-    padding:30px;
-    border:1px solid #292d38;
-    border-radius:27px;
-    background:linear-gradient(145deg,#151721,#0d0e13);
-    display:flex;
-    flex-direction:column;
-    justify-content:space-between;
-}
-
-.online{
-    color:#aeb4c0;
-    font-size:12px;
-}
-
-.online i{
-    display:inline-block;
-    width:7px;
-    height:7px;
-    background:#55df8c;
-    border-radius:50%;
-    margin-right:7px;
-    box-shadow:0 0 10px #55df8c;
-}
-
-.hero-add{
-    font-size:60px;
-    font-weight:900;
-}
-
-.hero-small{
-    color:#777e8d;
+    font-size:42px;
 }
 
 .stats{
     display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:8px;
+    grid-template-columns:repeat(4,1fr);
+    gap:12px;
+    margin-top:30px;
 }
 
 .stat{
-    padding:13px;
-    border:1px solid #292d36;
-    border-radius:13px;
-    background:#101218;
+    padding:20px;
+    border:1px solid #292d38;
+    border-radius:18px;
+    background:#111319;
 }
 
-.stat b{
-    display:block;
-    margin-bottom:6px;
+.stat-title{
+    color:#777e8d;
+    font-size:12px;
+    margin-bottom:10px;
 }
 
-.stat span{
-    color:#858c99;
-    font-size:10px;
+.stat-value{
+    font-size:25px;
+    font-weight:900;
 }
-
-/* SECTION */
 
 .section{
-    max-width:1150px;
-    margin:auto;
-    padding:30px 25px 90px;
+    margin-top:35px;
 }
 
-.section-title{
-    font-size:35px;
-    margin-bottom:25px;
+.section h2{
+    font-size:23px;
+    margin-bottom:15px;
 }
 
-/* PRODUCT */
-
-.product{
-    display:flex;
-    align-items:center;
-    gap:18px;
-    padding:22px;
-    border:1px solid #292d36;
-    border-radius:20px;
-    background:#111319;
-}
-
-.product-icon{
-    width:55px;
-    height:55px;
-    display:grid;
-    place-items:center;
-    border-radius:15px;
-    background:#211d38;
-    color:#a48fff;
-    font-size:27px;
-}
-
-.product-content{
-    flex:1;
-}
-
-.product-content p{
-    margin-top:6px;
-    color:#818896;
-    font-size:13px;
-}
-
-.price{
-    font-weight:900;
-    margin-bottom:7px;
-}
-
-/* ORDERS */
-
-.orders-empty{
-    padding:40px;
-    text-align:center;
-    border:1px dashed #2a2e38;
-    border-radius:18px;
-    color:#6f7684;
-}
-
-.order{
-    margin-bottom:13px;
+.card{
     padding:18px;
-    border:1px solid #292d36;
+    border:1px solid #292d38;
     border-radius:18px;
     background:#111319;
+    margin-bottom:12px;
 }
 
-.order-top{
+.card-top{
     display:flex;
     justify-content:space-between;
     gap:15px;
 }
 
-.order-id{
+.code{
     font-weight:900;
 }
 
-.order-date{
+.date{
+    color:#666d7b;
+    font-size:11px;
     margin-top:5px;
-    color:#626a79;
-    font-size:10px;
 }
 
 .status{
     height:max-content;
     padding:7px 10px;
-    border-radius:50px;
+    border-radius:30px;
     background:#29233f;
     color:#b9aaff;
     font-size:10px;
-    white-space:nowrap;
 }
 
-.status.completed{
-    background:#173324;
-    color:#5fe398;
-}
-
-.status.cancelled{
-    background:#3a1d22;
-    color:#ff7d8c;
-}
-
-/* PROGRESS */
-
-.order-progress{
-    margin-top:17px;
-}
-
-.progress-info{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:8px;
-    font-size:11px;
-    color:#7f8796;
-}
-
-.progress-percent{
-    color:#a895ff;
-    font-weight:800;
-}
-
-.progress-bar{
-    width:100%;
-    height:8px;
-    overflow:hidden;
-    border-radius:20px;
-    background:#252934;
-    position:relative;
-}
-
-.progress-fill{
-    height:100%;
-    width:0%;
-    border-radius:20px;
-    background:linear-gradient(
-        90deg,
-        #644cff,
-        #a895ff
-    );
-    transition:width .7s ease;
-    box-shadow:0 0 14px rgba(145,120,255,.4);
-    position:relative;
-}
-
-.progress-fill::after{
-    content:"";
-    position:absolute;
-    inset:0;
-    background:linear-gradient(
-        90deg,
-        transparent,
-        rgba(255,255,255,.3),
-        transparent
-    );
-    animation:shine 1.5s linear infinite;
-}
-
-@keyframes shine{
-    from{
-        transform:translateX(-100%);
-    }
-
-    to{
-        transform:translateX(100%);
-    }
-}
-
-.progress-status{
-    margin-top:7px;
-    color:#747c8b;
-    font-size:10px;
-}
-
-.completed-progress{
-    background:linear-gradient(
-        90deg,
-        #35bd72,
-        #65e49a
-    );
-    box-shadow:0 0 14px rgba(70,220,140,.3);
-}
-
-/* MODAL */
-
-.modal{
-    position:fixed;
-    inset:0;
-    z-index:9999;
-    display:none;
-    align-items:center;
-    justify-content:center;
-    padding:20px;
-    background:rgba(0,0,0,.78);
-    backdrop-filter:blur(10px);
-}
-
-.modal.show{
-    display:flex;
-}
-
-.modal-box{
-    width:min(500px,100%);
-    max-height:90vh;
-    overflow:auto;
-    padding:27px;
-    position:relative;
-    border:1px solid #2c3039;
-    border-radius:23px;
-    background:#111319;
-    box-shadow:0 25px 80px rgba(0,0,0,.5);
-}
-
-.close{
-    position:absolute;
-    right:15px;
-    top:10px;
-    border:0;
-    background:none;
-    color:#aaa;
-    font-size:30px;
-}
-
-.modal-title{
-    font-size:28px;
-    font-weight:900;
-}
-
-.modal-sub{
-    margin-top:6px;
-    color:#777e8b;
-    font-size:13px;
-}
-
-label{
-    display:block;
-    margin-top:17px;
-    color:#949baa;
+.info{
+    margin-top:13px;
+    color:#9299a8;
     font-size:12px;
+    line-height:1.9;
+    word-break:break-word;
 }
 
-input{
-    width:100%;
-    margin-top:7px;
-    padding:13px;
-    border:1px solid #292d36;
-    border-radius:11px;
-    outline:none;
-    background:#0b0c10;
-    color:#fff;
-}
-
-input:focus{
-    border-color:#9178ff;
-    box-shadow:0 0 0 3px rgba(145,120,255,.08);
-}
-
-.total{
+.actions{
     display:flex;
-    justify-content:space-between;
-    margin:20px 0;
-    padding:15px;
-    border-radius:13px;
-    background:#181a22;
+    gap:8px;
+    margin-top:15px;
 }
 
-.total strong{
-    color:#a894ff;
-    font-size:20px;
+.action{
+    padding:10px 13px;
+    border:0;
+    border-radius:10px;
+    color:#fff;
+    font-weight:bold;
 }
 
-.full{
-    width:100%;
-    margin-top:0;
+.approve{
+    background:#17663d;
 }
 
-/* SUCCESS */
+.reject{
+    background:#632b32;
+}
 
-.success{
+.complete{
+    background:#5b49bb;
+}
+
+.empty{
+    padding:35px;
     text-align:center;
+    color:#666d7b;
+    border:1px dashed #292d38;
+    border-radius:16px;
 }
 
-.success-icon{
-    width:65px;
-    height:65px;
-    display:grid;
-    place-items:center;
-    margin:0 auto 18px;
-    border-radius:50%;
-    background:#173324;
-    color:#5fe398;
-    font-size:30px;
-    box-shadow:0 0 25px rgba(95,227,152,.15);
-}
-
-.order-code{
-    display:block;
-    margin:12px 0 22px;
-    color:#a895ff;
-    font-size:21px;
-}
-
-/* TOAST */
-
-#toast{
+.toast{
     position:fixed;
-    left:50%;
     bottom:25px;
-    z-index:10000;
+    left:50%;
+    transform:translateX(-50%);
     padding:13px 17px;
     border:1px solid #303542;
     border-radius:12px;
     background:#191c24;
-    color:#fff;
     opacity:0;
-    transform:translate(-50%,20px);
-    transition:.25s;
     pointer-events:none;
+    transition:.25s;
 }
 
-#toast.show{
+.toast.show{
     opacity:1;
-    transform:translate(-50%,0);
 }
 
-/* MOBILE */
-
-@media(max-width:750px){
-
-    .hero{
-        grid-template-columns:1fr;
-        margin-top:20px;
-        gap:30px;
+@media(max-width:800px){
+    .stats{
+        grid-template-columns:1fr 1fr;
     }
+}
 
-    h1{
-        font-size:48px;
-    }
-
-    .hero-add{
-        font-size:48px;
-    }
-
+@media(max-width:500px){
     .stats{
         grid-template-columns:1fr;
     }
 
-    .product{
-        flex-wrap:wrap;
+    h1{
+        font-size:32px;
     }
 
-    .product > div:last-child{
-        width:100%;
+    .card-top{
+        flex-direction:column;
     }
-
-    .product > div:last-child .primary{
-        width:100%;
-    }
-
 }
 </style>
 </head>
 
 <body>
 
-<header class="nav">
+<!-- LOGIN -->
 
-    <div class="logo">
-        <span>ADD</span> FR
+<div class="login" id="loginPage">
+
+    <div class="login-box">
+
+        <div class="logo">
+            <span>ADD</span> FR
+        </div>
+
+        <div class="subtitle">
+            Administrator Panel
+        </div>
+
+        <label>Email</label>
+
+        <input
+            id="email"
+            type="email"
+            placeholder="admin@email.com"
+        >
+
+        <label>Mật khẩu</label>
+
+        <input
+            id="password"
+            type="password"
+            placeholder="••••••••"
+        >
+
+        <button
+            class="btn"
+            onclick="login()"
+        >
+            Đăng nhập Admin
+        </button>
+
+        <div
+            class="error"
+            id="loginError"
+        ></div>
+
     </div>
 
-    <button
-        class="history-btn"
-        onclick="goHistory()"
-    >
-        Lịch sử đơn
-    </button>
-
-</header>
+</div>
 
 
-<section class="hero">
+<!-- ADMIN -->
 
-    <div>
+<div id="admin">
+
+    <header class="nav">
+
+        <div class="logo">
+            <span>ADD</span> FR
+        </div>
+
+        <button
+            class="logout"
+            onclick="logout()"
+        >
+            Đăng xuất
+        </button>
+
+    </header>
+
+
+    <main class="container">
 
         <div class="badge">
-            DỊCH VỤ ONLINE
+            ADMINISTRATION
         </div>
 
         <h1>
-            Mua Add Fr
-            <br>
-            <span>nhanh & chuyên nghiệp.</span>
+            Dashboard
         </h1>
 
-        <p>
-            Đặt dịch vụ, theo dõi tiến trình
-            và lịch sử đơn hàng ngay trên
-            một giao diện.
-        </p>
-
-        <button
-            class="primary"
-            onclick="openOrder()"
-        >
-            Mua ngay →
-        </button>
-
-    </div>
-
-
-    <div class="hero-card">
-
-        <div class="online">
-            <i></i>
-            HỆ THỐNG HOẠT ĐỘNG
-        </div>
-
-        <div>
-
-            <div class="hero-add">
-                ADD FR
-            </div>
-
-            <div class="hero-small">
-                Xử lý đơn theo từng trạng thái
-            </div>
-
-        </div>
 
         <div class="stats">
 
             <div class="stat">
-                <b>⚡</b>
-                <span>Xử lý nhanh</span>
+                <div class="stat-title">
+                    Khách hàng
+                </div>
+
+                <div
+                    class="stat-value"
+                    id="usersCount"
+                >
+                    0
+                </div>
             </div>
+
 
             <div class="stat">
-                <b>🔒</b>
-                <span>Theo dõi đơn</span>
+
+                <div class="stat-title">
+                    Tổng số dư
+                </div>
+
+                <div
+                    class="stat-value"
+                    id="balanceTotal"
+                >
+                    0đ
+                </div>
+
             </div>
+
 
             <div class="stat">
-                <b>🤖</b>
-                <span>Telegram</span>
+
+                <div class="stat-title">
+                    Chờ nạp
+                </div>
+
+                <div
+                    class="stat-value"
+                    id="pendingDeposits"
+                >
+                    0
+                </div>
+
+            </div>
+
+
+            <div class="stat">
+
+                <div class="stat-title">
+                    Đơn xử lý
+                </div>
+
+                <div
+                    class="stat-value"
+                    id="processingOrders"
+                >
+                    0
+                </div>
+
             </div>
 
         </div>
 
-    </div>
 
-</section>
+        <!-- DEPOSITS -->
 
+        <section class="section">
 
-<section class="section">
-
-    <div class="badge">
-        SẢN PHẨM
-    </div>
-
-    <h2 class="section-title">
-        Dịch vụ nổi bật
-    </h2>
-
-    <div class="product">
-
-        <div class="product-icon">
-            ＋
-        </div>
-
-        <div class="product-content">
-
-            <h3>
-                Mua Add Fr
-            </h3>
-
-            <p>
-                Dịch vụ theo số lượng bạn lựa chọn.
-            </p>
-
-        </div>
-
-        <div>
-
-            <div class="price">
-                5.000đ / 100
+            <div class="badge">
+                DEPOSITS
             </div>
 
-            <button
-                class="primary"
-                style="margin:0"
-                onclick="openOrder()"
-            >
-                Đặt đơn
-            </button>
+            <h2>
+                Yêu cầu nạp tiền
+            </h2>
 
-        </div>
+            <div id="deposits"></div>
 
-    </div>
-
-</section>
+        </section>
 
 
-<section
-    class="section"
-    id="history"
->
+        <!-- ORDERS -->
 
-    <div class="badge">
-        ORDER TRACKING
-    </div>
+        <section class="section">
 
-    <h2 class="section-title">
-        Lịch sử đơn hàng
-    </h2>
+            <div class="badge">
+                ORDERS
+            </div>
 
-    <div id="orders"></div>
+            <h2>
+                Đơn hàng
+            </h2>
 
-</section>
+            <div id="orders"></div>
 
+        </section>
 
-<!-- ORDER MODAL -->
-
-<div
-    class="modal"
-    id="orderModal"
->
-
-    <div class="modal-box">
-
-        <button
-            class="close"
-            onclick="closeOrder()"
-        >
-            ×
-        </button>
-
-        <div class="modal-title">
-            Mua Add Fr
-        </div>
-
-        <div class="modal-sub">
-            Điền thông tin để tạo đơn.
-        </div>
-
-
-        <label>
-            Số lượng
-
-            <input
-                id="quantity"
-                type="number"
-                min="100"
-                step="100"
-                value="100"
-                oninput="updateTotal()"
-            >
-        </label>
-
-
-        <label>
-            Thông tin / Link
-
-            <input
-                id="target"
-                type="text"
-                placeholder="Nhập thông tin cần xử lý"
-            >
-        </label>
-
-
-        <label>
-            Tên khách hàng
-
-            <input
-                id="customer"
-                type="text"
-                placeholder="Nhập tên của bạn"
-            >
-        </label>
-
-
-        <label>
-            Số điện thoại
-
-            <input
-                id="phone"
-                type="tel"
-                placeholder="Nhập số điện thoại"
-            >
-        </label>
-
-
-        <div class="total">
-
-            <span>
-                Tổng tiền
-            </span>
-
-            <strong id="total">
-                5.000đ
-            </strong>
-
-        </div>
-
-
-        <button
-            id="submitBtn"
-            class="primary full"
-            onclick="createOrder()"
-        >
-            Xác nhận đặt hàng
-        </button>
-
-    </div>
+    </main>
 
 </div>
 
 
-<!-- SUCCESS -->
-
 <div
-    class="modal"
-    id="successModal"
->
-
-    <div class="modal-box success">
-
-        <div class="success-icon">
-            ✓
-        </div>
-
-        <div class="badge">
-            ĐẶT HÀNG THÀNH CÔNG
-        </div>
-
-        <div class="modal-title">
-            Đơn đang được xử lý
-        </div>
-
-        <p
-            style="
-                color:#858c99;
-                margin-top:10px
-            "
-        >
-            Mã đơn của bạn:
-        </p>
-
-        <strong
-            class="order-code"
-            id="orderCode"
-        ></strong>
-
-        <button
-            class="primary full"
-            onclick="closeSuccess()"
-        >
-            Xem lịch sử đơn
-        </button>
-
-    </div>
-
-</div>
-
-
-<div id="toast"></div>
+    class="toast"
+    id="toast"
+></div>
 
 
 <script>
 
-/* =================================================
-   TELEGRAM
-   ================================================= */
+/* =========================================
+   SUPABASE
+   ========================================= */
 
 /*
-   ⚠️ ĐÃ CỐ Ý KHÔNG ĐẶT TOKEN THẬT Ở ĐÂY.
+   LẤY 2 GIÁ TRỊ NÀY TRONG:
 
-   Token bot từng được dán công khai trong chat.
-   Hãy tạo/revoke token mới rồi điền token mới
-   vào bên dưới.
+   Supabase
+   → Project Settings
+   → API
 */
 
-const BOT_TOKEN =
-    "DAN_TOKEN_BOT_MOI_VAO_DAY";
+const SUPABASE_URL =
+    "DAN-SUPABASE-URL";
 
-const CHAT_ID =
-    "6547500557";
-
-
-/* =================================================
-   WEBSITE
-   ================================================= */
-
-const PRICE_PER_100 = 5000;
+const SUPABASE_ANON_KEY =
+    "DAN-SUPABASE-ANON-KEY";
 
 
-/*
-   10 phút = 600.000 ms
-*/
-
-const PROCESS_TIME =
-    10 * 60 * 1000;
-
-
-const STORAGE_KEY =
-    "ADD_FR_ORDERS";
-
-
-/* =================================================
-   STORAGE
-   ================================================= */
-
-function getOrders(){
-
-    try{
-
-        return JSON.parse(
-            localStorage.getItem(
-                STORAGE_KEY
-            )
-        ) || [];
-
-    }catch(e){
-
-        return [];
-
-    }
-
-}
-
-
-function saveOrders(orders){
-
-    localStorage.setItem(
-        STORAGE_KEY,
-        JSON.stringify(orders)
+const supabaseClient =
+    supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_ANON_KEY
     );
 
-}
 
-
-/* =================================================
+/* =========================================
    UTIL
-   ================================================= */
+   ========================================= */
 
-function money(number){
+function money(value){
 
-    return Number(number)
-        .toLocaleString("vi-VN")
-        + "đ";
-
-}
-
-
-function orderID(){
-
-    const d = new Date();
-
-    const date =
-        d.getFullYear()
-        .toString()
-        .slice(-2)
-        +
-        String(
-            d.getMonth() + 1
-        ).padStart(2,"0")
-        +
-        String(
-            d.getDate()
-        ).padStart(2,"0");
-
-
-    const random =
-        Math.floor(
-            10000 +
-            Math.random() * 90000
-        );
-
-
-    return (
-        "ADR-" +
-        date +
-        "-" +
-        random
-    );
+    return Number(value || 0)
+        .toLocaleString("vi-VN") + "đ";
 
 }
 
 
-function escapeText(text){
+function escapeHTML(value){
 
-    return String(text)
+    return String(value ?? "")
         .replace(/&/g,"&amp;")
         .replace(/</g,"&lt;")
         .replace(/>/g,"&gt;")
@@ -975,740 +532,324 @@ function escapeText(text){
 }
 
 
-function toast(text){
+function toast(message){
 
     const el =
-        document.getElementById(
-            "toast"
-        );
+        document.getElementById("toast");
 
-
-    el.textContent = text;
+    el.textContent = message;
 
     el.classList.add("show");
 
-
-    clearTimeout(
-        window.toastTimer
+    setTimeout(
+        () => el.classList.remove("show"),
+        3000
     );
 
+}
 
-    window.toastTimer =
-        setTimeout(function(){
 
-            el.classList.remove(
-                "show"
-            );
+/* =========================================
+   LOGIN
+   ========================================= */
 
-        },3000);
+async function login(){
+
+    const email =
+        document
+        .getElementById("email")
+        .value
+        .trim();
+
+    const password =
+        document
+        .getElementById("password")
+        .value;
+
+
+    const error =
+        document
+        .getElementById("loginError");
+
+
+    error.textContent = "";
+
+
+    if(!email || !password){
+
+        error.textContent =
+            "Vui lòng nhập email và mật khẩu.";
+
+        return;
+
+    }
+
+
+    const {
+        data,
+        error:loginError
+    } =
+        await supabaseClient.auth
+        .signInWithPassword({
+
+            email,
+            password
+
+        });
+
+
+    if(loginError){
+
+        error.textContent =
+            loginError.message;
+
+        return;
+
+    }
+
+
+    await checkAdmin(data.user);
 
 }
 
 
-/* =================================================
-   MODAL
-   ================================================= */
+/* =========================================
+   CHECK ADMIN
+   ========================================= */
 
-function openOrder(){
+async function checkAdmin(user){
+
+    const {
+        data,
+        error
+    } =
+        await supabaseClient
+        .from("profiles")
+        .select("username,balance,is_admin")
+        .eq("id",user.id)
+        .single();
+
+
+    if(error || !data){
+
+        await supabaseClient.auth.signOut();
+
+        document
+        .getElementById("loginError")
+        .textContent =
+            "Không tìm thấy profile Admin.";
+
+        return;
+
+    }
+
+
+    if(data.is_admin !== true){
+
+        await supabaseClient.auth.signOut();
+
+        document
+        .getElementById("loginError")
+        .textContent =
+            "Tài khoản này không có quyền Admin.";
+
+        return;
+
+    }
+
 
     document
-        .getElementById(
-            "orderModal"
-        )
-        .classList.add("show");
+    .getElementById("loginPage")
+    .style.display = "none";
 
-}
-
-
-function closeOrder(){
 
     document
-        .getElementById(
-            "orderModal"
-        )
-        .classList.remove("show");
+    .getElementById("admin")
+    .style.display = "block";
+
+
+    await loadDashboard();
 
 }
 
 
-function closeSuccess(){
+/* =========================================
+   SESSION
+   ========================================= */
 
-    document
-        .getElementById(
-            "successModal"
-        )
-        .classList.remove("show");
+async function checkSession(){
+
+    const {
+        data
+    } =
+        await supabaseClient
+        .auth
+        .getSession();
 
 
-    goHistory();
+    if(data.session){
 
-}
-
-
-/* =================================================
-   PRICE
-   ================================================= */
-
-function updateTotal(){
-
-    let q =
-        Number(
-            document.getElementById(
-                "quantity"
-            ).value
+        await checkAdmin(
+            data.session.user
         );
 
-
-    if(q < 100){
-        q = 100;
     }
+
+}
+
+
+async function logout(){
+
+    await supabaseClient
+        .auth
+        .signOut();
+
+    location.reload();
+
+}
+
+
+/* =========================================
+   DASHBOARD
+   ========================================= */
+
+async function loadDashboard(){
+
+    await Promise.all([
+
+        loadUsers(),
+
+        loadDeposits(),
+
+        loadOrders(),
+
+        loadBalance()
+
+    ]);
+
+}
+
+
+/* =========================================
+   USERS
+   ========================================= */
+
+async function loadUsers(){
+
+    const {
+        count
+    } =
+        await supabaseClient
+        .from("profiles")
+        .select("*",{
+            count:"exact",
+            head:true
+        });
+
+
+    document
+    .getElementById("usersCount")
+    .textContent =
+        count || 0;
+
+}
+
+
+/* =========================================
+   BALANCE
+   ========================================= */
+
+async function loadBalance(){
+
+    const {
+        data
+    } =
+        await supabaseClient
+        .from("profiles")
+        .select("balance");
 
 
     const total =
-        Math.ceil(
-            q / 100
-        ) * PRICE_PER_100;
+        (data || [])
+        .reduce(
+            (sum,user) =>
+                sum + Number(user.balance || 0),
+            0
+        );
 
 
     document
-        .getElementById(
-            "total"
-        )
-        .textContent =
-            money(total);
+    .getElementById("balanceTotal")
+    .textContent =
+        money(total);
 
 }
 
 
-/* =================================================
-   TELEGRAM
-   ================================================= */
+/* =========================================
+   DEPOSITS
+   ========================================= */
 
-async function sendTelegram(order){
+async function loadDeposits(){
 
-    /*
-       Nếu chưa nhập token mới,
-       bỏ qua Telegram để đơn vẫn tạo được.
-    */
-
-    if(
-        !BOT_TOKEN ||
-        BOT_TOKEN ===
-        "DAN_TOKEN_BOT_MOI_VAO_DAY"
-    ){
-
-        throw new Error(
-            "Chưa cấu hình Telegram Bot Token"
-        );
-
-    }
-
-
-    const text =
-
-`🛒 ĐƠN HÀNG ADD FR MỚI
-
-🆔 Mã đơn: ${order.id}
-
-📦 Số lượng: ${order.quantity} Add Fr
-
-💰 Tổng tiền: ${money(order.total)}
-
-👤 Khách hàng: ${order.customer}
-
-📱 SĐT: ${order.phone}
-
-🔗 Thông tin / Link:
-${order.target}
-
-🕐 Thời gian:
-${order.createdAt}
-
-🟡 Trạng thái: Đang xử lý`;
-
-
-    const url =
-        "https://api.telegram.org/bot"
-        + BOT_TOKEN
-        + "/sendMessage";
-
-
-    const response =
-        await fetch(
-            url,
+    const {
+        data,
+        error
+    } =
+        await supabaseClient
+        .from("deposits")
+        .select(`
+            id,
+            user_id,
+            amount,
+            status,
+            created_at,
+            profiles (
+                username
+            )
+        `)
+        .order(
+            "created_at",
             {
-                method:"POST",
-
-                headers:{
-                    "Content-Type":
-                        "application/json"
-                },
-
-                body:JSON.stringify({
-
-                    chat_id:
-                        CHAT_ID,
-
-                    text:text
-
-                })
-
+                ascending:false
             }
         );
 
 
-    const data =
-        await response.json();
+    if(error){
 
-
-    if(!data.ok){
-
-        throw new Error(
-            data.description ||
-            "Telegram API error"
-        );
-
-    }
-
-
-    return data;
-
-}
-
-
-/* =================================================
-   CREATE ORDER
-   ================================================= */
-
-async function createOrder(){
-
-    const q =
-        Number(
-            document.getElementById(
-                "quantity"
-            ).value
-        );
-
-
-    const target =
-        document.getElementById(
-            "target"
-        ).value.trim();
-
-
-    const customer =
-        document.getElementById(
-            "customer"
-        ).value.trim();
-
-
-    const phone =
-        document.getElementById(
-            "phone"
-        ).value.trim();
-
-
-    if(
-        !Number.isInteger(q) ||
-        q < 100
-    ){
-
-        toast(
-            "Số lượng tối thiểu 100."
-        );
+        console.error(error);
 
         return;
 
     }
 
 
-    if(!target){
-
-    toast(
-        "Vui lòng nhập link Facebook."
-    );
-
-    return;
-
-}
-
-
-/* Chỉ cho phép link Facebook */
-
-let facebookURL;
-
-try{
-
-    facebookURL = new URL(target);
-
-}catch(e){
-
-    toast(
-        "Link không hợp lệ. Vui lòng nhập link Facebook."
-    );
-
-    return;
-
-}
-
-
-const allowedHosts = [
-    "facebook.com",
-    "www.facebook.com",
-    "m.facebook.com",
-    "mbasic.facebook.com"
-];
-
-
-const hostname =
-    facebookURL.hostname
-        .toLowerCase()
-        .replace(/^www\./,"");
-
-
-if(
-    !allowedHosts.includes(hostname)
-){
-
-    toast(
-        "❌ Chỉ chấp nhận link facebook.com/"
-    );
-
-    return;
-
-}
-
-
-/* Bắt buộc phải là HTTPS */
-
-if(
-    facebookURL.protocol !== "https:"
-){
-
-    toast(
-        "❌ Link phải bắt đầu bằng https://facebook.com/"
-    );
-
-    return;
-
-}
-
-
-    if(!customer){
-
-        toast(
-            "Vui lòng nhập tên."
+    const pending =
+        (data || [])
+        .filter(
+            x => x.status === "pending"
         );
-
-        return;
-
-    }
-
-
-    if(!phone){
-
-        toast(
-            "Vui lòng nhập số điện thoại."
-        );
-
-        return;
-
-    }
-
-
-    /*
-       Timestamp dùng để tính progress.
-    */
-
-    const createdAtMs =
-        Date.now();
-
-
-    const order = {
-
-        id:
-            orderID(),
-
-        createdAtMs:
-            createdAtMs,
-
-        quantity:
-            q,
-
-        target:
-            target,
-
-        customer:
-            customer,
-
-        phone:
-            phone,
-
-        total:
-            Math.ceil(q / 100)
-            * PRICE_PER_100,
-
-        status:
-            "processing",
-
-        createdAt:
-            new Date()
-            .toLocaleString("vi-VN")
-
-    };
-
-
-    const button =
-        document.getElementById(
-            "submitBtn"
-        );
-
-
-    button.disabled = true;
-
-    button.textContent =
-        "⏳ Đang tạo đơn...";
-
-
-    /*
-       Lưu đơn trước khi gửi Telegram.
-       Telegram lỗi không làm mất đơn.
-    */
-
-    const orders =
-        getOrders();
-
-
-    orders.unshift(order);
-
-    saveOrders(orders);
-
-    renderOrders();
-
-
-    try{
-
-        await sendTelegram(order);
-
-        toast(
-            "Đặt hàng thành công + đã báo Telegram."
-        );
-
-    }catch(error){
-
-        console.error(
-            "Telegram error:",
-            error
-        );
-
-        toast(
-            "Đã tạo đơn. Telegram chưa gửi được."
-        );
-
-    }
-
-
-    closeOrder();
 
 
     document
-        .getElementById(
-            "orderCode"
-        )
-        .textContent =
-            order.id;
+    .getElementById("pendingDeposits")
+    .textContent =
+        pending.length;
 
-
-    document
-        .getElementById(
-            "successModal"
-        )
-        .classList.add("show");
-
-
-    document.getElementById(
-        "target"
-    ).value = "";
-
-
-    document.getElementById(
-        "customer"
-    ).value = "";
-
-
-    document.getElementById(
-        "phone"
-    ).value = "";
-
-
-    document.getElementById(
-        "quantity"
-    ).value = 100;
-
-
-    updateTotal();
-
-
-    button.disabled = false;
-
-    button.textContent =
-        "Xác nhận đặt hàng";
-
-}
-
-
-/* =================================================
-   PROGRESS UI
-   ================================================= */
-
-function updateProgressUI(
-    id,
-    percent,
-    status
-){
-
-    const progress =
-        document.getElementById(
-            "progress-" + id
-        );
-
-
-    const percentText =
-        document.getElementById(
-            "percent-" + id
-        );
-
-
-    const statusText =
-        document.getElementById(
-            "progress-status-" + id
-        );
-
-
-    if(progress){
-
-        progress.style.width =
-            percent + "%";
-
-    }
-
-
-    if(percentText){
-
-        percentText.textContent =
-            percent + "%";
-
-    }
-
-
-    if(statusText){
-
-        statusText.textContent =
-            status;
-
-    }
-
-}
-
-
-/* =================================================
-   AUTO PROGRESS
-   ================================================= */
-
-function updateOrderProgress(){
-
-    const orders =
-        getOrders();
-
-
-    let changed = false;
-
-
-    orders.forEach(
-        function(order){
-
-            /*
-               Đơn cũ chưa có timestamp:
-               lấy thời gian hiện tại làm mốc.
-            */
-
-            if(!order.createdAtMs){
-
-                order.createdAtMs =
-                    Date.now();
-
-                changed = true;
-
-            }
-
-
-            /*
-               Nếu đã hoàn thành
-               thì giữ 100%.
-            */
-
-            if(
-                order.status ===
-                "completed"
-            ){
-
-                updateProgressUI(
-                    order.id,
-                    100,
-                    "🟢 Đã hoàn thành"
-                );
-
-                return;
-
-            }
-
-
-            /*
-               Nếu bị hủy
-               thì giữ progress hiện tại.
-            */
-
-            if(
-                order.status ===
-                "cancelled"
-            ){
-
-                return;
-
-            }
-
-
-            const elapsed =
-                Date.now()
-                - order.createdAtMs;
-
-
-            let percent =
-                Math.floor(
-                    (
-                        elapsed /
-                        PROCESS_TIME
-                    ) * 100
-                );
-
-
-            if(percent < 0){
-
-                percent = 0;
-
-            }
-
-
-            /*
-               Đủ 10 phút.
-            */
-
-            if(percent >= 100){
-
-                percent = 100;
-
-                order.status =
-                    "completed";
-
-                order.completedAt =
-                    new Date()
-                    .toLocaleString(
-                        "vi-VN"
-                    );
-
-                changed = true;
-
-
-                updateProgressUI(
-                    order.id,
-                    100,
-                    "🟢 Đã hoàn thành"
-                );
-
-
-                return;
-
-            }
-
-
-            updateProgressUI(
-                order.id,
-                percent,
-                "🟡 Đang xử lý..."
-            );
-
-        }
-    );
-
-
-    if(changed){
-
-        saveOrders(orders);
-
-        /*
-           Không render lại khi chỉ
-           progress thay đổi vì render
-           lại liên tục sẽ làm animation
-           bị giật.
-        */
-
-        orders.forEach(
-            function(order){
-
-                if(
-                    order.status ===
-                    "completed"
-                ){
-
-                    const status =
-                        document.querySelector(
-                            `[data-status="${order.id}"]`
-                        );
-
-                    if(status){
-
-                        status.textContent =
-                            "🟢 Đã hoàn thành";
-
-                        status.className =
-                            "status completed";
-
-                    }
-
-                }
-
-            }
-        );
-
-    }
-
-}
-
-
-/* =================================================
-   HISTORY
-   ================================================= */
-
-function renderOrders(){
 
     const container =
         document.getElementById(
-            "orders"
+            "deposits"
         );
 
 
-    const orders =
-        getOrders();
-
-
-    if(!orders.length){
+    if(!pending.length){
 
         container.innerHTML = `
-
-            <div class="orders-empty">
-                Chưa có đơn hàng.
+            <div class="empty">
+                Không có yêu cầu nạp tiền.
             </div>
-
         `;
 
         return;
@@ -1717,278 +858,405 @@ function renderOrders(){
 
 
     container.innerHTML =
-        orders.map(
-            function(order){
+        pending.map(item => `
 
-                let statusText =
-                    "🟡 Đang xử lý";
+            <div class="card">
 
-                let statusClass =
-                    "status";
+                <div class="card-top">
 
+                    <div>
 
-                let progress =
-                    0;
-
-
-                if(
-                    order.status ===
-                    "completed"
-                ){
-
-                    statusText =
-                        "🟢 Đã hoàn thành";
-
-                    statusClass =
-                        "status completed";
-
-                    progress =
-                        100;
-
-                }
-
-
-                if(
-                    order.status ===
-                    "cancelled"
-                ){
-
-                    statusText =
-                        "🔴 Đã hủy";
-
-                    statusClass =
-                        "status cancelled";
-
-                }
-
-
-                return `
-
-                <div class="order">
-
-                    <div class="order-top">
-
-                        <div>
-
-                            <div class="order-id">
-                                ${escapeText(
-                                    order.id
-                                )}
-                            </div>
-
-                            <div class="order-date">
-                                ${escapeText(
-                                    order.createdAt
-                                )}
-                            </div>
-
+                        <div class="code">
+                            DEP-${escapeHTML(
+                                item.id.slice(0,8)
+                            )}
                         </div>
 
-
-                        <div
-                            class="${statusClass}"
-                            data-status="${escapeText(
-                                order.id
-                            )}"
-                        >
-                            ${statusText}
+                        <div class="date">
+                            ${new Date(
+                                item.created_at
+                            ).toLocaleString("vi-VN")}
                         </div>
 
                     </div>
 
-
-                    <div class="order-info">
-
-                        📦 ${escapeText(
-                            order.quantity
-                        )}
-                        Add Fr
-
-                        <br>
-
-                        💰 ${money(
-                            order.total
-                        )}
-
-                        <br>
-
-                        👤 ${escapeText(
-                            order.customer
-                        )}
-
-                        <br>
-
-                        📱 ${escapeText(
-                            order.phone
-                        )}
-
-                        <br>
-
-                        🔗 ${escapeText(
-                            order.target
-                        )}
-
-                    </div>
-
-
-                    <div class="order-progress">
-
-                        <div class="progress-info">
-
-                            <span>
-                                Tiến trình xử lý
-                            </span>
-
-                            <span
-                                class="progress-percent"
-                                id="percent-${escapeText(
-                                    order.id
-                                )}"
-                            >
-                                ${progress}%
-                            </span>
-
-                        </div>
-
-
-                        <div class="progress-bar">
-
-                            <div
-                                class="progress-fill ${
-                                    order.status ===
-                                    "completed"
-                                    ? "completed-progress"
-                                    : ""
-                                }"
-                                id="progress-${escapeText(
-                                    order.id
-                                )}"
-                                style="width:${progress}%"
-                            ></div>
-
-                        </div>
-
-
-                        <div
-                            class="progress-status"
-                            id="progress-status-${escapeText(
-                                order.id
-                            )}"
-                        >
-                            ${
-                                order.status ===
-                                "completed"
-                                ? "🟢 Đã hoàn thành"
-                                : order.status ===
-                                  "cancelled"
-                                ? "🔴 Đã hủy"
-                                : "🟡 Đang xử lý..."
-                            }
-                        </div>
-
+                    <div class="status">
+                        🟡 Chờ duyệt
                     </div>
 
                 </div>
 
-                `;
 
-            }
-        ).join("");
+                <div class="info">
+
+                    👤 Username:
+                    <b>
+                        @${escapeHTML(
+                            item.profiles?.username ||
+                            "unknown"
+                        )}
+                    </b>
+
+                    <br>
+
+                    💰 Số tiền:
+                    <b>
+                        ${money(item.amount)}
+                    </b>
+
+                </div>
 
 
-    /*
-       Sau khi render,
-       cập nhật ngay tiến trình.
-    */
+                <div class="actions">
 
-    setTimeout(
-        updateOrderProgress,
-        50
-    );
+                    <button
+                        class="action approve"
+                        onclick="approveDeposit(
+                            '${item.id}'
+                        )"
+                    >
+                        ✓ Duyệt
+                    </button>
+
+                    <button
+                        class="action reject"
+                        onclick="rejectDeposit(
+                            '${item.id}'
+                        )"
+                    >
+                        ✕ Từ chối
+                    </button>
+
+                </div>
+
+            </div>
+
+        `).join("");
 
 }
 
 
-/* =================================================
-   HISTORY
-   ================================================= */
+/* =========================================
+   ORDERS
+   ========================================= */
 
-function goHistory(){
+async function loadOrders(){
+
+    const {
+        data,
+        error
+    } =
+        await supabaseClient
+        .from("orders")
+        .select(`
+            id,
+            user_id,
+            order_code,
+            quantity,
+            target,
+            total,
+            status,
+            created_at,
+            profiles (
+                username
+            )
+        `)
+        .order(
+            "created_at",
+            {
+                ascending:false
+            }
+        );
+
+
+    if(error){
+
+        console.error(error);
+
+        return;
+
+    }
+
+
+    const processing =
+        (data || [])
+        .filter(
+            x => x.status === "processing"
+        );
+
 
     document
-        .getElementById(
-            "history"
-        )
-        .scrollIntoView({
-            behavior:"smooth"
-        });
+    .getElementById("processingOrders")
+    .textContent =
+        processing.length;
+
+
+    const container =
+        document.getElementById(
+            "orders"
+        );
+
+
+    if(!data?.length){
+
+        container.innerHTML = `
+            <div class="empty">
+                Chưa có đơn hàng.
+            </div>
+        `;
+
+        return;
+
+    }
+
+
+    container.innerHTML =
+        data.map(item => `
+
+            <div class="card">
+
+                <div class="card-top">
+
+                    <div>
+
+                        <div class="code">
+                            ${escapeHTML(
+                                item.order_code
+                            )}
+                        </div>
+
+                        <div class="date">
+                            ${new Date(
+                                item.created_at
+                            ).toLocaleString("vi-VN")}
+                        </div>
+
+                    </div>
+
+                    <div class="status">
+                        ${
+                            item.status === "processing"
+                            ? "🟡 Đang xử lý"
+                            : item.status === "completed"
+                            ? "🟢 Hoàn thành"
+                            : "🔴 Đã hủy"
+                        }
+                    </div>
+
+                </div>
+
+
+                <div class="info">
+
+                    👤 @${escapeHTML(
+                        item.profiles?.username ||
+                        "unknown"
+                    )}
+
+                    <br>
+
+                    📦 ${escapeHTML(
+                        item.quantity
+                    )} Add Fr
+
+                    <br>
+
+                    💰 ${money(
+                        item.total
+                    )}
+
+                    <br>
+
+                    🔗 ${escapeHTML(
+                        item.target
+                    )}
+
+                </div>
+
+
+                ${
+                    item.status === "processing"
+                    ? `
+                        <div class="actions">
+
+                            <button
+                                class="action complete"
+                                onclick="completeOrder(
+                                    '${item.id}'
+                                )"
+                            >
+                                ✓ Hoàn thành
+                            </button>
+
+                        </div>
+                    `
+                    : ""
+                }
+
+            </div>
+
+        `).join("");
 
 }
 
 
-/* =================================================
-   CLOSE MODAL WHEN CLICK OUTSIDE
-   ================================================= */
-
-document
-    .getElementById(
-        "orderModal"
-    )
-    .addEventListener(
-        "click",
-        function(e){
-
-            if(
-                e.target ===
-                this
-            ){
-
-                closeOrder();
-
-            }
-
-        }
-    );
-
-
-document
-    .getElementById(
-        "successModal"
-    )
-    .addEventListener(
-        "click",
-        function(e){
-
-            if(
-                e.target ===
-                this
-            ){
-
-                closeSuccess();
-
-            }
-
-        }
-    );
-
-
-/* =================================================
-   INIT
-   ================================================= */
-
-updateTotal();
-
-renderOrders();
-
+/* =========================================
+   DEPOSIT ACTIONS
+   ========================================= */
 
 /*
-   Cập nhật progress mỗi giây.
+   TẠM THỜI:
+
+   Các nút dưới đây chỉ đổi trạng thái.
+
+   Phần cộng tiền thật nên chuyển sang
+   Supabase RPC có SECURITY DEFINER.
 */
 
-setInterval(
-    updateOrderProgress,
-    1000
-);
+
+async function approveDeposit(id){
+
+    if(!confirm(
+        "Xác nhận duyệt giao dịch này?"
+    )) return;
+
+
+    const {
+        error
+    } =
+        await supabaseClient
+        .from("deposits")
+        .update({
+
+            status:"approved",
+
+            approved_at:
+                new Date().toISOString()
+
+        })
+        .eq("id",id)
+        .eq("status","pending");
+
+
+    if(error){
+
+        toast(
+            "Không thể duyệt giao dịch."
+        );
+
+        console.error(error);
+
+        return;
+
+    }
+
+
+    toast(
+        "Đã duyệt giao dịch."
+    );
+
+
+    await loadDashboard();
+
+}
+
+
+async function rejectDeposit(id){
+
+    if(!confirm(
+        "Từ chối yêu cầu nạp này?"
+    )) return;
+
+
+    const {
+        error
+    } =
+        await supabaseClient
+        .from("deposits")
+        .update({
+
+            status:"rejected"
+
+        })
+        .eq("id",id)
+        .eq("status","pending");
+
+
+    if(error){
+
+        toast(
+            "Không thể từ chối."
+        );
+
+        return;
+
+    }
+
+
+    toast(
+        "Đã từ chối giao dịch."
+    );
+
+
+    await loadDashboard();
+
+}
+
+
+/* =========================================
+   ORDER ACTION
+   ========================================= */
+
+async function completeOrder(id){
+
+    if(!confirm(
+        "Xác nhận hoàn thành đơn?"
+    )) return;
+
+
+    const {
+        error
+    } =
+        await supabaseClient
+        .from("orders")
+        .update({
+
+            status:"completed",
+
+            completed_at:
+                new Date().toISOString()
+
+        })
+        .eq("id",id)
+        .eq("status","processing");
+
+
+    if(error){
+
+        toast(
+            "Không thể cập nhật đơn."
+        );
+
+        return;
+
+    }
+
+
+    toast(
+        "Đã chuyển đơn sang hoàn thành."
+    );
+
+
+    await loadDashboard();
+
+}
+
+
+/* =========================================
+   START
+   ========================================= */
+
+checkSession();
 
 </script>
 
