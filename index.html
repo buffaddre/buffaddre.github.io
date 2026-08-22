@@ -1,76 +1,1194 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>ADD FR — Dịch Vụ Mua Add Fr</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>ADD FR — Dịch Vụ Online</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    background:#08090d;
+    color:#fff;
+    font-family:Inter,Arial,sans-serif;
+}
+
+button,
+input{
+    font-family:inherit;
+}
+
+button{
+    cursor:pointer;
+}
+
+/* NAV */
+
+.nav{
+    width:100%;
+    max-width:1180px;
+    margin:auto;
+    padding:22px 25px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.logo{
+    font-size:20px;
+    font-weight:900;
+    letter-spacing:2px;
+}
+
+.logo span{
+    color:#9276ff;
+}
+
+.history-btn{
+    border:1px solid #292d38;
+    background:#11131a;
+    color:#fff;
+    padding:11px 16px;
+    border-radius:12px;
+}
+
+/* HERO */
+
+.hero{
+    max-width:1180px;
+    margin:70px auto 0;
+    padding:30px 25px 110px;
+    display:grid;
+    grid-template-columns:1.1fr .9fr;
+    gap:60px;
+    align-items:center;
+}
+
+.badge{
+    color:#9276ff;
+    font-size:11px;
+    font-weight:800;
+    letter-spacing:3px;
+    margin-bottom:15px;
+}
+
+.hero h1{
+    font-size:clamp(45px,7vw,78px);
+    line-height:.98;
+    letter-spacing:-4px;
+}
+
+.hero h1 span{
+    color:#858b9b;
+}
+
+.hero p{
+    color:#969dab;
+    max-width:550px;
+    margin-top:25px;
+    line-height:1.7;
+}
+
+.primary{
+    border:0;
+    background:linear-gradient(135deg,#a087ff,#644cff);
+    color:#fff;
+    padding:14px 20px;
+    border-radius:13px;
+    font-weight:800;
+    margin-top:25px;
+    box-shadow:0 15px 35px rgba(100,76,255,.25);
+}
+
+.primary:hover{
+    transform:translateY(-2px);
+}
+
+/* CARD */
+
+.hero-card{
+    min-height:350px;
+    border:1px solid #292d38;
+    border-radius:28px;
+    background:linear-gradient(145deg,#151721,#0d0e13);
+    padding:30px;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+}
+
+.online{
+    color:#aeb4c0;
+    font-size:12px;
+}
+
+.online i{
+    display:inline-block;
+    width:7px;
+    height:7px;
+    background:#55df8c;
+    border-radius:50%;
+    margin-right:7px;
+}
+
+.hero-add{
+    font-size:65px;
+    font-weight:950;
+    letter-spacing:-5px;
+}
+
+.hero-small{
+    color:#777e8d;
+}
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:8px;
+}
+
+.stat{
+    background:#101218;
+    border:1px solid #272b34;
+    border-radius:14px;
+    padding:12px;
+}
+
+.stat b{
+    display:block;
+    margin-bottom:7px;
+}
+
+.stat span{
+    font-size:10px;
+    color:#858c99;
+}
+
+/* SECTION */
+
+.section{
+    max-width:1180px;
+    margin:auto;
+    padding:0 25px 100px;
+}
+
+.section-title{
+    font-size:35px;
+    margin-bottom:25px;
+}
+
+/* PRODUCT */
+
+.product{
+    display:flex;
+    align-items:center;
+    gap:20px;
+    background:#111319;
+    border:1px solid #282c35;
+    padding:23px;
+    border-radius:21px;
+}
+
+.product-icon{
+    width:55px;
+    height:55px;
+    display:grid;
+    place-items:center;
+    background:#211d38;
+    color:#a48fff;
+    border-radius:15px;
+    font-size:28px;
+}
+
+.product-content{
+    flex:1;
+}
+
+.product-content h3{
+    margin-bottom:7px;
+}
+
+.product-content p{
+    color:#818896;
+    font-size:13px;
+}
+
+.price{
+    font-weight:900;
+    margin-bottom:9px;
+}
+
+/* ORDERS */
+
+.orders-empty{
+    padding:40px;
+    text-align:center;
+    border:1px dashed #2a2e38;
+    border-radius:18px;
+    color:#6f7684;
+}
+
+.order{
+    background:#111319;
+    border:1px solid #292d36;
+    border-radius:19px;
+    padding:18px;
+    margin-bottom:13px;
+}
+
+.order-top{
+    display:flex;
+    justify-content:space-between;
+    gap:15px;
+}
+
+.order-id{
+    font-weight:900;
+}
+
+.order-date{
+    font-size:10px;
+    color:#626a79;
+    margin-top:5px;
+}
+
+.status{
+    height:max-content;
+    padding:7px 10px;
+    border-radius:50px;
+    background:#29233f;
+    color:#b9aaff;
+    font-size:10px;
+}
+
+.order-info{
+    margin-top:15px;
+    color:#8f96a4;
+    font-size:12px;
+    line-height:1.8;
+}
+
+.progress{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:5px;
+    margin-top:15px;
+}
+
+.progress div{
+    height:5px;
+    border-radius:10px;
+    background:#292d36;
+}
+
+.progress div.active{
+    background:#9178ff;
+}
+
+/* MODAL */
+
+.modal{
+    position:fixed;
+    inset:0;
+    z-index:9999;
+    background:rgba(0,0,0,.75);
+    backdrop-filter:blur(10px);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+}
+
+.modal.show{
+    display:flex;
+}
+
+.modal-box{
+    width:min(520px,100%);
+    max-height:90vh;
+    overflow:auto;
+    background:#111319;
+    border:1px solid #2c3039;
+    border-radius:24px;
+    padding:27px;
+    position:relative;
+}
+
+.close{
+    position:absolute;
+    right:17px;
+    top:12px;
+    border:0;
+    background:none;
+    color:#999;
+    font-size:30px;
+}
+
+.modal-title{
+    font-size:28px;
+    font-weight:900;
+    margin-bottom:5px;
+}
+
+.modal-sub{
+    color:#777e8b;
+    font-size:13px;
+    margin-bottom:20px;
+}
+
+label{
+    display:block;
+    color:#949baa;
+    font-size:12px;
+    margin-top:15px;
+}
+
+input{
+    width:100%;
+    margin-top:7px;
+    padding:13px;
+    background:#0b0c10;
+    color:white;
+    border:1px solid #292d36;
+    border-radius:11px;
+    outline:none;
+}
+
+input:focus{
+    border-color:#9178ff;
+}
+
+.total{
+    display:flex;
+    justify-content:space-between;
+    margin:20px 0;
+    padding:15px;
+    background:#181a22;
+    border-radius:13px;
+}
+
+.total strong{
+    color:#a894ff;
+    font-size:20px;
+}
+
+.full{
+    width:100%;
+    margin-top:0;
+}
+
+/* SUCCESS */
+
+.success{
+    text-align:center;
+}
+
+.success-icon{
+    width:65px;
+    height:65px;
+    display:grid;
+    place-items:center;
+    margin:0 auto 20px;
+    background:#173324;
+    color:#5fe398;
+    border-radius:50%;
+    font-size:30px;
+}
+
+.order-code{
+    display:block;
+    color:#a895ff;
+    font-size:22px;
+    margin:12px 0 22px;
+}
+
+/* MOBILE */
+
+@media(max-width:760px){
+
+    .hero{
+        grid-template-columns:1fr;
+        margin-top:20px;
+    }
+
+    .hero h1{
+        font-size:48px;
+    }
+
+    .stats{
+        grid-template-columns:1fr;
+    }
+
+    .product{
+        align-items:flex-start;
+    }
+
+    .product-buy{
+        margin-left:auto;
+    }
+}
+</style>
 </head>
+
 <body>
+
+<!-- NAV -->
+
 <header class="nav">
-  <div class="brand"><span class="brand-dot"></span> ADD FR</div>
-  <button class="ghost" onclick="scrollToOrders()">Lịch sử đơn</button>
+
+    <div class="logo">
+        <span>ADD</span> FR
+    </div>
+
+    <button
+        class="history-btn"
+        onclick="showHistory()"
+    >
+        Lịch sử đơn
+    </button>
+
 </header>
 
-<main>
-  <section class="hero">
+
+<!-- HERO -->
+
+<section class="hero">
+
     <div>
-      <p class="eyebrow">DỊCH VỤ ONLINE</p>
-      <h1>Mua Add Fr<br><span>nhanh & chuyên nghiệp.</span></h1>
-      <p class="sub">Đặt dịch vụ, theo dõi tiến trình và lịch sử đơn hàng ngay trên một giao diện.</p>
-      <button class="primary" onclick="openOrder()">Mua ngay <b>→</b></button>
+
+        <div class="badge">
+            DỊCH VỤ ONLINE
+        </div>
+
+        <h1>
+            Mua Add Fr
+            <br>
+            <span>nhanh & chuyên nghiệp.</span>
+        </h1>
+
+        <p>
+            Đặt dịch vụ, theo dõi tiến trình
+            và lịch sử đơn hàng ngay trên
+            một giao diện.
+        </p>
+
+        <button
+            class="primary"
+            onclick="openOrder()"
+        >
+            Mua ngay →
+        </button>
+
     </div>
+
+
     <div class="hero-card">
-      <div class="live"><i></i> HỆ THỐNG HOẠT ĐỘNG</div>
-      <div class="big">ADD FR</div>
-      <div class="mini">Xử lý đơn theo từng trạng thái</div>
-    </div>
-  </section>
 
-  <section class="section">
-    <div class="section-head">
-      <div><p class="eyebrow">SẢN PHẨM</p><h2>Dịch vụ nổi bật</h2></div>
+        <div class="online">
+            <i></i>
+            HỆ THỐNG HOẠT ĐỘNG
+        </div>
+
+        <div>
+
+            <div class="hero-add">
+                ADD FR
+            </div>
+
+            <div class="hero-small">
+                Xử lý đơn theo từng trạng thái
+            </div>
+
+        </div>
+
+        <div class="stats">
+
+            <div class="stat">
+                <b>⚡</b>
+                <span>Xử lý nhanh</span>
+            </div>
+
+            <div class="stat">
+                <b>🔒</b>
+                <span>Theo dõi đơn</span>
+            </div>
+
+            <div class="stat">
+                <b>✓</b>
+                <span>Lịch sử đơn</span>
+            </div>
+
+        </div>
+
     </div>
+
+</section>
+
+
+<!-- PRODUCT -->
+
+<section class="section">
+
+    <div class="badge">
+        SẢN PHẨM
+    </div>
+
+    <h2 class="section-title">
+        Dịch vụ nổi bật
+    </h2>
+
     <div class="product">
-      <div class="product-icon">＋</div>
-      <div class="product-main">
-        <h3>Mua Add Fr</h3>
-        <p>Dịch vụ theo số lượng bạn lựa chọn.</p>
-        <div class="chips"><span>⚡ Xử lý nhanh</span><span>🔒 Theo dõi đơn</span></div>
-      </div>
-      <div class="product-buy">
-        <strong id="pricePreview">Liên hệ</strong>
-        <button class="primary small" onclick="openOrder()">Đặt đơn</button>
-      </div>
-    </div>
-  </section>
 
-  <section class="section" id="orders">
-    <div class="section-head">
-      <div><p class="eyebrow">ORDER TRACKING</p><h2>Lịch sử đơn hàng</h2></div>
-    </div>
-    <div id="ordersList" class="orders-empty">Chưa có đơn hàng trên thiết bị này.</div>
-  </section>
-</main>
+        <div class="product-icon">
+            ＋
+        </div>
 
-<div class="modal" id="orderModal">
-  <div class="modal-box">
-    <button class="close" onclick="closeOrder()">×</button>
-    <p class="eyebrow">TẠO ĐƠN HÀNG</p>
-    <h2>Mua Add Fr</h2>
-    <form id="orderForm">
-      <label>Số lượng<input id="quantity" type="number" min="1" value="100" required></label>
-      <label>Thông tin / Link<input id="target" type="text" placeholder="Nhập thông tin cần xử lý" required></label>
-      <label>Tên khách hàng<input id="customer" type="text" placeholder="Tên của bạn" required></label>
-      <label>Số điện thoại<input id="phone" type="tel" placeholder="Số điện thoại" required></label>
-      <div class="total">Tổng tiền <b id="total">0đ</b></div>
-      <button class="primary full" type="submit">Xác nhận đặt hàng</button>
-      <p class="hint">Sau khi tạo đơn, mã đơn sẽ được lưu trên trình duyệt và gửi thông báo tới hệ thống quản trị.</p>
-    </form>
-  </div>
+        <div class="product-content">
+
+            <h3>
+                Mua Add Fr
+            </h3>
+
+            <p>
+                Dịch vụ theo số lượng bạn lựa chọn.
+            </p>
+
+        </div>
+
+        <div class="product-buy">
+
+            <div class="price">
+                5.000đ / 100
+            </div>
+
+            <button
+                class="primary"
+                style="margin:0"
+                onclick="openOrder()"
+            >
+                Đặt đơn
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- HISTORY -->
+
+<section
+    class="section"
+    id="history"
+>
+
+    <div class="badge">
+        ORDER TRACKING
+    </div>
+
+    <h2 class="section-title">
+        Lịch sử đơn hàng
+    </h2>
+
+    <div id="orders"></div>
+
+</section>
+
+
+<!-- ORDER MODAL -->
+
+<div
+    class="modal"
+    id="orderModal"
+>
+
+    <div class="modal-box">
+
+        <button
+            class="close"
+            onclick="closeOrder()"
+        >
+            ×
+        </button>
+
+        <div class="modal-title">
+            Mua Add Fr
+        </div>
+
+        <div class="modal-sub">
+            Điền thông tin để tạo đơn hàng.
+        </div>
+
+
+        <label>
+            Số lượng
+
+            <input
+                id="quantity"
+                type="number"
+                min="100"
+                step="100"
+                value="100"
+                oninput="updateTotal()"
+            >
+
+        </label>
+
+
+        <label>
+            Thông tin / Link
+
+            <input
+                id="target"
+                type="text"
+                placeholder="Nhập thông tin cần xử lý"
+            >
+
+        </label>
+
+
+        <label>
+            Tên khách hàng
+
+            <input
+                id="customer"
+                type="text"
+                placeholder="Tên của bạn"
+            >
+
+        </label>
+
+
+        <label>
+            Số điện thoại
+
+            <input
+                id="phone"
+                type="tel"
+                placeholder="Số điện thoại"
+            >
+
+        </label>
+
+
+        <div class="total">
+
+            <span>
+                Tổng tiền
+            </span>
+
+            <strong id="total">
+                5.000đ
+            </strong>
+
+        </div>
+
+
+        <button
+            class="primary full"
+            onclick="createOrder()"
+        >
+            Xác nhận đặt hàng
+        </button>
+
+    </div>
+
 </div>
 
-<div class="toast" id="toast"></div>
-<script src="app.js"></script>
+
+<!-- SUCCESS -->
+
+<div
+    class="modal"
+    id="successModal"
+>
+
+    <div class="modal-box success">
+
+        <div class="success-icon">
+            ✓
+        </div>
+
+        <div class="badge">
+            ĐẶT HÀNG THÀNH CÔNG
+        </div>
+
+        <div class="modal-title">
+            Đơn đang được xử lý
+        </div>
+
+        <p style="color:#858c99;margin-top:10px">
+            Mã đơn của bạn:
+        </p>
+
+        <strong
+            class="order-code"
+            id="orderCode"
+        ></strong>
+
+        <button
+            class="primary full"
+            onclick="closeSuccess()"
+        >
+            Xem lịch sử đơn
+        </button>
+
+    </div>
+
+</div>
+
+
+<script>
+
+/* =========================
+   CONFIG
+========================= */
+
+const PRICE_PER_100 = 5000;
+
+const STORAGE_KEY =
+    "ADD_FR_ORDER_HISTORY";
+
+
+/* =========================
+   UTILS
+========================= */
+
+function money(number){
+
+    return Number(number)
+        .toLocaleString("vi-VN")
+        + "đ";
+
+}
+
+
+function getOrders(){
+
+    try{
+
+        return JSON.parse(
+            localStorage.getItem(
+                STORAGE_KEY
+            )
+        ) || [];
+
+    }catch{
+
+        return [];
+
+    }
+
+}
+
+
+function saveOrders(orders){
+
+    localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify(orders)
+    );
+
+}
+
+
+function createOrderID(){
+
+    const now = new Date();
+
+    const date =
+        now.getFullYear()
+        .toString()
+        .slice(-2)
+        +
+        String(
+            now.getMonth()+1
+        ).padStart(2,"0")
+        +
+        String(
+            now.getDate()
+        ).padStart(2,"0");
+
+    const random =
+        Math.floor(
+            10000 +
+            Math.random()*90000
+        );
+
+    return `ADR-${date}-${random}`;
+
+}
+
+
+/* =========================
+   MODAL
+========================= */
+
+function openOrder(){
+
+    document
+        .getElementById("orderModal")
+        .classList.add("show");
+
+}
+
+
+function closeOrder(){
+
+    document
+        .getElementById("orderModal")
+        .classList.remove("show");
+
+}
+
+
+function closeSuccess(){
+
+    document
+        .getElementById("successModal")
+        .classList.remove("show");
+
+    showHistory();
+
+}
+
+
+/* =========================
+   PRICE
+========================= */
+
+function updateTotal(){
+
+    let quantity =
+        Number(
+            document.getElementById(
+                "quantity"
+            ).value
+        );
+
+    if(quantity < 100){
+        quantity = 100;
+    }
+
+    const total =
+        Math.ceil(
+            quantity / 100
+        ) * PRICE_PER_100;
+
+    document
+        .getElementById("total")
+        .textContent =
+            money(total);
+
+}
+
+
+/* =========================
+   CREATE ORDER
+========================= */
+
+function createOrder(){
+
+    const quantity =
+        Number(
+            document.getElementById(
+                "quantity"
+            ).value
+        );
+
+    const target =
+        document.getElementById(
+            "target"
+        ).value.trim();
+
+    const customer =
+        document.getElementById(
+            "customer"
+        ).value.trim();
+
+    const phone =
+        document.getElementById(
+            "phone"
+        ).value.trim();
+
+
+    if(
+        !Number.isInteger(quantity)
+        ||
+        quantity < 100
+    ){
+
+        alert(
+            "Số lượng tối thiểu là 100."
+        );
+
+        return;
+
+    }
+
+
+    if(!target){
+
+        alert(
+            "Vui lòng nhập thông tin / link."
+        );
+
+        return;
+
+    }
+
+
+    if(!customer){
+
+        alert(
+            "Vui lòng nhập tên."
+        );
+
+        return;
+
+    }
+
+
+    if(!phone){
+
+        alert(
+            "Vui lòng nhập số điện thoại."
+        );
+
+        return;
+
+    }
+
+
+    const total =
+        Math.ceil(
+            quantity / 100
+        ) * PRICE_PER_100;
+
+
+    const order = {
+
+        id:createOrderID(),
+
+        quantity,
+
+        target,
+
+        customer,
+
+        phone,
+
+        total,
+
+        status:
+            "processing",
+
+        createdAt:
+            new Date()
+            .toLocaleString(
+                "vi-VN"
+            )
+
+    };
+
+
+    const orders =
+        getOrders();
+
+
+    orders.unshift(order);
+
+
+    saveOrders(orders);
+
+
+    /*
+
+       ĐƠN ĐÃ ĐƯỢC TẠO.
+
+       Hiện tại lưu localStorage.
+
+       Telegram cần backend riêng
+       để bảo mật Bot Token.
+
+    */
+
+
+    closeOrder();
+
+
+    document
+        .getElementById(
+            "orderCode"
+        )
+        .textContent =
+            order.id;
+
+
+    document
+        .getElementById(
+            "successModal"
+        )
+        .classList.add("show");
+
+
+    document
+        .getElementById(
+            "target"
+        ).value = "";
+
+    document
+        .getElementById(
+            "customer"
+        ).value = "";
+
+    document
+        .getElementById(
+            "phone"
+        ).value = "";
+
+
+    renderOrders();
+
+}
+
+
+/* =========================
+   HISTORY
+========================= */
+
+function renderOrders(){
+
+    const container =
+        document.getElementById(
+            "orders"
+        );
+
+
+    const orders =
+        getOrders();
+
+
+    if(!orders.length){
+
+        container.innerHTML = `
+
+            <div class="orders-empty">
+                Chưa có đơn hàng.
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    container.innerHTML =
+        orders.map(order => `
+
+            <div class="order">
+
+                <div class="order-top">
+
+                    <div>
+
+                        <div class="order-id">
+                            ${order.id}
+                        </div>
+
+                        <div class="order-date">
+                            ${order.createdAt}
+                        </div>
+
+                    </div>
+
+                    <div class="status">
+                        🟡 Đang xử lý
+                    </div>
+
+                </div>
+
+
+                <div class="order-info">
+
+                    📦
+                    ${order.quantity}
+                    Add Fr
+
+                    <br>
+
+                    💰
+                    ${money(order.total)}
+
+                    <br>
+
+                    👤
+                    ${order.customer}
+
+                    <br>
+
+                    🔗
+                    ${order.target}
+
+                </div>
+
+
+                <div class="progress">
+
+                    <div class="active"></div>
+
+                    <div></div>
+
+                    <div></div>
+
+                    <div></div>
+
+                </div>
+
+            </div>
+
+        `).join("");
+
+}
+
+
+/* =========================
+   SHOW HISTORY
+========================= */
+
+function showHistory(){
+
+    document
+        .getElementById(
+            "history"
+        )
+        .scrollIntoView({
+            behavior:"smooth"
+        });
+
+}
+
+
+/* =========================
+   INIT
+========================= */
+
+renderOrders();
+
+updateTotal();
+
+</script>
+
 </body>
 </html>
