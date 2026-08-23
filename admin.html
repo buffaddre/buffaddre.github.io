@@ -1,0 +1,1264 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+<title>ADD FR - Admin</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+    background:#08090d;
+    color:#fff;
+    font-family:Arial,Helvetica,sans-serif;
+}
+
+button,input{
+    font-family:inherit;
+}
+
+button{
+    cursor:pointer;
+}
+
+.login{
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+}
+
+.login-box{
+    width:100%;
+    max-width:420px;
+    padding:30px;
+    border:1px solid #292d38;
+    border-radius:24px;
+    background:#111319;
+}
+
+.logo{
+    font-size:24px;
+    font-weight:900;
+    letter-spacing:2px;
+    margin-bottom:8px;
+}
+
+.logo span{
+    color:#9276ff;
+}
+
+.subtitle{
+    color:#777e8d;
+    font-size:13px;
+    margin-bottom:25px;
+}
+
+label{
+    display:block;
+    color:#9299a8;
+    font-size:12px;
+    margin-top:15px;
+}
+
+input{
+    width:100%;
+    padding:13px;
+    margin-top:7px;
+    border:1px solid #292d36;
+    border-radius:11px;
+    background:#0b0c10;
+    color:#fff;
+    outline:none;
+}
+
+input:focus{
+    border-color:#9178ff;
+}
+
+.btn{
+    width:100%;
+    margin-top:20px;
+    padding:14px;
+    border:0;
+    border-radius:12px;
+    background:linear-gradient(135deg,#a087ff,#644cff);
+    color:#fff;
+    font-weight:bold;
+}
+
+.error{
+    color:#ff7777;
+    font-size:12px;
+    margin-top:12px;
+}
+
+#admin{
+    display:none;
+}
+
+.nav{
+    max-width:1200px;
+    margin:auto;
+    padding:22px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+
+.logout{
+    padding:10px 15px;
+    border:1px solid #292d38;
+    border-radius:10px;
+    background:#111319;
+    color:#fff;
+}
+
+.container{
+    max-width:1200px;
+    margin:auto;
+    padding:20px 22px 80px;
+}
+
+.badge{
+    color:#9276ff;
+    font-size:11px;
+    font-weight:bold;
+    letter-spacing:3px;
+    margin-bottom:10px;
+}
+
+h1{
+    font-size:42px;
+}
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:12px;
+    margin-top:30px;
+}
+
+.stat{
+    padding:20px;
+    border:1px solid #292d38;
+    border-radius:18px;
+    background:#111319;
+}
+
+.stat-title{
+    color:#777e8d;
+    font-size:12px;
+    margin-bottom:10px;
+}
+
+.stat-value{
+    font-size:25px;
+    font-weight:900;
+}
+
+.section{
+    margin-top:35px;
+}
+
+.section h2{
+    font-size:23px;
+    margin-bottom:15px;
+}
+
+.card{
+    padding:18px;
+    border:1px solid #292d38;
+    border-radius:18px;
+    background:#111319;
+    margin-bottom:12px;
+}
+
+.card-top{
+    display:flex;
+    justify-content:space-between;
+    gap:15px;
+}
+
+.code{
+    font-weight:900;
+}
+
+.date{
+    color:#666d7b;
+    font-size:11px;
+    margin-top:5px;
+}
+
+.status{
+    height:max-content;
+    padding:7px 10px;
+    border-radius:30px;
+    background:#29233f;
+    color:#b9aaff;
+    font-size:10px;
+}
+
+.info{
+    margin-top:13px;
+    color:#9299a8;
+    font-size:12px;
+    line-height:1.9;
+    word-break:break-word;
+}
+
+.actions{
+    display:flex;
+    gap:8px;
+    margin-top:15px;
+}
+
+.action{
+    padding:10px 13px;
+    border:0;
+    border-radius:10px;
+    color:#fff;
+    font-weight:bold;
+}
+
+.approve{
+    background:#17663d;
+}
+
+.reject{
+    background:#632b32;
+}
+
+.complete{
+    background:#5b49bb;
+}
+
+.empty{
+    padding:35px;
+    text-align:center;
+    color:#666d7b;
+    border:1px dashed #292d38;
+    border-radius:16px;
+}
+
+.toast{
+    position:fixed;
+    bottom:25px;
+    left:50%;
+    transform:translateX(-50%);
+    padding:13px 17px;
+    border:1px solid #303542;
+    border-radius:12px;
+    background:#191c24;
+    opacity:0;
+    pointer-events:none;
+    transition:.25s;
+}
+
+.toast.show{
+    opacity:1;
+}
+
+@media(max-width:800px){
+    .stats{
+        grid-template-columns:1fr 1fr;
+    }
+}
+
+@media(max-width:500px){
+    .stats{
+        grid-template-columns:1fr;
+    }
+
+    h1{
+        font-size:32px;
+    }
+
+    .card-top{
+        flex-direction:column;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- LOGIN -->
+
+<div class="login" id="loginPage">
+
+    <div class="login-box">
+
+        <div class="logo">
+            <span>ADD</span> FR
+        </div>
+
+        <div class="subtitle">
+            Administrator Panel
+        </div>
+
+        <label>Email</label>
+
+        <input
+            id="email"
+            type="email"
+            placeholder="admin@email.com"
+        >
+
+        <label>Mật khẩu</label>
+
+        <input
+            id="password"
+            type="password"
+            placeholder="••••••••"
+        >
+
+        <button
+            class="btn"
+            onclick="login()"
+        >
+            Đăng nhập Admin
+        </button>
+
+        <div
+            class="error"
+            id="loginError"
+        ></div>
+
+    </div>
+
+</div>
+
+
+<!-- ADMIN -->
+
+<div id="admin">
+
+    <header class="nav">
+
+        <div class="logo">
+            <span>ADD</span> FR
+        </div>
+
+        <button
+            class="logout"
+            onclick="logout()"
+        >
+            Đăng xuất
+        </button>
+
+    </header>
+
+
+    <main class="container">
+
+        <div class="badge">
+            ADMINISTRATION
+        </div>
+
+        <h1>
+            Dashboard
+        </h1>
+
+
+        <div class="stats">
+
+            <div class="stat">
+                <div class="stat-title">
+                    Khách hàng
+                </div>
+
+                <div
+                    class="stat-value"
+                    id="usersCount"
+                >
+                    0
+                </div>
+            </div>
+
+
+            <div class="stat">
+
+                <div class="stat-title">
+                    Tổng số dư
+                </div>
+
+                <div
+                    class="stat-value"
+                    id="balanceTotal"
+                >
+                    0đ
+                </div>
+
+            </div>
+
+
+            <div class="stat">
+
+                <div class="stat-title">
+                    Chờ nạp
+                </div>
+
+                <div
+                    class="stat-value"
+                    id="pendingDeposits"
+                >
+                    0
+                </div>
+
+            </div>
+
+
+            <div class="stat">
+
+                <div class="stat-title">
+                    Đơn xử lý
+                </div>
+
+                <div
+                    class="stat-value"
+                    id="processingOrders"
+                >
+                    0
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- DEPOSITS -->
+
+        <section class="section">
+
+            <div class="badge">
+                DEPOSITS
+            </div>
+
+            <h2>
+                Yêu cầu nạp tiền
+            </h2>
+
+            <div id="deposits"></div>
+
+        </section>
+
+
+        <!-- ORDERS -->
+
+        <section class="section">
+
+            <div class="badge">
+                ORDERS
+            </div>
+
+            <h2>
+                Đơn hàng
+            </h2>
+
+            <div id="orders"></div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<div
+    class="toast"
+    id="toast"
+></div>
+
+
+<script>
+
+/* =========================================
+   SUPABASE
+   ========================================= */
+
+/*
+   LẤY 2 GIÁ TRỊ NÀY TRONG:
+
+   Supabase
+   → Project Settings
+   → API
+*/
+
+const SUPABASE_URL =
+    "https://nslmutblflfotcxvctpp.supabase.co";
+
+const SUPABASE_ANON_KEY =
+    "sb_publishable_kESQyw5xcjTe1irApsuRGQ_4X1GR0Xr";
+
+
+const supabaseClient =
+    supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_ANON_KEY
+    );
+
+
+/* =========================================
+   UTIL
+   ========================================= */
+
+function money(value){
+
+    return Number(value || 0)
+        .toLocaleString("vi-VN") + "đ";
+
+}
+
+
+function escapeHTML(value){
+
+    return String(value ?? "")
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+
+}
+
+
+function toast(message){
+
+    const el =
+        document.getElementById("toast");
+
+    el.textContent = message;
+
+    el.classList.add("show");
+
+    setTimeout(
+        () => el.classList.remove("show"),
+        3000
+    );
+
+}
+
+
+/* =========================================
+   LOGIN
+   ========================================= */
+
+async function login(){
+
+    const email =
+        document
+        .getElementById("email")
+        .value
+        .trim();
+
+    const password =
+        document
+        .getElementById("password")
+        .value;
+
+
+    const error =
+        document
+        .getElementById("loginError");
+
+
+    error.textContent = "";
+
+
+    if(!email || !password){
+
+        error.textContent =
+            "Vui lòng nhập email và mật khẩu.";
+
+        return;
+
+    }
+
+
+    const {
+        data,
+        error:loginError
+    } =
+        await supabaseClient.auth
+        .signInWithPassword({
+
+            email,
+            password
+
+        });
+
+
+    if(loginError){
+
+        error.textContent =
+            loginError.message;
+
+        return;
+
+    }
+
+
+    await checkAdmin(data.user);
+
+}
+
+
+/* =========================================
+   CHECK ADMIN
+   ========================================= */
+
+async function checkAdmin(user){
+
+    const {
+        data,
+        error
+    } =
+        await supabaseClient
+        .from("profiles")
+        .select("username,balance,is_admin")
+        .eq("id",user.id)
+        .single();
+
+
+    if(error || !data){
+
+        await supabaseClient.auth.signOut();
+
+        document
+        .getElementById("loginError")
+        .textContent =
+            "Không tìm thấy profile Admin.";
+
+        return;
+
+    }
+
+
+    if(data.is_admin !== true){
+
+        await supabaseClient.auth.signOut();
+
+        document
+        .getElementById("loginError")
+        .textContent =
+            "Tài khoản này không có quyền Admin.";
+
+        return;
+
+    }
+
+
+    document
+    .getElementById("loginPage")
+    .style.display = "none";
+
+
+    document
+    .getElementById("admin")
+    .style.display = "block";
+
+
+    await loadDashboard();
+
+}
+
+
+/* =========================================
+   SESSION
+   ========================================= */
+
+async function checkSession(){
+
+    const {
+        data
+    } =
+        await supabaseClient
+        .auth
+        .getSession();
+
+
+    if(data.session){
+
+        await checkAdmin(
+            data.session.user
+        );
+
+    }
+
+}
+
+
+async function logout(){
+
+    await supabaseClient
+        .auth
+        .signOut();
+
+    location.reload();
+
+}
+
+
+/* =========================================
+   DASHBOARD
+   ========================================= */
+
+async function loadDashboard(){
+
+    await Promise.all([
+
+        loadUsers(),
+
+        loadDeposits(),
+
+        loadOrders(),
+
+        loadBalance()
+
+    ]);
+
+}
+
+
+/* =========================================
+   USERS
+   ========================================= */
+
+async function loadUsers(){
+
+    const {
+        count
+    } =
+        await supabaseClient
+        .from("profiles")
+        .select("*",{
+            count:"exact",
+            head:true
+        });
+
+
+    document
+    .getElementById("usersCount")
+    .textContent =
+        count || 0;
+
+}
+
+
+/* =========================================
+   BALANCE
+   ========================================= */
+
+async function loadBalance(){
+
+    const {
+        data
+    } =
+        await supabaseClient
+        .from("profiles")
+        .select("balance");
+
+
+    const total =
+        (data || [])
+        .reduce(
+            (sum,user) =>
+                sum + Number(user.balance || 0),
+            0
+        );
+
+
+    document
+    .getElementById("balanceTotal")
+    .textContent =
+        money(total);
+
+}
+
+
+/* =========================================
+   DEPOSITS
+   ========================================= */
+
+async function loadDeposits(){
+
+    const {
+        data,
+        error
+    } =
+        await supabaseClient
+        .from("deposits")
+        .select(`
+            id,
+            user_id,
+            amount,
+            status,
+            created_at,
+            profiles (
+                username
+            )
+        `)
+        .order(
+            "created_at",
+            {
+                ascending:false
+            }
+        );
+
+
+    if(error){
+
+        console.error(error);
+
+        return;
+
+    }
+
+
+    const pending =
+        (data || [])
+        .filter(
+            x => x.status === "pending"
+        );
+
+
+    document
+    .getElementById("pendingDeposits")
+    .textContent =
+        pending.length;
+
+
+    const container =
+        document.getElementById(
+            "deposits"
+        );
+
+
+    if(!pending.length){
+
+        container.innerHTML = `
+            <div class="empty">
+                Không có yêu cầu nạp tiền.
+            </div>
+        `;
+
+        return;
+
+    }
+
+
+    container.innerHTML =
+        pending.map(item => `
+
+            <div class="card">
+
+                <div class="card-top">
+
+                    <div>
+
+                        <div class="code">
+                            DEP-${escapeHTML(
+                                item.id.slice(0,8)
+                            )}
+                        </div>
+
+                        <div class="date">
+                            ${new Date(
+                                item.created_at
+                            ).toLocaleString("vi-VN")}
+                        </div>
+
+                    </div>
+
+                    <div class="status">
+                        🟡 Chờ duyệt
+                    </div>
+
+                </div>
+
+
+                <div class="info">
+
+                    👤 Username:
+                    <b>
+                        @${escapeHTML(
+                            item.profiles?.username ||
+                            "unknown"
+                        )}
+                    </b>
+
+                    <br>
+
+                    💰 Số tiền:
+                    <b>
+                        ${money(item.amount)}
+                    </b>
+
+                </div>
+
+
+                <div class="actions">
+
+                    <button
+                        class="action approve"
+                        onclick="approveDeposit(
+                            '${item.id}'
+                        )"
+                    >
+                        ✓ Duyệt
+                    </button>
+
+                    <button
+                        class="action reject"
+                        onclick="rejectDeposit(
+                            '${item.id}'
+                        )"
+                    >
+                        ✕ Từ chối
+                    </button>
+
+                </div>
+
+            </div>
+
+        `).join("");
+
+}
+
+
+/* =========================================
+   ORDERS
+   ========================================= */
+
+async function loadOrders(){
+
+    const {
+        data,
+        error
+    } =
+        await supabaseClient
+        .from("orders")
+        .select(`
+            id,
+            user_id,
+            order_code,
+            quantity,
+            target,
+            total,
+            status,
+            created_at,
+            profiles (
+                username
+            )
+        `)
+        .order(
+            "created_at",
+            {
+                ascending:false
+            }
+        );
+
+
+    if(error){
+
+        console.error(error);
+
+        return;
+
+    }
+
+
+    const processing =
+        (data || [])
+        .filter(
+            x => x.status === "processing"
+        );
+
+
+    document
+    .getElementById("processingOrders")
+    .textContent =
+        processing.length;
+
+
+    const container =
+        document.getElementById(
+            "orders"
+        );
+
+
+    if(!data?.length){
+
+        container.innerHTML = `
+            <div class="empty">
+                Chưa có đơn hàng.
+            </div>
+        `;
+
+        return;
+
+    }
+
+
+    container.innerHTML =
+        data.map(item => `
+
+            <div class="card">
+
+                <div class="card-top">
+
+                    <div>
+
+                        <div class="code">
+                            ${escapeHTML(
+                                item.order_code
+                            )}
+                        </div>
+
+                        <div class="date">
+                            ${new Date(
+                                item.created_at
+                            ).toLocaleString("vi-VN")}
+                        </div>
+
+                    </div>
+
+                    <div class="status">
+                        ${
+                            item.status === "processing"
+                            ? "🟡 Đang xử lý"
+                            : item.status === "completed"
+                            ? "🟢 Hoàn thành"
+                            : "🔴 Đã hủy"
+                        }
+                    </div>
+
+                </div>
+
+
+                <div class="info">
+
+                    👤 @${escapeHTML(
+                        item.profiles?.username ||
+                        "unknown"
+                    )}
+
+                    <br>
+
+                    📦 ${escapeHTML(
+                        item.quantity
+                    )} Add Fr
+
+                    <br>
+
+                    💰 ${money(
+                        item.total
+                    )}
+
+                    <br>
+
+                    🔗 ${escapeHTML(
+                        item.target
+                    )}
+
+                </div>
+
+
+                ${
+                    item.status === "processing"
+                    ? `
+                        <div class="actions">
+
+                            <button
+                                class="action complete"
+                                onclick="completeOrder(
+                                    '${item.id}'
+                                )"
+                            >
+                                ✓ Hoàn thành
+                            </button>
+
+                        </div>
+                    `
+                    : ""
+                }
+
+            </div>
+
+        `).join("");
+
+}
+
+
+/* =========================================
+   DEPOSIT ACTIONS
+   ========================================= */
+
+/*
+   TẠM THỜI:
+
+   Các nút dưới đây chỉ đổi trạng thái.
+
+   Phần cộng tiền thật nên chuyển sang
+   Supabase RPC có SECURITY DEFINER.
+*/
+
+
+async function approveDeposit(id){
+
+    if(!confirm(
+        "Xác nhận duyệt giao dịch này?"
+    )) return;
+
+
+    const {
+        error
+    } =
+        await supabaseClient
+        .from("deposits")
+        .update({
+
+            status:"approved",
+
+            approved_at:
+                new Date().toISOString()
+
+        })
+        .eq("id",id)
+        .eq("status","pending");
+
+
+    if(error){
+
+        toast(
+            "Không thể duyệt giao dịch."
+        );
+
+        console.error(error);
+
+        return;
+
+    }
+
+
+    toast(
+        "Đã duyệt giao dịch."
+    );
+
+
+    await loadDashboard();
+
+}
+
+
+async function rejectDeposit(id){
+
+    if(!confirm(
+        "Từ chối yêu cầu nạp này?"
+    )) return;
+
+
+    const {
+        error
+    } =
+        await supabaseClient
+        .from("deposits")
+        .update({
+
+            status:"rejected"
+
+        })
+        .eq("id",id)
+        .eq("status","pending");
+
+
+    if(error){
+
+        toast(
+            "Không thể từ chối."
+        );
+
+        return;
+
+    }
+
+
+    toast(
+        "Đã từ chối giao dịch."
+    );
+
+
+    await loadDashboard();
+
+}
+
+
+/* =========================================
+   ORDER ACTION
+   ========================================= */
+
+async function completeOrder(id){
+
+    if(!confirm(
+        "Xác nhận hoàn thành đơn?"
+    )) return;
+
+
+    const {
+        error
+    } =
+        await supabaseClient
+        .from("orders")
+        .update({
+
+            status:"completed",
+
+            completed_at:
+                new Date().toISOString()
+
+        })
+        .eq("id",id)
+        .eq("status","processing");
+
+
+    if(error){
+
+        toast(
+            "Không thể cập nhật đơn."
+        );
+
+        return;
+
+    }
+
+
+    toast(
+        "Đã chuyển đơn sang hoàn thành."
+    );
+
+
+    await loadDashboard();
+
+}
+
+
+/* =========================================
+   START
+   ========================================= */
+
+checkSession();
+
+</script>
+
+</body>
+</html>
