@@ -859,169 +859,306 @@ return String(value)
 }
 
 
-async function createOrder(){
+async function createOrder() {
 
-const quantity =
-Number(
-document
-.getElementById("quantity")
-.value
-);
+    const quantity = Number(
+        document.getElementById("quantity").value
+    );
 
-const target =
-document
-.getElementById("target")
-.value
-.trim();
+    const target = document
+        .getElementById("target")
+        .value
+        .trim();
 
+    const button = document.querySelector(
+        '#orderModal button.btn.full'
+    );
 
-if(!Number.isInteger(quantity) ||
-quantity<100){
+    // =========================
+    // KIỂM TRA SỐ LƯỢNG
+    // =========================
 
-toast(
-"Số lượng tối thiểu 100."
-);
+    if (!Number.isInteger(quantity) || quantity < 100) {
 
-return;
+        toast("Số lượng tối thiểu là 100.");
 
-}
+        return;
+    }
 
+    if (quantity % 100 !== 0) {
 
-if(quantity%100!==0){
+        toast("Số lượng phải chia hết cho 100.");
 
-toast(
-"Số lượng phải chia hết cho 100."
-);
-
-return;
-
-}
+        return;
+    }
 
 
-const facebookRegex =
-/^https?:\/\/(www\.)?facebook\.com\//i;
+    // =========================
+    // KIỂM TRA FACEBOOK
+    // =========================
+
+    const facebookRegex =
+        /^https?:\/\/(www\.)?facebook\.com\/.+/i;
+
+    if (!facebookRegex.test(target)) {
+
+        toast(
+            "Link phải có dạng https://facebook.com/..."
+        );
+
+        return;
+    }
 
 
-if(!facebookRegex.test(target)){
+    // =========================
+    // LOADING
+    // =========================
 
-toast(
-"Link bắt buộc phải là facebook.com/..."
-);
+    if (button) {
 
-return;
+        button.disabled = true;
 
-}
-
-
-const button =
-event?.target;
+        button.textContent =
+            "⏳ Đang tạo đơn...";
+    }
 
 
-if(button){
+    try {
 
-button.disabled=true;
-button.textContent=
-"⏳ Đang tạo đơn...";
+        // =========================
+        // GỌI SUPABASE RPC
+        // =========================
 
-}
-
-
-const {
-data,
-error
-} = await sb.rpc(
-"create_order",
-{
-p_quantity:quantity,
-p_target:target
-}
-);
+        const {
+            data,
+            error
+        } = await sb.rpc(
+            "create_order",
+            {
+                p_quantity: quantity,
+                p_target: target
+            }
+        );
 
 
-if(error){
+        // =========================
+        // SUPABASE ERROR
+        // =========================
 
-console.error(error);
+        if (error) {
 
-const msg =
-error.message || "";
+            console.error(
+                "CREATE ORDER ERROR:",
+                error
+            );
 
-if(msg.includes(
-"INSUFFICIENT_BALANCE"
-)){
+            console.error(
+                "message:",
+                error.message
+            );
 
-toast(
-"Số dư không đủ."
-);
+            console.error(
+                "details:",
+                error.details
+            );
 
-}else if(msg.includes(
-"FACEBOOK_LINK_REQUIRED"
-)){
+            console.error(
+                "hint:",
+                error.hint
+            );
 
-toast(
-"Link phải là Facebook."
-);
-
-}else{
-
-toast(
-"Lỗi tạo đơn: "+msg
-);
-
-}
-
-if(button){
-
-button.disabled=false;
-button.textContent=
-"Xác nhận đặt hàng";
-
-}
-
-return;
-
-}
+            console.error(
+                "code:",
+                error.code
+            );
 
 
-toast(
-"Đặt hàng thành công!"
-);
+            let message =
+                error.message ||
+                "Không tạo được đơn.";
 
 
-const order =
-data;
+            // Các lỗi SQL mình đã tạo
+            if (
+                message.includes(
+                    "INSUFFICIENT_BALANCE"
+                )
+            ) {
+
+                message =
+                    "💰 Số dư không đủ.";
+
+            }
+
+            else if (
+                message.includes(
+                    "FACEBOOK_LINK_REQUIRED"
+                )
+            ) {
+
+                message =
+                    "🔗 Link phải là Facebook.";
+
+            }
+
+            else if (
+                message.includes(
+                    "NOT_AUTHENTICATED"
+                )
+            ) {
+
+                message =
+                    "🔐 Phiên đăng nhập đã hết hạn.";
+
+            }
+
+            else if (
+                message.includes(
+                    "PROFILE_NOT_FOUND"
+                )
+            ) {
+
+                message =
+                    "👤 Không tìm thấy hồ sơ tài khoản.";
+
+            }
 
 
-await sendTelegram(
+            toast(message);
 
-`🛒 ĐƠN HÀNG ADD FR
+            // Hiện lỗi chi tiết trong console
+            alert(
+                "LỖI SUPABASE:\n\n" +
+                message
+            );
 
-🆔 ${order.order_code}
+            return;
+        }
 
-📦 ${quantity} Add Fr
 
-💰 ${money(order.total)}
+        // =========================
+        // KIỂM TRA DATA
+        // =========================
 
-🔗 ${target}
+        console.log(
+            "CREATE ORDER RESULT:",
+            data
+        );
+
+
+        if (!data || !data.ok) {
+
+            toast(
+                "Supabase không trả về kết quả hợp lệ."
+            );
+
+            console.error(
+                "Invalid RPC result:",
+                data
+            );
+
+            return;
+        }
+
+
+        // =========================
+        // THÀNH CÔNG
+        // =========================
+
+        toast(
+            "✅ Đặt hàng thành công!"
+        );
+
+
+        // =========================
+        // GỬI TELEGRAM
+        // =========================
+
+        try {
+
+            await sendTelegram(
+
+`🛒 ĐƠN HÀNG ADD FR MỚI
+
+🆔 Mã đơn: ${data.order_code}
+
+📦 Số lượng: ${quantity} Add Fr
+
+💰 Tổng tiền: ${money(data.total)}
+
+🔗 Facebook:
+${target}
 
 🟡 Trạng thái: Đang xử lý`
 
-);
+            );
+
+        } catch (telegramError) {
+
+            console.error(
+                "Telegram error:",
+                telegramError
+            );
+
+        }
 
 
-closeModal("orderModal");
+        // =========================
+        // ĐÓNG MODAL
+        // =========================
 
-await loadProfile();
-
-await loadOrders();
+        closeModal("orderModal");
 
 
-if(button){
+        // =========================
+        // RESET FORM
+        // =========================
 
-button.disabled=false;
-button.textContent=
-"Xác nhận đặt hàng";
+        document.getElementById(
+            "quantity"
+        ).value = 100;
 
-}
+        document.getElementById(
+            "target"
+        ).value = "";
+
+
+        // =========================
+        // LOAD LẠI SỐ DƯ
+        // =========================
+
+        await loadProfile();
+
+        await loadOrders();
+
+
+    } catch (err) {
+
+        console.error(
+            "UNEXPECTED ERROR:",
+            err
+        );
+
+        alert(
+            "LỖI:\n\n" +
+            (
+                err instanceof Error
+                    ? err.message
+                    : String(err)
+            )
+        );
+
+    } finally {
+
+        if (button) {
+
+            button.disabled = false;
+
+            button.textContent =
+                "Xác nhận đặt hàng";
+        }
+
+    }
 
 }
 
