@@ -4,8 +4,10 @@
 
 <meta charset="UTF-8">
 
-<meta name="viewport"
-content="width=device-width,initial-scale=1">
+<meta
+    name="viewport"
+    content="width=device-width,initial-scale=1"
+>
 
 <title>ADD FR</title>
 
@@ -14,306 +16,556 @@ content="width=device-width,initial-scale=1">
 <style>
 
 *{
-box-sizing:border-box;
-margin:0;
-padding:0;
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
 }
 
 body{
-background:#08090d;
-color:#fff;
-font-family:Arial,sans-serif;
+    background:#08090d;
+    color:#fff;
+    font-family:Arial,Helvetica,sans-serif;
 }
 
-button,input{
-font-family:inherit;
+button,
+input{
+    font-family:inherit;
 }
 
 button{
-cursor:pointer;
+    cursor:pointer;
 }
 
+button:disabled{
+    cursor:not-allowed;
+}
+
+
+/* =========================
+   NAV
+========================= */
+
 .nav{
-max-width:1100px;
-margin:auto;
-padding:20px;
-display:flex;
-justify-content:space-between;
-align-items:center;
+    max-width:1100px;
+    margin:auto;
+    padding:20px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:15px;
 }
 
 .logo{
-font-size:22px;
-font-weight:900;
-letter-spacing:2px;
+    font-size:22px;
+    font-weight:900;
+    letter-spacing:2px;
 }
 
 .logo span{
-color:#9276ff;
+    color:#9276ff;
 }
 
 .account{
-display:flex;
-align-items:center;
-gap:10px;
+    display:flex;
+    align-items:center;
+    gap:10px;
 }
 
 .balance{
-padding:10px 14px;
-border:1px solid #292d38;
-border-radius:12px;
-background:#111319;
-color:#a894ff;
-font-weight:bold;
+    padding:10px 14px;
+    border:1px solid #292d38;
+    border-radius:12px;
+    background:#111319;
+    color:#a894ff;
+    font-weight:bold;
 }
 
 .btn{
-border:0;
-border-radius:11px;
-padding:12px 17px;
-font-weight:bold;
-color:white;
-background:linear-gradient(135deg,#a087ff,#644cff);
+    border:0;
+    border-radius:11px;
+    padding:12px 17px;
+    font-weight:bold;
+    color:#fff;
+    background:linear-gradient(
+        135deg,
+        #a087ff,
+        #644cff
+    );
+    transition:.2s;
+}
+
+.btn:hover{
+    transform:translateY(-1px);
+}
+
+.btn:disabled{
+    opacity:.5;
+    transform:none;
 }
 
 .btn.dark{
-background:#111319;
-border:1px solid #292d38;
+    background:#111319;
+    border:1px solid #292d38;
 }
 
+
+/* =========================
+   CONTAINER
+========================= */
+
 .container{
-max-width:1100px;
-margin:auto;
-padding:30px 20px 80px;
+    max-width:1100px;
+    margin:auto;
+    padding:30px 20px 80px;
 }
 
 .hero{
-padding:45px 0;
+    padding:45px 0;
 }
 
 .badge{
-color:#9276ff;
-font-size:11px;
-font-weight:bold;
-letter-spacing:3px;
-margin-bottom:15px;
+    color:#9276ff;
+    font-size:11px;
+    font-weight:bold;
+    letter-spacing:3px;
+    margin-bottom:15px;
 }
 
 h1{
-font-size:60px;
-line-height:1;
+    font-size:60px;
+    line-height:1;
+    letter-spacing:-2px;
 }
 
 .hero p{
-margin-top:20px;
-color:#8d94a3;
-line-height:1.7;
+    margin-top:20px;
+    color:#8d94a3;
+    line-height:1.7;
 }
 
+
+/* =========================
+   CARDS
+========================= */
+
 .cards{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:15px;
-margin-top:35px;
+    display:grid;
+    grid-template-columns:
+        repeat(3,1fr);
+    gap:15px;
+    margin-top:35px;
 }
 
 .card{
-padding:22px;
-border:1px solid #292d38;
-border-radius:20px;
-background:#111319;
+    padding:22px;
+    border:1px solid #292d38;
+    border-radius:20px;
+    background:#111319;
 }
 
 .card h3{
-margin-bottom:8px;
+    margin-bottom:8px;
 }
 
 .card p{
-color:#777e8c;
-font-size:13px;
-line-height:1.6;
+    color:#777e8c;
+    font-size:13px;
+    line-height:1.6;
 }
 
+
+/* =========================
+   SECTION
+========================= */
+
 .section{
-margin-top:60px;
+    margin-top:60px;
 }
 
 .section h2{
-margin-bottom:20px;
+    margin-bottom:20px;
 }
 
+
+/* =========================
+   SERVICE
+========================= */
+
 .service{
-display:flex;
-align-items:center;
-gap:18px;
-padding:20px;
-border:1px solid #292d38;
-border-radius:18px;
-background:#111319;
+    display:flex;
+    align-items:center;
+    gap:18px;
+    padding:20px;
+    border:1px solid #292d38;
+    border-radius:18px;
+    background:#111319;
 }
 
 .service-info{
-flex:1;
+    flex:1;
 }
 
 .service-info p{
-margin-top:6px;
-color:#777e8c;
-font-size:13px;
+    margin-top:6px;
+    color:#777e8c;
+    font-size:13px;
 }
 
 .price{
-font-weight:bold;
-margin-bottom:8px;
+    font-weight:bold;
+    margin-bottom:8px;
 }
 
+
+/* =========================
+   ORDERS
+========================= */
+
 .order{
-padding:20px;
-margin-bottom:12px;
-border:1px solid #292d38;
-border-radius:17px;
-background:#111319;
+    padding:20px;
+    margin-bottom:12px;
+    border:1px solid #292d38;
+    border-radius:17px;
+    background:#111319;
 }
 
 .order-head{
-display:flex;
-justify-content:space-between;
-gap:15px;
+    display:flex;
+    justify-content:space-between;
+    gap:15px;
 }
 
 .order-code{
-font-weight:bold;
+    font-weight:bold;
+}
+
+.order-date{
+    margin-top:5px;
+    color:#656c79;
+    font-size:11px;
 }
 
 .status{
-padding:6px 10px;
-border-radius:30px;
-background:#29233f;
-color:#b9aaff;
-font-size:11px;
-height:max-content;
+    padding:6px 10px;
+    border-radius:30px;
+    background:#29233f;
+    color:#b9aaff;
+    font-size:11px;
+    height:max-content;
+    white-space:nowrap;
+}
+
+.status.completed{
+    background:#173324;
+    color:#5fe398;
+}
+
+.status.cancelled{
+    background:#361d22;
+    color:#ff7481;
 }
 
 .order-info{
-margin-top:12px;
-color:#858c99;
-font-size:12px;
-line-height:1.8;
-word-break:break-word;
-}
-
-.modal{
-position:fixed;
-inset:0;
-z-index:100;
-display:none;
-align-items:center;
-justify-content:center;
-padding:20px;
-background:rgba(0,0,0,.8);
-}
-
-.modal.show{
-display:flex;
-}
-
-.box{
-width:min(480px,100%);
-padding:25px;
-border:1px solid #30343e;
-border-radius:22px;
-background:#111319;
-}
-
-.box h2{
-margin-bottom:8px;
-}
-
-.sub{
-color:#777e8c;
-font-size:13px;
-margin-bottom:20px;
-}
-
-label{
-display:block;
-margin-top:14px;
-font-size:12px;
-color:#9299a7;
-}
-
-input{
-width:100%;
-padding:13px;
-margin-top:7px;
-border:1px solid #292d38;
-border-radius:10px;
-background:#090a0e;
-color:#fff;
-outline:none;
-}
-
-input:focus{
-border-color:#9178ff;
-}
-
-.full{
-width:100%;
-margin-top:18px;
-}
-
-.close{
-float:right;
-border:0;
-background:none;
-color:#aaa;
-font-size:25px;
+    margin-top:12px;
+    color:#858c99;
+    font-size:12px;
+    line-height:1.8;
+    word-break:break-word;
 }
 
 .empty{
-padding:30px;
-text-align:center;
-border:1px dashed #292d38;
-border-radius:15px;
-color:#6d7481;
+    padding:30px;
+    text-align:center;
+    border:1px dashed #292d38;
+    border-radius:15px;
+    color:#6d7481;
 }
 
+
+/* =========================
+   MODAL
+========================= */
+
+.modal{
+    position:fixed;
+    inset:0;
+    z-index:100;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    background:rgba(0,0,0,.8);
+    backdrop-filter:blur(8px);
+}
+
+.modal.show{
+    display:flex;
+}
+
+.box{
+    width:min(480px,100%);
+    max-height:90vh;
+    overflow:auto;
+    padding:25px;
+    border:1px solid #30343e;
+    border-radius:22px;
+    background:#111319;
+    box-shadow:
+        0 25px 80px rgba(0,0,0,.5);
+}
+
+.box h2{
+    margin-bottom:8px;
+}
+
+.sub{
+    color:#777e8c;
+    font-size:13px;
+    margin-bottom:20px;
+}
+
+.close{
+    float:right;
+    border:0;
+    background:none;
+    color:#aaa;
+    font-size:25px;
+    line-height:1;
+}
+
+.close:hover{
+    color:#fff;
+}
+
+
+/* =========================
+   FORM
+========================= */
+
+label{
+    display:block;
+    margin-top:14px;
+    font-size:12px;
+    color:#9299a7;
+}
+
+input{
+    width:100%;
+    padding:13px;
+    margin-top:7px;
+    border:1px solid #292d38;
+    border-radius:10px;
+    background:#090a0e;
+    color:#fff;
+    outline:none;
+}
+
+input:focus{
+    border-color:#9178ff;
+}
+
+input::placeholder{
+    color:#555c69;
+}
+
+.full{
+    width:100%;
+    margin-top:18px;
+}
+
+
+/* =========================
+   BALANCE BOX
+========================= */
+
+.balance-box{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin:18px 0 5px;
+    padding:15px;
+    border:1px solid #292d38;
+    border-radius:14px;
+    background:#181a22;
+}
+
+.balance-label{
+    color:#858c99;
+    font-size:11px;
+}
+
+.balance-value{
+    display:block;
+    margin-top:5px;
+    color:#a894ff;
+    font-size:20px;
+    font-weight:900;
+}
+
+.balance-icon{
+    width:42px;
+    height:42px;
+    display:grid;
+    place-items:center;
+    border-radius:12px;
+    background:#29233f;
+    color:#a894ff;
+    font-size:20px;
+}
+
+
+/* =========================
+   ORDER SUMMARY
+========================= */
+
+.order-summary{
+    margin-top:18px;
+    border:1px solid #292d38;
+    border-radius:14px;
+    overflow:hidden;
+}
+
+.summary-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:12px 14px;
+    background:#101218;
+    border-bottom:1px solid #292d38;
+    gap:15px;
+}
+
+.summary-row:last-child{
+    border-bottom:0;
+}
+
+.summary-row span{
+    color:#858c99;
+    font-size:12px;
+}
+
+.summary-row strong{
+    font-size:13px;
+    text-align:right;
+}
+
+.summary-total{
+    background:#181a22;
+}
+
+.summary-total strong{
+    color:#a894ff;
+    font-size:18px;
+}
+
+.remaining-row strong{
+    color:#5fe398;
+}
+
+.remaining-row strong.not-enough{
+    color:#ff6677;
+}
+
+
+/* =========================
+   WARNING
+========================= */
+
+.balance-warning{
+    display:none;
+    margin-top:10px;
+    padding:10px 12px;
+    border-radius:10px;
+    background:#321c21;
+    color:#ff7b88;
+    font-size:11px;
+}
+
+.balance-warning.show{
+    display:block;
+}
+
+.form-hint{
+    margin-top:5px;
+    color:#626a79;
+    font-size:10px;
+}
+
+
+/* =========================
+   TOAST
+========================= */
+
 #toast{
-position:fixed;
-left:50%;
-bottom:20px;
-z-index:1000;
-padding:13px 18px;
-border-radius:12px;
-background:#191c24;
-border:1px solid #303542;
-transform:translate(-50%,20px);
-opacity:0;
-transition:.25s;
+    position:fixed;
+    left:50%;
+    bottom:20px;
+    z-index:1000;
+    max-width:calc(100% - 30px);
+    padding:13px 18px;
+    border-radius:12px;
+    background:#191c24;
+    border:1px solid #303542;
+    transform:translate(-50%,20px);
+    opacity:0;
+    transition:.25s;
+    text-align:center;
 }
 
 #toast.show{
-opacity:1;
-transform:translate(-50%,0);
+    opacity:1;
+    transform:translate(-50%,0);
 }
+
+
+/* =========================
+   RESPONSIVE
+========================= */
 
 @media(max-width:700px){
 
-h1{
-font-size:43px;
-}
+    .nav{
+        padding:15px;
+    }
 
-.cards{
-grid-template-columns:1fr;
-}
+    .logo{
+        font-size:18px;
+    }
 
-.account{
-gap:5px;
-}
+    .account{
+        gap:5px;
+    }
 
-.balance{
-font-size:12px;
-}
+    .balance{
+        font-size:11px;
+        padding:9px 10px;
+    }
+
+    .btn.dark{
+        padding:10px;
+        font-size:11px;
+    }
+
+    .container{
+        padding:
+            20px 15px 60px;
+    }
+
+    h1{
+        font-size:43px;
+    }
+
+    .cards{
+        grid-template-columns:1fr;
+    }
+
+    .service{
+        align-items:flex-start;
+    }
+
+    .service > div:last-child{
+        text-align:right;
+    }
 
 }
 
@@ -321,654 +573,1385 @@ font-size:12px;
 
 </head>
 
+
 <body>
+
+
+<!-- =========================
+     NAV
+========================= -->
 
 <header class="nav">
 
-<div class="logo">
-<span>ADD</span> FR
-</div>
+    <div class="logo">
+        <span>ADD</span> FR
+    </div>
 
-<div class="account">
 
-<div class="balance">
-💰 <span id="balance">0đ</span>
-</div>
+    <div class="account">
 
-<button
-class="btn dark"
-onclick="logout()">
-Đăng xuất
-</button>
+        <div class="balance">
+            💰
+            <span id="balance">
+                0đ
+            </span>
+        </div>
 
-</div>
+
+        <button
+            class="btn dark"
+            onclick="logout()">
+
+            Đăng xuất
+
+        </button>
+
+    </div>
 
 </header>
 
 
+
+<!-- =========================
+     MAIN
+========================= -->
+
 <main class="container">
 
-<section class="hero">
 
-<div class="badge">
-DỊCH VỤ ONLINE
-</div>
+    <!-- HERO -->
 
-<h1>
-Mua Add Fr
-<br>
-<span style="color:#858b9b">
-nhanh & chuyên nghiệp.
-</span>
-</h1>
+    <section class="hero">
 
-<p>
-Xin chào
-<strong id="username">...</strong>.
-<br>
-Đặt dịch vụ, nạp tiền và theo dõi đơn hàng.
-</p>
-
-<br>
-
-<button
-class="btn"
-onclick="openDeposit()">
-＋ Nạp tiền
-</button>
-
-</section>
+        <div class="badge">
+            DỊCH VỤ ONLINE
+        </div>
 
 
-<div class="cards">
+        <h1>
+            Mua Add Fr
+            <br>
 
-<div class="card">
+            <span style="color:#858b9b">
+                nhanh & chuyên nghiệp.
+            </span>
 
-<h3>⚡ Xử lý nhanh</h3>
-
-<p>
-Đơn hàng được tiếp nhận và xử lý
-theo từng trạng thái.
-</p>
-
-</div>
-
-<div class="card">
-
-<h3>🔒 Theo dõi đơn</h3>
-
-<p>
-Xem lịch sử và trạng thái đơn
-trực tiếp trên tài khoản.
-</p>
-
-</div>
-
-<div class="card">
-
-<h3>🤖 An Toàn - Bảo Mật</h3>
-
-<p>
-Sử Dụng Công Cụ Ổn Định, Không Ban Tài Khoản Khi Sử Dụng Add BB.
-</p>
-
-</div>
-
-</div>
+        </h1>
 
 
-<section class="section">
+        <p>
 
-<div class="badge">
-SẢN PHẨM
-</div>
+            Xin chào
+            <strong id="username">
+                ...
+            </strong>.
 
-<h2>
-Dịch vụ nổi bật
-</h2>
+            <br>
 
-<div class="service">
+            Đặt dịch vụ, nạp tiền
+            và theo dõi đơn hàng.
 
-<div class="service-info">
-
-<h3>
-＋ Mua Add Fr
-</h3>
-
-<p>
-Giá 5.000đ / 100 Add Fr
-</p>
-
-</div>
-
-<div>
-
-<div class="price">
-5.000đ / 100
-</div>
-
-<button
-class="btn"
-onclick="openOrder()">
-Đặt đơn
-</button>
-
-</div>
-
-</div>
-
-</section>
+        </p>
 
 
-<section class="section">
+        <br>
 
-<div class="badge">
-ORDER TRACKING
-</div>
 
-<h2>
-Lịch sử đơn hàng
-</h2>
+        <button
+            class="btn"
+            onclick="openDeposit()">
 
-<div id="orders">
-<div class="empty">
-Đang tải...
-</div>
-</div>
+            ＋ Nạp tiền
 
-</section>
+        </button>
+
+    </section>
+
+
+
+    <!-- INFO CARDS -->
+
+    <div class="cards">
+
+
+        <div class="card">
+
+            <h3>
+                ⚡ Xử lý nhanh
+            </h3>
+
+            <p>
+                Đơn hàng được tiếp nhận
+                và xử lý theo từng trạng thái.
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>
+                🔒 Theo dõi đơn
+            </h3>
+
+            <p>
+                Xem lịch sử và trạng thái
+                đơn trực tiếp trên tài khoản.
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>
+                🤖 An Toàn - Bảo Mật
+            </h3>
+
+            <p>
+                Sử dụng công cụ ổn định,
+                hạn chế rủi ro khi sử dụng dịch vụ.
+            </p>
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- SERVICE -->
+
+    <section class="section">
+
+        <div class="badge">
+            SẢN PHẨM
+        </div>
+
+
+        <h2>
+            Dịch vụ nổi bật
+        </h2>
+
+
+        <div class="service">
+
+            <div class="service-info">
+
+                <h3>
+                    ＋ Mua Add Fr
+                </h3>
+
+                <p>
+                    Giá 5.000đ / 100 Add Fr
+                </p>
+
+            </div>
+
+
+            <div>
+
+                <div class="price">
+                    5.000đ / 100
+                </div>
+
+
+                <button
+                    class="btn"
+                    onclick="openOrder()">
+
+                    Đặt đơn
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- HISTORY -->
+
+    <section class="section">
+
+        <div class="badge">
+            ORDER TRACKING
+        </div>
+
+
+        <h2>
+            Lịch sử đơn hàng
+        </h2>
+
+
+        <div id="orders">
+
+            <div class="empty">
+                Đang tải...
+            </div>
+
+        </div>
+
+    </section>
+
 
 </main>
 
 
-<!-- ORDER -->
+
+<!-- =========================
+     ORDER MODAL
+========================= -->
 
 <div
-class="modal"
-id="orderModal">
+    class="modal"
+    id="orderModal">
 
-<div class="box">
+    <div class="box">
 
-<button
-class="close"
-onclick="closeModal('orderModal')">
-×
-</button>
 
-<h2>
-Đặt Add Fr
-</h2>
+        <button
+            class="close"
+            onclick="closeModal('orderModal')">
 
-<div class="sub">
-Số tiền sẽ được trừ trực tiếp từ số dư.
+            ×
+
+        </button>
+
+
+        <h2>
+            Đặt Add Fr
+        </h2>
+
+
+        <div class="sub">
+            Số tiền sẽ được trừ trực tiếp
+            từ số dư.
+        </div>
+
+
+        <!-- CURRENT BALANCE -->
+
+        <div class="balance-box">
+
+            <div>
+
+                <div class="balance-label">
+                    Số dư hiện tại
+                </div>
+
+
+                <strong
+                    class="balance-value"
+                    id="orderBalance">
+
+                    0đ
+
+                </strong>
+
+            </div>
+
+
+            <div class="balance-icon">
+                ₫
+            </div>
+
+        </div>
+
+
+
+        <!-- QUANTITY -->
+
+        <label>
+
+            Số lượng
+
+            <input
+                id="quantity"
+                type="number"
+                min="100"
+                step="100"
+                value="100"
+                oninput="updateOrderTotal()"
+            >
+
+        </label>
+
+
+        <div class="form-hint">
+            Tối thiểu 100 Add Fr,
+            số lượng phải chia hết cho 100.
+        </div>
+
+
+
+        <!-- FACEBOOK URL -->
+
+        <label>
+
+            Facebook URL
+
+            <input
+                id="target"
+                type="url"
+                placeholder="https://facebook.com/..."
+            >
+
+        </label>
+
+
+        <div class="form-hint">
+            Chỉ chấp nhận link Facebook.
+        </div>
+
+
+
+        <!-- SUMMARY -->
+
+        <div class="order-summary">
+
+
+            <div class="summary-row">
+
+                <span>
+                    Đơn giá
+                </span>
+
+                <strong>
+                    5.000đ / 100
+                </strong>
+
+            </div>
+
+
+            <div class="summary-row">
+
+                <span>
+                    Số lượng
+                </span>
+
+                <strong id="summaryQuantity">
+                    100
+                </strong>
+
+            </div>
+
+
+            <div
+                class="summary-row summary-total">
+
+                <span>
+                    Tổng tiền
+                </span>
+
+                <strong id="orderTotal">
+                    5.000đ
+                </strong>
+
+            </div>
+
+
+            <div
+                class="summary-row remaining-row">
+
+                <span>
+                    Số dư sau khi đặt
+                </span>
+
+                <strong id="remainingBalance">
+                    0đ
+                </strong>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- WARNING -->
+
+        <div
+            id="balanceWarning"
+            class="balance-warning">
+
+            💰 Số dư không đủ
+            để tạo đơn này.
+
+        </div>
+
+
+
+        <!-- SUBMIT -->
+
+        <button
+            id="orderSubmitBtn"
+            class="btn full"
+            onclick="createOrder()">
+
+            Xác nhận đặt hàng
+
+        </button>
+
+
+    </div>
+
 </div>
 
-<label>
-Số lượng
-
-<input
-id="quantity"
-type="number"
-min="100"
-step="100"
-value="100">
-</label>
-
-<label>
-Facebook URL
-
-<input
-id="target"
-placeholder="https://facebook.com/...">
-</label>
-
-<button
-class="btn full"
-onclick="createOrder()">
-Xác nhận đặt hàng
-</button>
-
-</div>
-
-</div>
 
 
-<!-- DEPOSIT -->
+<!-- =========================
+     DEPOSIT MODAL
+========================= -->
 
 <div
-class="modal"
-id="depositModal">
+    class="modal"
+    id="depositModal">
 
-<div class="box">
+    <div class="box">
 
-<button
-class="close"
-onclick="closeModal('depositModal')">
-×
-</button>
 
-<h2>
-Nạp tiền
-</h2>
+        <button
+            class="close"
+            onclick="closeModal('depositModal')">
 
-<div class="sub">
-Nhập số tiền muốn nạp. Sau đó gửi thông tin thanh toán cho admin.
+            ×
+
+        </button>
+
+
+        <h2>
+            Nạp tiền
+        </h2>
+
+
+        <div class="sub">
+
+            Nhập số tiền muốn nạp.
+            Sau đó gửi yêu cầu cho admin
+            để được duyệt.
+
+        </div>
+
+
+        <label>
+
+            Số tiền
+
+            <input
+                id="depositAmount"
+                type="number"
+                min="5000"
+                step="1000"
+                placeholder="50000"
+            >
+
+        </label>
+
+
+        <label>
+
+            Ghi chú
+
+            <input
+                id="depositNote"
+                placeholder="VD: CK ngân hàng"
+            >
+
+        </label>
+
+
+        <button
+            id="depositBtn"
+            class="btn full"
+            onclick="createDeposit()">
+
+            Gửi yêu cầu nạp
+
+        </button>
+
+
+    </div>
+
 </div>
 
-<label>
-Số tiền
 
-<input
-id="depositAmount"
-type="number"
-min="5000"
-step="1000"
-placeholder="50000">
-</label>
 
-<label>
-Ghi chú
-
-<input
-id="depositNote"
-placeholder="VD: CK ngân hàng">
-</label>
-
-<button
-class="btn full"
-onclick="createDeposit()">
-Gửi yêu cầu nạp
-</button>
-
-</div>
-
-</div>
-
+<!-- TOAST -->
 
 <div id="toast"></div>
 
 
+
 <script>
 
+
+/* =================================================
+   SUPABASE
+================================================= */
+
 const SUPABASE_URL =
-"https://nslmutblflfotcxvctpp.supabase.co";
+    "https://nslmutblflfotcxvctpp.supabase.co";
+
 
 const SUPABASE_KEY =
-"sb_publishable_kESQyw5xcjTe1irApsuRGQ_4X1GR0Xr";
+    "sb_publishable_kESQyw5xcjTe1irApsuRGQ_4X1GR0Xr";
+
 
 const TELEGRAM_FUNCTION =
-SUPABASE_URL +
-"/functions/v1/notify-telegram";
+    SUPABASE_URL +
+    "/functions/v1/notify-telegram";
+
 
 const sb =
-supabase.createClient(
-SUPABASE_URL,
-SUPABASE_KEY
-);
+    supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+    );
 
+
+
+/* =================================================
+   CONFIG
+================================================= */
+
+const PRICE_PER_100 = 5000;
+
+
+/*
+    Số dư hiện tại của user.
+*/
+
+window.currentBalance = 0;
+
+
+
+/* =================================================
+   MONEY
+================================================= */
 
 function money(n){
 
-return Number(n)
-.toLocaleString("vi-VN")+"đ";
+    return Number(n || 0)
+        .toLocaleString("vi-VN")
+        + "đ";
 
 }
 
+
+
+/* =================================================
+   TOAST
+================================================= */
 
 function toast(text){
 
-const el =
-document.getElementById("toast");
+    const el =
+        document.getElementById("toast");
 
-el.textContent=text;
+    el.textContent = text;
 
-el.classList.add("show");
+    el.classList.add("show");
 
-clearTimeout(window.toastTimer);
+    clearTimeout(
+        window.toastTimer
+    );
 
-window.toastTimer=setTimeout(()=>{
-el.classList.remove("show");
-},3000);
+    window.toastTimer =
+        setTimeout(function(){
+
+            el.classList.remove("show");
+
+        },3000);
 
 }
 
+
+
+/* =================================================
+   MODAL
+================================================= */
 
 function closeModal(id){
 
-document
-.getElementById(id)
-.classList.remove("show");
+    document
+        .getElementById(id)
+        .classList.remove("show");
 
 }
 
 
-function openOrder(){
 
-document
-.getElementById("orderModal")
-.classList.add("show");
+async function openOrder(){
+
+    document
+        .getElementById("orderModal")
+        .classList.add("show");
+
+
+    /*
+        Lấy số dư mới nhất trước
+        khi mở modal.
+    */
+
+    await loadProfile();
+
+
+    document
+        .getElementById("quantity")
+        .value = 100;
+
+
+    updateOrderTotal();
 
 }
+
 
 
 function openDeposit(){
 
-document
-.getElementById("depositModal")
-.classList.add("show");
+    document
+        .getElementById("depositModal")
+        .classList.add("show");
 
 }
 
+
+
+/* =================================================
+   ORDER PRICE
+================================================= */
+
+function updateOrderTotal(){
+
+    const quantityInput =
+        document.getElementById(
+            "quantity"
+        );
+
+
+    let quantity =
+        Number(quantityInput.value);
+
+
+    if(
+        !Number.isInteger(quantity) ||
+        quantity < 100
+    ){
+
+        quantity = 100;
+
+    }
+
+
+    const total =
+        Math.ceil(
+            quantity / 100
+        ) * PRICE_PER_100;
+
+
+    const balance =
+        Number(
+            window.currentBalance || 0
+        );
+
+
+    const remaining =
+        balance - total;
+
+
+
+    /*
+        Số lượng
+    */
+
+    document
+        .getElementById(
+            "summaryQuantity"
+        )
+        .textContent =
+            quantity.toLocaleString(
+                "vi-VN"
+            );
+
+
+
+    /*
+        Tổng tiền
+    */
+
+    document
+        .getElementById(
+            "orderTotal"
+        )
+        .textContent =
+            money(total);
+
+
+
+    /*
+        Số dư sau khi đặt
+    */
+
+    const remainingElement =
+        document.getElementById(
+            "remainingBalance"
+        );
+
+
+    remainingElement.textContent =
+        money(
+            Math.max(
+                remaining,
+                0
+            )
+        );
+
+
+
+    /*
+        Warning
+    */
+
+    const warning =
+        document.getElementById(
+            "balanceWarning"
+        );
+
+
+    const button =
+        document.getElementById(
+            "orderSubmitBtn"
+        );
+
+
+    if(remaining < 0){
+
+        remainingElement
+            .classList.add(
+                "not-enough"
+            );
+
+        warning.classList.add(
+            "show"
+        );
+
+        button.disabled = true;
+
+    }else{
+
+        remainingElement
+            .classList.remove(
+                "not-enough"
+            );
+
+        warning.classList.remove(
+            "show"
+        );
+
+        button.disabled = false;
+
+    }
+
+}
+
+
+
+/* =================================================
+   TELEGRAM
+================================================= */
 
 async function sendTelegram(message){
 
-try{
+    try{
 
-await fetch(
-TELEGRAM_FUNCTION,
-{
-method:"POST",
-headers:{
-"Content-Type":
-"application/json"
-},
-body:JSON.stringify({
-message
-})
+        const response =
+            await fetch(
+                TELEGRAM_FUNCTION,
+                {
+                    method:"POST",
+
+                    headers:{
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body:JSON.stringify({
+                        message:message
+                    })
+                }
+            );
+
+
+        const result =
+            await response.json();
+
+
+        if(!result.ok){
+
+            console.error(
+                "Telegram:",
+                result
+            );
+
+        }
+
+
+        return result;
+
+
+    }catch(e){
+
+        console.error(
+            "Telegram error:",
+            e
+        );
+
+        return null;
+
+    }
+
 }
-);
 
-}catch(e){
 
-console.error(e);
 
-}
-
-}
-
+/* =================================================
+   LOAD PROFILE
+================================================= */
 
 async function loadProfile(){
 
-const {
-data:{
-user
+    const {
+        data:{
+            user
+        }
+    } =
+        await sb.auth.getUser();
+
+
+    if(!user){
+
+        location.href =
+            "login.html";
+
+        return null;
+
+    }
+
+
+
+    const {
+        data:profile,
+        error
+    } =
+        await sb
+            .from("profiles")
+            .select(
+                "username,balance"
+            )
+            .eq(
+                "id",
+                user.id
+            )
+            .single();
+
+
+
+    if(error){
+
+        console.error(
+            "PROFILE ERROR:",
+            error
+        );
+
+        toast(
+            "Không tải được tài khoản."
+        );
+
+        return null;
+
+    }
+
+
+
+    /*
+        Lưu số dư global.
+    */
+
+    window.currentBalance =
+        Number(
+            profile.balance || 0
+        );
+
+
+
+    /*
+        Username.
+    */
+
+    document
+        .getElementById(
+            "username"
+        )
+        .textContent =
+            profile.username ||
+            "User";
+
+
+
+    /*
+        Header balance.
+    */
+
+    document
+        .getElementById(
+            "balance"
+        )
+        .textContent =
+            money(
+                window.currentBalance
+            );
+
+
+
+    /*
+        Modal balance.
+    */
+
+    const modalBalance =
+        document.getElementById(
+            "orderBalance"
+        );
+
+
+    if(modalBalance){
+
+        modalBalance.textContent =
+            money(
+                window.currentBalance
+            );
+
+    }
+
+
+
+    return {
+        user:user,
+        profile:profile
+    };
+
 }
-} = await sb.auth.getUser();
-
-if(!user){
-
-location.href="login.html";
-
-return null;
-
-}
 
 
-const {
-data:profile,
-error
-} = await sb
-.from("profiles")
-.select("username,balance")
-.eq("id",user.id)
-.single();
 
-
-if(error){
-
-console.error(error);
-
-toast("Không tải được tài khoản.");
-
-return null;
-
-}
-
-
-document
-.getElementById("username")
-.textContent =
-profile.username || "User";
-
-
-document
-.getElementById("balance")
-.textContent =
-money(profile.balance);
-
-
-return {
-user,
-profile
-};
-
-}
-
+/* =================================================
+   LOAD ORDERS
+================================================= */
 
 async function loadOrders(){
 
-const {
-data,
-error
-} = await sb
-.from("orders")
-.select("*")
-.order("created_at",{
-ascending:false
-});
+    const {
+        data:{
+            user
+        }
+    } =
+        await sb.auth.getUser();
 
 
-const box =
-document.getElementById("orders");
+    if(!user){
+
+        return;
+
+    }
 
 
-if(error){
 
-box.innerHTML =
-`<div class="empty">
-Không tải được lịch sử đơn.
-</div>`;
+    /*
+        Chỉ lấy đơn của user
+        đang đăng nhập.
+    */
 
-return;
+    const {
+        data,
+        error
+    } =
+        await sb
+            .from("orders")
+            .select("*")
+            .eq(
+                "user_id",
+                user.id
+            )
+            .order(
+                "created_at",
+                {
+                    ascending:false
+                }
+            );
+
+
+
+    const box =
+        document.getElementById(
+            "orders"
+        );
+
+
+
+    if(error){
+
+        console.error(
+            "ORDERS ERROR:",
+            error
+        );
+
+
+        box.innerHTML = `
+            <div class="empty">
+                Không tải được lịch sử đơn.
+            </div>
+        `;
+
+        return;
+
+    }
+
+
+
+    if(
+        !data ||
+        !data.length
+    ){
+
+        box.innerHTML = `
+            <div class="empty">
+                Chưa có đơn hàng.
+            </div>
+        `;
+
+        return;
+
+    }
+
+
+
+    box.innerHTML =
+        data.map(function(o){
+
+            let status =
+                "🟡 Đang xử lý";
+
+            let statusClass =
+                "";
+
+
+            if(
+                o.status ===
+                "completed"
+            ){
+
+                status =
+                    "🟢 Hoàn thành";
+
+                statusClass =
+                    "completed";
+
+            }
+
+
+            if(
+                o.status ===
+                "cancelled"
+            ){
+
+                status =
+                    "🔴 Đã hủy";
+
+                statusClass =
+                    "cancelled";
+
+            }
+
+
+
+            return `
+
+                <div class="order">
+
+                    <div class="order-head">
+
+                        <div>
+
+                            <div class="order-code">
+                                ${escapeHtml(
+                                    o.order_code
+                                )}
+                            </div>
+
+                            <div
+                                class="order-date">
+
+                                ${o.created_at
+                                    ? new Date(
+                                        o.created_at
+                                      ).toLocaleString(
+                                        "vi-VN"
+                                      )
+                                    : ""
+                                }
+
+                            </div>
+
+                        </div>
+
+
+                        <div
+                            class="status ${statusClass}">
+
+                            ${status}
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="order-info">
+
+                        📦
+                        ${Number(
+                            o.quantity || 0
+                        ).toLocaleString(
+                            "vi-VN"
+                        )}
+                        Add Fr
+
+                        <br>
+
+                        💰
+                        ${money(o.total)}
+
+                        <br>
+
+                        🔗
+                        ${escapeHtml(
+                            o.target
+                        )}
+
+                    </div>
+
+                </div>
+
+            `;
+
+        }).join("");
 
 }
 
 
-if(!data || !data.length){
 
-box.innerHTML =
-`<div class="empty">
-Chưa có đơn hàng.
-</div>`;
-
-return;
-
-}
-
-
-box.innerHTML =
-data.map(o=>{
-
-let status =
-"🟡 Đang xử lý";
-
-if(o.status==="completed")
-status="🟢 Hoàn thành";
-
-if(o.status==="cancelled")
-status="🔴 Đã hủy";
-
-
-return `
-
-<div class="order">
-
-<div class="order-head">
-
-<div>
-
-<div class="order-code">
-${escapeHtml(o.order_code)}
-</div>
-
-<div style="color:#656c79;font-size:11px;margin-top:5px">
-${new Date(o.created_at).toLocaleString("vi-VN")}
-</div>
-
-</div>
-
-<div class="status">
-${status}
-</div>
-
-</div>
-
-<div class="order-info">
-
-📦 ${o.quantity} Add Fr
-
-<br>
-
-💰 ${money(o.total)}
-
-<br>
-
-🔗 ${escapeHtml(o.target)}
-
-</div>
-
-</div>
-
-`;
-
-}).join("");
-
-}
-
+/* =================================================
+   ESCAPE HTML
+================================================= */
 
 function escapeHtml(value){
 
-return String(value)
-.replace(/&/g,"&amp;")
-.replace(/</g,"&lt;")
-.replace(/>/g,"&gt;")
-.replace(/"/g,"&quot;")
-.replace(/'/g,"&#039;");
+    return String(
+        value ?? ""
+    )
+    .replace(
+        /&/g,
+        "&amp;"
+    )
+    .replace(
+        /</g,
+        "&lt;"
+    )
+    .replace(
+        />/g,
+        "&gt;"
+    )
+    .replace(
+        /"/g,
+        "&quot;"
+    )
+    .replace(
+        /'/g,
+        "&#039;"
+    );
 
 }
 
 
-async function createOrder() {
 
-    const quantity = Number(
-        document.getElementById("quantity").value
-    );
+/* =================================================
+   CREATE ORDER
+================================================= */
 
-    const target = document
-        .getElementById("target")
-        .value
-        .trim();
+async function createOrder(){
 
-    const button = document.querySelector(
-        '#orderModal button.btn.full'
-    );
+    const quantity =
+        Number(
+            document.getElementById(
+                "quantity"
+            ).value
+        );
 
-    // =========================
-    // KIỂM TRA SỐ LƯỢNG
-    // =========================
 
-    if (!Number.isInteger(quantity) || quantity < 100) {
+    const target =
+        document
+            .getElementById(
+                "target"
+            )
+            .value
+            .trim();
 
-        toast("Số lượng tối thiểu là 100.");
+
+    const button =
+        document.getElementById(
+            "orderSubmitBtn"
+        );
+
+
+
+    /*
+        Quantity
+    */
+
+    if(
+        !Number.isInteger(
+            quantity
+        ) ||
+        quantity < 100
+    ){
+
+        toast(
+            "Số lượng tối thiểu là 100."
+        );
 
         return;
+
     }
 
-    if (quantity % 100 !== 0) {
 
-        toast("Số lượng phải chia hết cho 100.");
+
+    if(
+        quantity % 100 !== 0
+    ){
+
+        toast(
+            "Số lượng phải chia hết cho 100."
+        );
 
         return;
+
     }
 
 
-    // =========================
-    // KIỂM TRA FACEBOOK
-    // =========================
+
+    /*
+        Facebook URL
+    */
 
     const facebookRegex =
         /^https?:\/\/(www\.)?facebook\.com\/.+/i;
 
-    if (!facebookRegex.test(target)) {
+
+    if(
+        !facebookRegex.test(
+            target
+        )
+    ){
 
         toast(
             "Link phải có dạng https://facebook.com/..."
         );
 
         return;
+
     }
 
 
-    // =========================
-    // LOADING
-    // =========================
 
-    if (button) {
+    /*
+        Tính tiền trước.
+    */
 
-        button.disabled = true;
+    const total =
+        Math.ceil(
+            quantity / 100
+        ) * PRICE_PER_100;
 
-        button.textContent =
-            "⏳ Đang tạo đơn...";
+
+
+    /*
+        Kiểm tra số dư local
+        trước khi gọi RPC.
+    */
+
+    if(
+        Number(
+            window.currentBalance || 0
+        ) < total
+    ){
+
+        toast(
+            "💰 Số dư không đủ."
+        );
+
+        updateOrderTotal();
+
+        return;
+
     }
 
 
-    try {
 
-        // =========================
-        // GỌI SUPABASE RPC
-        // =========================
+    /*
+        Loading
+    */
+
+    button.disabled = true;
+
+    button.textContent =
+        "⏳ Đang tạo đơn...";
+
+
+
+    try{
+
+
+        /*
+            Gọi RPC.
+        */
 
         const {
             data,
             error
-        } = await sb.rpc(
-            "create_order",
-            {
-                p_quantity: quantity,
-                p_target: target
-            }
-        );
+        } =
+            await sb.rpc(
+                "create_order",
+                {
+                    p_quantity:
+                        quantity,
+
+                    p_target:
+                        target
+                }
+            );
 
 
-        // =========================
-        // SUPABASE ERROR
-        // =========================
 
-        if (error) {
+        /*
+            Supabase error.
+        */
+
+        if(error){
 
             console.error(
                 "CREATE ORDER ERROR:",
                 error
-            );
-
-            console.error(
-                "message:",
-                error.message
-            );
-
-            console.error(
-                "details:",
-                error.details
-            );
-
-            console.error(
-                "hint:",
-                error.hint
-            );
-
-            console.error(
-                "code:",
-                error.code
             );
 
 
@@ -977,45 +1960,48 @@ async function createOrder() {
                 "Không tạo được đơn.";
 
 
-            // Các lỗi SQL mình đã tạo
-            if (
-                message.includes(
+            const upper =
+                message.toUpperCase();
+
+
+            if(
+                upper.includes(
                     "INSUFFICIENT_BALANCE"
                 )
-            ) {
+            ){
 
                 message =
                     "💰 Số dư không đủ.";
 
             }
 
-            else if (
-                message.includes(
+            else if(
+                upper.includes(
                     "FACEBOOK_LINK_REQUIRED"
                 )
-            ) {
+            ){
 
                 message =
                     "🔗 Link phải là Facebook.";
 
             }
 
-            else if (
-                message.includes(
+            else if(
+                upper.includes(
                     "NOT_AUTHENTICATED"
                 )
-            ) {
+            ){
 
                 message =
                     "🔐 Phiên đăng nhập đã hết hạn.";
 
             }
 
-            else if (
-                message.includes(
+            else if(
+                upper.includes(
                     "PROFILE_NOT_FOUND"
                 )
-            ) {
+            ){
 
                 message =
                     "👤 Không tìm thấy hồ sơ tài khoản.";
@@ -1025,19 +2011,15 @@ async function createOrder() {
 
             toast(message);
 
-            // Hiện lỗi chi tiết trong console
-            alert(
-                "LỖI SUPABASE:\n\n" +
-                message
-            );
-
             return;
+
         }
 
 
-        // =========================
-        // KIỂM TRA DATA
-        // =========================
+
+        /*
+            Kiểm tra RPC result.
+        */
 
         console.log(
             "CREATE ORDER RESULT:",
@@ -1045,10 +2027,13 @@ async function createOrder() {
         );
 
 
-        if (!data || !data.ok) {
+        if(
+            !data ||
+            !data.ok
+        ){
 
             toast(
-                "Supabase không trả về kết quả hợp lệ."
+                "Không tạo được đơn."
             );
 
             console.error(
@@ -1057,262 +2042,431 @@ async function createOrder() {
             );
 
             return;
+
         }
 
 
-        // =========================
-        // THÀNH CÔNG
-        // =========================
+
+        /*
+            Thành công.
+        */
 
         toast(
             "✅ Đặt hàng thành công!"
         );
 
 
-        // =========================
-        // GỬI TELEGRAM
-        // =========================
 
-        try {
+        /*
+            Gửi Telegram.
+        */
 
-            await sendTelegram(
+        await sendTelegram(
 
 `🛒 ĐƠN HÀNG ADD FR MỚI
 
 🆔 Mã đơn: ${data.order_code}
 
-📦 Số lượng: ${quantity} Add Fr
+👤 Username:
+${document.getElementById("username").textContent}
 
-💰 Tổng tiền: ${money(data.total)}
+📦 Số lượng:
+${quantity.toLocaleString("vi-VN")} Add Fr
+
+💰 Tổng tiền:
+${money(data.total)}
 
 🔗 Facebook:
 ${target}
 
-🟡 Trạng thái: Đang xử lý`
+💳 Số dư trước:
+${money(window.currentBalance)}
 
-            );
+💳 Số dư sau:
+${money(
+    Math.max(
+        Number(
+            window.currentBalance
+        ) - Number(data.total),
+        0
+    )
+)}
 
-        } catch (telegramError) {
+🟡 Trạng thái:
+Đang xử lý`
 
-            console.error(
-                "Telegram error:",
-                telegramError
-            );
-
-        }
-
-
-        // =========================
-        // ĐÓNG MODAL
-        // =========================
-
-        closeModal("orderModal");
+        );
 
 
-        // =========================
-        // RESET FORM
-        // =========================
+
+        /*
+            Đóng modal.
+        */
+
+        closeModal(
+            "orderModal"
+        );
+
+
+
+        /*
+            Reset.
+        */
 
         document.getElementById(
             "quantity"
         ).value = 100;
+
 
         document.getElementById(
             "target"
         ).value = "";
 
 
-        // =========================
-        // LOAD LẠI SỐ DƯ
-        // =========================
+
+        /*
+            Load lại số dư thật
+            từ Supabase.
+        */
 
         await loadProfile();
+
+
+        /*
+            Load lại lịch sử.
+        */
 
         await loadOrders();
 
 
-    } catch (err) {
+
+    }catch(err){
 
         console.error(
             "UNEXPECTED ERROR:",
             err
         );
 
-        alert(
-            "LỖI:\n\n" +
-            (
-                err instanceof Error
-                    ? err.message
-                    : String(err)
-            )
+
+        toast(
+            err instanceof Error
+                ? err.message
+                : "Có lỗi xảy ra."
         );
 
-    } finally {
 
-        if (button) {
+    }finally{
 
-            button.disabled = false;
+        button.disabled =
+            false;
 
-            button.textContent =
-                "Xác nhận đặt hàng";
-        }
+        button.textContent =
+            "Xác nhận đặt hàng";
 
     }
 
 }
 
 
+
+/* =================================================
+   CREATE DEPOSIT
+================================================= */
+
 async function createDeposit(){
 
-const amount =
-Number(
-document
-.getElementById("depositAmount")
-.value
-);
-
-const note =
-document
-.getElementById("depositNote")
-.value
-.trim();
+    const amount =
+        Number(
+            document
+                .getElementById(
+                    "depositAmount"
+                )
+                .value
+        );
 
 
-if(!Number.isInteger(amount) ||
-amount<5000){
-
-toast(
-"Số tiền nạp tối thiểu 5.000đ."
-);
-
-return;
-
-}
+    const note =
+        document
+            .getElementById(
+                "depositNote"
+            )
+            .value
+            .trim();
 
 
-const {
-data:{
-user
-}
-} = await sb.auth.getUser();
+    const button =
+        document.getElementById(
+            "depositBtn"
+        );
 
 
-if(!user){
 
-toast(
-"Vui lòng đăng nhập."
-);
+    if(
+        !Number.isInteger(
+            amount
+        ) ||
+        amount < 5000
+    ){
 
-return;
+        toast(
+            "Số tiền nạp tối thiểu 5.000đ."
+        );
 
-}
+        return;
 
-
-const {
-data:profile
-} = await sb
-.from("profiles")
-.select("username")
-.eq("id",user.id)
-.single();
+    }
 
 
-const {
-error
-} = await sb
-.from("deposit_requests")
-.insert({
 
-user_id:user.id,
-
-amount:amount,
-
-note:note || null
-
-});
+    const {
+        data:{
+            user
+        }
+    } =
+        await sb.auth.getUser();
 
 
-if(error){
 
-console.error(error);
+    if(!user){
 
-toast(
-"Không tạo được yêu cầu nạp."
-);
+        toast(
+            "Vui lòng đăng nhập."
+        );
 
-return;
+        return;
 
-}
+    }
 
 
-await sendTelegram(
+
+    button.disabled = true;
+
+    button.textContent =
+        "⏳ Đang gửi...";
+
+
+
+    try{
+
+
+        /*
+            Lấy username.
+        */
+
+        const {
+            data:profile,
+            error:profileError
+        } =
+            await sb
+                .from("profiles")
+                .select(
+                    "username"
+                )
+                .eq(
+                    "id",
+                    user.id
+                )
+                .single();
+
+
+
+        if(profileError){
+
+            console.error(
+                profileError
+            );
+
+            toast(
+                "Không lấy được thông tin tài khoản."
+            );
+
+            return;
+
+        }
+
+
+
+        /*
+            Tạo yêu cầu nạp.
+        */
+
+        const {
+            error
+        } =
+            await sb
+                .from(
+                    "deposit_requests"
+                )
+                .insert({
+
+                    user_id:
+                        user.id,
+
+                    amount:
+                        amount,
+
+                    note:
+                        note || null
+
+                });
+
+
+
+        if(error){
+
+            console.error(
+                "DEPOSIT ERROR:",
+                error
+            );
+
+            toast(
+                "Không tạo được yêu cầu nạp."
+            );
+
+            return;
+
+        }
+
+
+
+        /*
+            Báo Telegram.
+        */
+
+        await sendTelegram(
 
 `💰 YÊU CẦU NẠP TIỀN
 
-👤 Username: ${profile?.username || "User"}
+👤 Username:
+${profile?.username || "User"}
 
-💵 Số tiền: ${money(amount)}
+💵 Số tiền:
+${money(amount)}
 
-📝 Ghi chú: ${note || "Không có"}
+📝 Ghi chú:
+${note || "Không có"}
 
-🟡 Trạng thái: Chờ duyệt`
+🟡 Trạng thái:
+Chờ admin duyệt`
 
-);
-
-
-toast(
-"Đã gửi yêu cầu nạp tiền."
-);
+        );
 
 
-closeModal("depositModal");
 
-document
-.getElementById("depositAmount")
-.value="";
+        toast(
+            "✅ Đã gửi yêu cầu nạp tiền."
+        );
 
-document
-.getElementById("depositNote")
-.value="";
+
+
+        closeModal(
+            "depositModal"
+        );
+
+
+        document.getElementById(
+            "depositAmount"
+        ).value = "";
+
+
+        document.getElementById(
+            "depositNote"
+        ).value = "";
+
+
+    }finally{
+
+        button.disabled =
+            false;
+
+        button.textContent =
+            "Gửi yêu cầu nạp";
+
+    }
 
 }
 
+
+
+/* =================================================
+   LOGOUT
+================================================= */
 
 async function logout(){
 
-await sb.auth.signOut();
+    await sb.auth.signOut();
 
-location.href="login.html";
+    location.href =
+        "login.html";
 
 }
 
+
+
+/* =================================================
+   AUTH STATE
+================================================= */
+
+sb.auth.onAuthStateChange(
+    function(event,session){
+
+        if(
+            event ===
+            "SIGNED_OUT"
+        ){
+
+            location.href =
+                "login.html";
+
+        }
+
+    }
+);
+
+
+
+/* =================================================
+   INIT
+================================================= */
 
 async function init(){
 
-const {
-data:{
-session
+    const {
+        data:{
+            session
+        }
+    } =
+        await sb.auth.getSession();
+
+
+    if(!session){
+
+        location.href =
+            "login.html";
+
+        return;
+
+    }
+
+
+
+    await loadProfile();
+
+    await loadOrders();
+
+
+    /*
+        Khởi tạo giá.
+    */
+
+    updateOrderTotal();
+
 }
-} = await sb.auth.getSession();
 
-
-if(!session){
-
-location.href="login.html";
-
-return;
-
-}
-
-
-await loadProfile();
-
-await loadOrders();
-
-}
 
 
 init();
+
 
 </script>
 
