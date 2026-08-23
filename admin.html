@@ -2,13 +2,14 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Admin Panel - ADD FR</title>
+<title>ADD FR - Admin</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
+
 *{
     box-sizing:border-box;
     margin:0;
@@ -27,9 +28,20 @@ button{
 }
 
 .nav{
-    max-width:1200px;
+    position:sticky;
+    top:0;
+    z-index:50;
+
+    border-bottom:1px solid #292d38;
+    background:rgba(8,9,13,.92);
+    backdrop-filter:blur(15px);
+}
+
+.nav-inner{
+    max-width:1250px;
     margin:auto;
-    padding:20px;
+    padding:18px 20px;
+
     display:flex;
     justify-content:space-between;
     align-items:center;
@@ -46,29 +58,38 @@ button{
     color:#9276ff;
 }
 
-.nav-right{
+.admin-badge{
+    margin-left:10px;
+    padding:5px 9px;
+    border-radius:20px;
+    background:#29213e;
+    color:#b9aaff;
+    font-size:10px;
+    letter-spacing:1px;
+}
+
+.account{
     display:flex;
     align-items:center;
     gap:10px;
 }
 
-.admin-badge{
-    padding:9px 13px;
-    border-radius:10px;
-    border:1px solid #332d52;
-    background:#15121f;
-    color:#bbaaff;
+.user-info{
+    color:#9ba2af;
     font-size:12px;
-    font-weight:bold;
 }
 
 .btn{
     border:0;
     border-radius:10px;
-    padding:11px 16px;
-    font-weight:bold;
+    padding:11px 15px;
     color:#fff;
+    font-weight:bold;
     background:linear-gradient(135deg,#a087ff,#644cff);
+}
+
+.btn:hover{
+    opacity:.9;
 }
 
 .btn.dark{
@@ -77,15 +98,11 @@ button{
 }
 
 .btn.green{
-    background:#173d2b;
-    border:1px solid #285c40;
-    color:#7df0a9;
+    background:#176b45;
 }
 
 .btn.red{
-    background:#3d191d;
-    border:1px solid #63252c;
-    color:#ff8992;
+    background:#7a2630;
 }
 
 .btn.small{
@@ -93,14 +110,19 @@ button{
     font-size:12px;
 }
 
+.btn:disabled{
+    opacity:.5;
+    cursor:not-allowed;
+}
+
 .container{
-    max-width:1200px;
+    max-width:1250px;
     margin:auto;
-    padding:25px 20px 80px;
+    padding:35px 20px 80px;
 }
 
 .hero{
-    padding:25px 0 35px;
+    margin-bottom:35px;
 }
 
 .badge{
@@ -113,79 +135,81 @@ button{
 
 h1{
     font-size:42px;
+    margin-bottom:10px;
 }
 
 .hero p{
     color:#777e8c;
-    margin-top:10px;
+    line-height:1.6;
 }
 
 .stats{
     display:grid;
     grid-template-columns:repeat(3,1fr);
     gap:15px;
-    margin-bottom:45px;
+    margin-top:25px;
 }
 
 .stat{
-    padding:22px;
-    border-radius:18px;
     border:1px solid #292d38;
+    border-radius:18px;
+    padding:20px;
     background:#111319;
 }
 
 .stat-title{
     color:#777e8c;
     font-size:12px;
+    margin-bottom:8px;
 }
 
 .stat-value{
-    font-size:28px;
+    font-size:26px;
     font-weight:900;
-    margin-top:8px;
 }
 
 .section{
-    margin-top:40px;
+    margin-top:45px;
 }
 
-.section-title{
+.section-head{
     display:flex;
     justify-content:space-between;
     align-items:center;
-    gap:10px;
-    margin-bottom:18px;
+    gap:15px;
+    margin-bottom:15px;
 }
 
-.section-title h2{
+.section-head h2{
     font-size:22px;
 }
 
 .table-wrap{
     overflow-x:auto;
     border:1px solid #292d38;
-    border-radius:18px;
+    border-radius:17px;
     background:#111319;
 }
 
 table{
     width:100%;
     border-collapse:collapse;
-    min-width:850px;
+    min-width:900px;
 }
 
 th{
     text-align:left;
-    color:#858c99;
+    padding:14px;
+    color:#777e8c;
     font-size:11px;
     text-transform:uppercase;
-    padding:15px;
+    letter-spacing:.5px;
     border-bottom:1px solid #292d38;
 }
 
 td{
-    padding:15px;
-    border-bottom:1px solid #20232b;
+    padding:15px 14px;
+    border-bottom:1px solid #20232c;
     font-size:13px;
     vertical-align:middle;
 }
@@ -195,99 +219,110 @@ tr:last-child td{
 }
 
 .user-id{
-    max-width:150px;
-    overflow:hidden;
-    text-overflow:ellipsis;
-    white-space:nowrap;
-    color:#777e8c;
+    max-width:220px;
+    word-break:break-all;
+    color:#a5adbb;
     font-size:11px;
 }
 
 .order-code{
     font-weight:bold;
-    color:#b7a9ff;
+    color:#fff;
 }
 
 .amount{
     font-weight:bold;
-    color:#8ef0ae;
+    color:#a894ff;
 }
 
 .status{
     display:inline-block;
-    padding:6px 9px;
+    padding:6px 10px;
     border-radius:20px;
-    font-size:10px;
+    font-size:11px;
     font-weight:bold;
 }
 
 .status.pending{
-    background:#322a17;
-    color:#ffd76b;
+    background:#3d3420;
+    color:#ffd86b;
 }
 
+.status.approved,
 .status.completed{
-    background:#163622;
-    color:#7df0a9;
+    background:#183d2d;
+    color:#66e2a2;
 }
 
+.status.rejected,
 .status.cancelled{
-    background:#3b181d;
-    color:#ff858f;
+    background:#402027;
+    color:#ff8490;
 }
 
-.status.approved{
-    background:#163622;
-    color:#7df0a9;
-}
-
-.status.rejected{
-    background:#3b181d;
-    color:#ff858f;
+.status.processing{
+    background:#29233f;
+    color:#b9aaff;
 }
 
 .actions{
     display:flex;
-    gap:7px;
     flex-wrap:wrap;
+    gap:7px;
 }
 
 .empty{
     padding:35px;
     text-align:center;
-    color:#686f7c;
+    color:#6d7481;
 }
 
 .loading{
     padding:35px;
     text-align:center;
-    color:#8d94a3;
+    color:#858c99;
 }
 
-#errorBox{
-    display:none;
-    margin-bottom:20px;
+.link{
+    color:#9e8aff;
+    text-decoration:none;
+    word-break:break-all;
+}
+
+.link:hover{
+    text-decoration:underline;
+}
+
+.notice{
+    margin-top:20px;
     padding:15px;
-    border-radius:12px;
-    background:#3b181d;
-    border:1px solid #63252c;
-    color:#ff9ba3;
-    white-space:pre-wrap;
+    border:1px solid #3b334d;
+    border-radius:13px;
+    background:#17131f;
+    color:#aaa1c0;
+    font-size:12px;
+    line-height:1.6;
 }
 
 #toast{
     position:fixed;
     left:50%;
     bottom:20px;
-    z-index:9999;
+    z-index:1000;
+
+    max-width:90%;
     padding:13px 18px;
+
     border-radius:12px;
     background:#191c24;
     border:1px solid #303542;
+
     transform:translate(-50%,20px);
     opacity:0;
     pointer-events:none;
     transition:.25s;
+
+    font-size:13px;
 }
 
 #toast.show{
@@ -305,15 +340,16 @@ tr:last-child td{
         grid-template-columns:1fr;
     }
 
-    .nav{
-        align-items:flex-start;
+    .user-info{
+        display:none;
     }
 
-    .nav-right{
-        flex-direction:column;
-        align-items:flex-end;
+    .admin-badge{
+        display:none;
     }
+
 }
+
 </style>
 </head>
 
@@ -321,18 +357,32 @@ tr:last-child td{
 
 <header class="nav">
 
-    <div class="logo">
-        <span>ADD</span> FR
-    </div>
+    <div class="nav-inner">
 
-    <div class="nav-right">
-        <div class="admin-badge">
-            🛡️ ADMIN
+        <div>
+            <span class="logo">
+                <span>ADD</span> FR
+            </span>
+
+            <span class="admin-badge">
+                ADMIN
+            </span>
         </div>
 
-        <button class="btn dark" onclick="logout()">
-            Đăng xuất
-        </button>
+        <div class="account">
+
+            <div class="user-info" id="adminUsername">
+                Đang kiểm tra...
+            </div>
+
+            <button
+                class="btn dark"
+                onclick="logout()">
+                Đăng xuất
+            </button>
+
+        </div>
+
     </div>
 
 </header>
@@ -343,7 +393,7 @@ tr:last-child td{
     <section class="hero">
 
         <div class="badge">
-            ADMINISTRATION
+            ADMIN PANEL
         </div>
 
         <h1>
@@ -351,59 +401,59 @@ tr:last-child td{
         </h1>
 
         <p>
-            Xin chào <strong id="adminName">...</strong>
+            Quản lý nạp tiền, số dư khách hàng và đơn hàng.
         </p>
 
-    </section>
+        <div class="stats">
 
+            <div class="stat">
 
-    <div id="errorBox"></div>
+                <div class="stat-title">
+                    Yêu cầu nạp tiền
+                </div>
 
+                <div
+                    class="stat-value"
+                    id="pendingDepositCount">
+                    0
+                </div>
 
-    <section class="stats">
-
-        <div class="stat">
-
-            <div class="stat-title">
-                YÊU CẦU NẠP CHỜ DUYỆT
             </div>
 
-            <div
-                class="stat-value"
-                id="pendingDeposits">
-                0
+            <div class="stat">
+
+                <div class="stat-title">
+                    Đơn đang xử lý
+                </div>
+
+                <div
+                    class="stat-value"
+                    id="processingOrderCount">
+                    0
+                </div>
+
+            </div>
+
+            <div class="stat">
+
+                <div class="stat-title">
+                    Tổng số đơn
+                </div>
+
+                <div
+                    class="stat-value"
+                    id="totalOrderCount">
+                    0
+                </div>
+
             </div>
 
         </div>
 
-
-        <div class="stat">
-
-            <div class="stat-title">
-                ĐƠN ĐANG XỬ LÝ
-            </div>
-
-            <div
-                class="stat-value"
-                id="pendingOrders">
-                0
-            </div>
-
-        </div>
-
-
-        <div class="stat">
-
-            <div class="stat-title">
-                TỔNG ĐƠN
-            </div>
-
-            <div
-                class="stat-value"
-                id="totalOrders">
-                0
-            </div>
-
+        <div class="notice">
+            ⚡ Các thao tác duyệt/từ chối sử dụng RPC
+            <b>SECURITY DEFINER</b>. Không cần đưa
+            service role key vào trình duyệt.
         </div>
 
     </section>
@@ -415,10 +465,10 @@ tr:last-child td{
 
     <section class="section">
 
-        <div class="section-title">
+        <div class="section-head">
 
             <h2>
-                💰 Yêu cầu nạp tiền
+                💰 Quản lý nạp tiền
             </h2>
 
             <button
@@ -428,7 +478,6 @@ tr:last-child td{
             </button>
 
         </div>
-
 
         <div class="table-wrap">
 
@@ -454,13 +503,12 @@ tr:last-child td{
 
                 </thead>
 
-
                 <tbody id="depositTable">
 
                     <tr>
                         <td colspan="6">
                             <div class="loading">
-                                Đang tải...
+                                Đang tải yêu cầu nạp...
                             </div>
                         </td>
                     </tr>
@@ -480,7 +528,7 @@ tr:last-child td{
 
     <section class="section">
 
-        <div class="section-title">
+        <div class="section-head">
 
             <h2>
                 📦 Quản lý đơn hàng
@@ -493,7 +541,6 @@ tr:last-child td{
             </button>
 
         </div>
-
 
         <div class="table-wrap">
 
@@ -521,13 +568,12 @@ tr:last-child td{
 
                 </thead>
 
-
                 <tbody id="orderTable">
 
                     <tr>
                         <td colspan="7">
                             <div class="loading">
-                                Đang tải...
+                                Đang tải đơn hàng...
                             </div>
                         </td>
                     </tr>
@@ -548,23 +594,26 @@ tr:last-child td{
 
 <script>
 
+/* =====================================================
+   SUPABASE
+===================================================== */
+
 const SUPABASE_URL =
-"https://nslmutblflfotcxvctpp.supabase.co";
+    "https://nslmutblflfotcxvctpp.supabase.co";
 
 const SUPABASE_KEY =
-"sb_publishable_kESQyw5xcjTe1irApsuRGQ_4X1GR0Xr";
-
+    "sb_publishable_kESQyw5xcjTe1irApsuRGQ_4X1GR0Xr";
 
 const sb =
-supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
-);
+    supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+    );
 
 
-// ==============================
-// UTILS
-// ==============================
+/* =====================================================
+   UTILITY
+===================================================== */
 
 function money(value){
 
@@ -602,146 +651,149 @@ function toast(message){
 
             el.classList.remove("show");
 
-        },3000);
+        }, 3500);
 
 }
 
 
-function showError(message){
+function statusLabel(status){
 
-    const box =
-        document.getElementById("errorBox");
+    status = String(status || "")
+        .toLowerCase();
 
-    box.textContent = message;
+    if(
+        status === "approved"
+    ){
+        return `
+            <span class="status approved">
+                🟢 Đã duyệt
+            </span>
+        `;
+    }
 
-    box.style.display = "block";
+    if(
+        status === "rejected"
+    ){
+        return `
+            <span class="status rejected">
+                🔴 Từ chối
+            </span>
+        `;
+    }
+
+    if(
+        status === "completed"
+    ){
+        return `
+            <span class="status completed">
+                🟢 Hoàn thành
+            </span>
+        `;
+    }
+
+    if(
+        status === "cancelled"
+    ){
+        return `
+            <span class="status cancelled">
+                🔴 Đã hủy
+            </span>
+        `;
+    }
+
+    if(
+        status === "processing"
+    ){
+        return `
+            <span class="status processing">
+                🟣 Đang xử lý
+            </span>
+        `;
+    }
+
+    return `
+        <span class="status pending">
+            🟡 Chờ duyệt
+        </span>
+    `;
 
 }
 
 
-function hideError(){
-
-    document
-        .getElementById("errorBox")
-        .style.display = "none";
-
-}
-
-
-function formatDate(date){
-
-    if(!date) return "-";
-
-    return new Date(date)
-        .toLocaleString("vi-VN");
-
-}
-
-
-// ==============================
-// KIỂM TRA ADMIN
-// ==============================
+/* =====================================================
+   CHECK ADMIN
+===================================================== */
 
 async function checkAdmin(){
 
-    hideError();
-
     const {
-        data,
-        error
-    } = await sb.auth.getUser();
+        data:{
+            session
+        },
+        error:sessionError
+    } = await sb.auth.getSession();
 
 
-    if(error){
+    if(
+        sessionError ||
+        !session
+    ){
 
-        console.error(error);
-
-        showError(
-            "Không đọc được phiên đăng nhập:\n" +
-            error.message
-        );
-
-        return false;
-    }
-
-
-    const user = data.user;
-
-
-    if(!user){
-
-        /*
-         * Không dùng location.href ở đây ngay lập tức
-         * để tránh trường hợp session chưa kịp khôi phục.
-         */
-
-        showError(
-            "Không có phiên đăng nhập.\n\n" +
-            "Hãy đăng nhập tài khoản trước rồi mở lại admin.html."
-        );
+        location.href = "login.html";
 
         return false;
     }
 
 
-    console.log("ADMIN USER:",user);
+    const user =
+        session.user;
 
 
     const {
         data:profile,
-        error:profileError
+        error
     } = await sb
         .from("profiles")
-        .select("username,balance,is_admin")
+        .select("id,username,balance,is_admin")
         .eq("id",user.id)
         .maybeSingle();
 
 
-    if(profileError){
+    if(error){
 
         console.error(
             "PROFILE ERROR:",
-            profileError
+            error
         );
 
-        showError(
-            "Không đọc được profiles:\n" +
-            profileError.message
-        );
-
-        return false;
-    }
-
-
-    if(!profile){
-
-        showError(
-            "Không tìm thấy profile của tài khoản này.\n\n" +
-            "User ID:\n" +
-            user.id
+        toast(
+            "Không đọc được thông tin admin."
         );
 
         return false;
     }
 
 
-    console.log("ADMIN PROFILE:",profile);
+    if(
+        !profile ||
+        profile.is_admin !== true
+    ){
 
-
-    if(profile.is_admin !== true){
-
-        showError(
-            "Tài khoản này không có quyền ADMIN.\n\n" +
-            "User ID:\n" +
-            user.id
+        alert(
+            "Tài khoản này không có quyền admin."
         );
+
+        await sb.auth.signOut();
+
+        location.href =
+            "login.html";
 
         return false;
     }
 
 
     document
-        .getElementById("adminName")
+        .getElementById("adminUsername")
         .textContent =
             profile.username ||
             user.email ||
@@ -749,24 +801,27 @@ async function checkAdmin(){
 
 
     return true;
+
 }
 
 
-// ==============================
-// LOAD DEPOSITS
-// ==============================
+/* =====================================================
+   LOAD DEPOSIT
+===================================================== */
 
 async function loadDeposits(){
 
     const table =
-        document.getElementById("depositTable");
+        document.getElementById(
+            "depositTable"
+        );
 
 
     table.innerHTML = `
         <tr>
             <td colspan="6">
                 <div class="loading">
-                    Đang tải yêu cầu nạp...
+                    Đang tải...
                 </div>
             </td>
         </tr>
@@ -778,16 +833,21 @@ async function loadDeposits(){
         error
     } = await sb
         .from("deposit_requests")
-        .select("*")
-        .order("created_at",{
-            ascending:false
-        });
+        .select(
+            "id,user_id,amount,status,created_at,approved_at"
+        )
+        .order(
+            "created_at",
+            {
+                ascending:false
+            }
+        );
 
 
     if(error){
 
         console.error(
-            "DEPOSIT ERROR:",
+            "DEPOSIT LOAD ERROR:",
             error
         );
 
@@ -795,7 +855,8 @@ async function loadDeposits(){
             <tr>
                 <td colspan="6">
                     <div class="empty">
-                        Không tải được yêu cầu nạp.<br><br>
+                        Không tải được yêu cầu nạp.
+                        <br><br>
                         ${escapeHtml(error.message)}
                     </div>
                 </td>
@@ -803,10 +864,30 @@ async function loadDeposits(){
         `;
 
         return;
+
     }
 
 
-    if(!data || !data.length){
+    const deposits =
+        data || [];
+
+
+    const pending =
+        deposits.filter(
+            d =>
+                d.status === "pending"
+        ).length;
+
+
+    document
+        .getElementById(
+            "pendingDepositCount"
+        )
+        .textContent =
+            pending;
+
+
+    if(!deposits.length){
 
         table.innerHTML = `
             <tr>
@@ -818,340 +899,175 @@ async function loadDeposits(){
             </tr>
         `;
 
-        document
-            .getElementById("pendingDeposits")
-            .textContent = "0";
-
         return;
+
     }
-
-
-    const pending =
-        data.filter(
-            x => x.status === "pending"
-        ).length;
-
-
-    document
-        .getElementById("pendingDeposits")
-        .textContent = pending;
 
 
     table.innerHTML =
-        data.map(item => {
+        deposits.map(
+            deposit => {
 
-            let statusClass =
-                "pending";
-
-            let statusText =
-                "🟡 Chờ duyệt";
+                const isPending =
+                    deposit.status === "pending";
 
 
-            if(item.status === "approved"){
+                return `
+                    <tr>
 
-                statusClass =
-                    "approved";
-
-                statusText =
-                    "🟢 Đã duyệt";
-
-            }
-
-
-            if(
-                item.status === "rejected" ||
-                item.status === "cancelled"
-            ){
-
-                statusClass =
-                    "rejected";
-
-                statusText =
-                    "🔴 Từ chối";
-
-            }
-
-
-            const canApprove =
-                item.status === "pending";
-
-
-            return `
-
-                <tr>
-
-                    <td>
-                        <strong>
-                            ${escapeHtml(item.id)}
-                        </strong>
-                    </td>
-
-
-                    <td>
-
-                        <div class="user-id">
-                            ${escapeHtml(item.user_id)}
-                        </div>
-
-                    </td>
-
-
-                    <td>
-
-                        <span class="amount">
-                            ${money(item.amount)}
-                        </span>
-
-                    </td>
-
-
-                    <td>
-
-                        <span class="status ${statusClass}">
-                            ${statusText}
-                        </span>
-
-                    </td>
-
-
-                    <td>
-                        ${formatDate(item.created_at)}
-                    </td>
-
-
-                    <td>
-
-                        ${
-                            canApprove
-
-                            ?
-
-                            `
-                            <div class="actions">
-
-                                <button
-                                    class="btn green small"
-                                    onclick="approveDeposit('${escapeHtml(item.id)}','${escapeHtml(item.user_id)}',${Number(item.amount)})">
-                                    ✓ Duyệt
-                                </button>
-
-
-                                <button
-                                    class="btn red small"
-                                    onclick="rejectDeposit('${escapeHtml(item.id)}')">
-                                    ✕ Từ chối
-                                </button>
-
+                        <td>
+                            <div class="user-id">
+                                ${escapeHtml(deposit.id)}
                             </div>
-                            `
+                        </td>
 
-                            :
+                        <td>
+                            <div class="user-id">
+                                ${escapeHtml(deposit.user_id)}
+                            </div>
+                        </td>
 
-                            `<span style="color:#666">
-                                Đã xử lý
-                            </span>`
-                        }
+                        <td>
+                            <span class="amount">
+                                ${money(deposit.amount)}
+                            </span>
+                        </td>
 
-                    </td>
+                        <td>
+                            ${statusLabel(
+                                deposit.status
+                            )}
+                        </td>
 
-                </tr>
+                        <td>
+                            ${new Date(
+                                deposit.created_at
+                            ).toLocaleString(
+                                "vi-VN"
+                            )}
+                        </td>
 
-            `;
+                        <td>
 
-        }).join("");
+                            ${
+                                isPending
 
-}
+                                ?
 
+                                `
+                                <div class="actions">
 
-// ==============================
-// DUYỆT NẠP TIỀN
-// ==============================
+                                    <button
+                                        class="btn green small"
+                                        onclick="approveDeposit('${deposit.id}')">
+                                        ✓ Duyệt
+                                    </button>
 
-async function approveDeposit(
-    depositId,
-    userId,
-    amount
-){
+                                    <button
+                                        class="btn red small"
+                                        onclick="rejectDeposit('${deposit.id}')">
+                                        ✕ Từ chối
+                                    </button>
 
-    if(!confirm(
-        "Xác nhận duyệt khoản nạp " +
-        money(amount) +
-        "?"
-    )){
+                                </div>
+                                `
 
-        return;
+                                :
 
-    }
+                                `
+                                <span
+                                    style="
+                                    color:#666d7a;
+                                    font-size:12px;
+                                    ">
+                                    Đã xử lý
+                                </span>
+                                `
+                            }
 
+                        </td>
 
-    try{
+                    </tr>
+                `;
 
-        /*
-         * Đọc balance hiện tại
-         */
-
-        const {
-            data:profile,
-            error:profileError
-        } = await sb
-            .from("profiles")
-            .select("balance")
-            .eq("id",userId)
-            .maybeSingle();
-
-
-        if(profileError){
-
-            throw profileError;
-
-        }
-
-
-        if(!profile){
-
-            throw new Error(
-                "Không tìm thấy profile của user: " +
-                userId
-            );
-
-        }
-
-
-        const oldBalance =
-            Number(profile.balance || 0);
-
-
-        const newBalance =
-            oldBalance + Number(amount);
-
-
-        /*
-         * Cộng tiền
-         */
-
-        const {
-            error:updateProfileError
-        } = await sb
-            .from("profiles")
-            .update({
-                balance:newBalance
-            })
-            .eq("id",userId);
-
-
-        if(updateProfileError){
-
-            throw updateProfileError;
-
-        }
-
-
-        /*
-         * Đánh dấu yêu cầu đã duyệt
-         */
-
-        const {
-            error:updateDepositError
-        } = await sb
-            .from("deposit_requests")
-            .update({
-                status:"approved",
-                approve_at:new Date().toISOString()
-            })
-            .eq("id",depositId);
-
-
-        if(updateDepositError){
-
-            /*
-             * Nếu lỗi ở bước này thì không nên im lặng.
-             */
-
-            throw updateDepositError;
-
-        }
-
-
-        toast(
-            "✅ Đã duyệt và cộng " +
-            money(amount)
-        );
-
-
-        await loadAll();
-
-    }
-    catch(error){
-
-        console.error(
-            "APPROVE DEPOSIT ERROR:",
-            error
-        );
-
-
-        toast(
-            "❌ Duyệt nạp thất bại"
-        );
-
-
-        showError(
-            "Lỗi duyệt nạp:\n" +
-            (
-                error?.message ||
-                String(error)
-            )
-        );
-
-    }
+            }
+        ).join("");
 
 }
 
 
-// ==============================
-// TỪ CHỐI NẠP
-// ==============================
+/* =====================================================
+   APPROVE DEPOSIT
+===================================================== */
 
-async function rejectDeposit(id){
+async function approveDeposit(id){
 
-    if(!confirm(
-        "Xác nhận từ chối yêu cầu nạp này?"
-    )){
-
-        return;
-
-    }
-
-
-    const {
-        error
-    } = await sb
-        .from("deposit_requests")
-        .update({
-            status:"rejected",
-            approve_at:new Date().toISOString()
-        })
-        .eq("id",id);
-
-
-    if(error){
-
-        console.error(error);
-
-        toast(
-            "❌ Không thể từ chối"
-        );
-
-        showError(
-            "Lỗi từ chối:\n" +
-            error.message
-        );
+    if(
+        !confirm(
+            "Bạn chắc chắn muốn duyệt khoản nạp này?"
+        )
+    ){
 
         return;
+
     }
 
 
     toast(
-        "✅ Đã từ chối yêu cầu"
+        "⏳ Đang duyệt..."
+    );
+
+
+    const {
+        data,
+        error
+    } = await sb.rpc(
+        "approve_deposit",
+        {
+            p_id:id
+        }
+    );
+
+
+    console.log(
+        "APPROVE RESULT:",
+        data
+    );
+
+
+    if(error){
+
+        console.error(
+            "APPROVE ERROR:",
+            error
+        );
+
+        alert(
+            "Không thể duyệt:\n\n" +
+            error.message
+        );
+
+        return;
+
+    }
+
+
+    if(
+        !data ||
+        data.ok !== true
+    ){
+
+        alert(
+            "RPC không trả về kết quả hợp lệ."
+        );
+
+        return;
+
+    }
+
+
+    toast(
+        "✅ Đã duyệt nạp tiền."
     );
 
 
@@ -1160,14 +1076,96 @@ async function rejectDeposit(id){
 }
 
 
-// ==============================
-// LOAD ORDERS
-// ==============================
+/* =====================================================
+   REJECT DEPOSIT
+===================================================== */
+
+async function rejectDeposit(id){
+
+    if(
+        !confirm(
+            "Bạn chắc chắn muốn từ chối khoản nạp này?"
+        )
+    ){
+
+        return;
+
+    }
+
+
+    toast(
+        "⏳ Đang từ chối..."
+    );
+
+
+    const {
+        data,
+        error
+    } = await sb.rpc(
+        "reject_deposit",
+        {
+            p_id:id
+        }
+    );
+
+
+    console.log(
+        "REJECT RESULT:",
+        data
+    );
+
+
+    if(error){
+
+        console.error(
+            "REJECT ERROR:",
+            error
+        );
+
+        alert(
+            "Không thể từ chối:\n\n" +
+            error.message
+        );
+
+        return;
+
+    }
+
+
+    if(
+        !data ||
+        data.ok !== true
+    ){
+
+        alert(
+            "RPC không trả về kết quả hợp lệ."
+        );
+
+        return;
+
+    }
+
+
+    toast(
+        "❌ Đã từ chối yêu cầu."
+    );
+
+
+    await loadDeposits();
+
+}
+
+
+/* =====================================================
+   LOAD ORDERS
+===================================================== */
 
 async function loadOrders(){
 
     const table =
-        document.getElementById("orderTable");
+        document.getElementById(
+            "orderTable"
+        );
 
 
     table.innerHTML = `
@@ -1186,25 +1184,30 @@ async function loadOrders(){
         error
     } = await sb
         .from("orders")
-        .select("*")
-        .order("created_at",{
-            ascending:false
-        });
+        .select(
+            "id,user_id,order_code,quantity,target,total,status,created_at"
+        )
+        .order(
+            "created_at",
+            {
+                ascending:false
+            }
+        );
 
 
     if(error){
 
         console.error(
-            "ORDERS ERROR:",
+            "ORDER LOAD ERROR:",
             error
         );
-
 
         table.innerHTML = `
             <tr>
                 <td colspan="7">
                     <div class="empty">
-                        Không tải được đơn hàng.<br><br>
+                        Không tải được đơn hàng.
+                        <br><br>
                         ${escapeHtml(error.message)}
                     </div>
                 </td>
@@ -1212,10 +1215,39 @@ async function loadOrders(){
         `;
 
         return;
+
     }
 
 
-    if(!data || !data.length){
+    const orders =
+        data || [];
+
+
+    document
+        .getElementById(
+            "totalOrderCount"
+        )
+        .textContent =
+            orders.length;
+
+
+    const processing =
+        orders.filter(
+            o =>
+                o.status === "pending" ||
+                o.status === "processing"
+        ).length;
+
+
+    document
+        .getElementById(
+            "processingOrderCount"
+        )
+        .textContent =
+            processing;
+
+
+    if(!orders.length){
 
         table.innerHTML = `
             <tr>
@@ -1227,213 +1259,174 @@ async function loadOrders(){
             </tr>
         `;
 
-
-        document
-            .getElementById("pendingOrders")
-            .textContent = "0";
-
-
-        document
-            .getElementById("totalOrders")
-            .textContent = "0";
-
-
         return;
+
     }
 
 
-    const pending =
-        data.filter(
-            x => x.status === "pending"
-        ).length;
-
-
-    document
-        .getElementById("pendingOrders")
-        .textContent = pending;
-
-
-    document
-        .getElementById("totalOrders")
-        .textContent = data.length;
-
-
     table.innerHTML =
-        data.map(item => {
+        orders.map(
+            order => {
 
-            let statusClass =
-                "pending";
-
-            let statusText =
-                "🟡 Đang xử lý";
-
-
-            if(item.status === "completed"){
-
-                statusClass =
-                    "completed";
-
-                statusText =
-                    "🟢 Hoàn thành";
-
-            }
+                const canComplete =
+                    order.status === "pending" ||
+                    order.status === "processing";
 
 
-            if(item.status === "cancelled"){
-
-                statusClass =
-                    "cancelled";
-
-                statusText =
-                    "🔴 Đã hủy";
-
-            }
+                const facebook =
+                    escapeHtml(
+                        order.target
+                    );
 
 
-            const canProcess =
-                item.status === "pending";
+                return `
+                    <tr>
+
+                        <td>
+                            <div class="order-code">
+                                ${escapeHtml(
+                                    order.order_code
+                                )}
+                            </div>
+
+                            <div
+                                style="
+                                color:#656c79;
+                                font-size:11px;
+                                margin-top:5px;
+                                ">
+                                ${new Date(
+                                    order.created_at
+                                ).toLocaleString(
+                                    "vi-VN"
+                                )}
+                            </div>
+                        </td>
 
 
-            return `
-
-                <tr>
-
-                    <td>
-
-                        <div class="order-code">
-                            ${escapeHtml(item.order_code)}
-                        </div>
-
-                        <div style="
-                            color:#666;
-                            font-size:10px;
-                            margin-top:5px;
-                        ">
-                            ${formatDate(item.created_at)}
-                        </div>
-
-                    </td>
+                        <td>
+                            <div class="user-id">
+                                ${escapeHtml(
+                                    order.user_id
+                                )}
+                            </div>
+                        </td>
 
 
-                    <td>
-
-                        <div class="user-id">
-                            ${escapeHtml(item.user_id)}
-                        </div>
-
-                    </td>
-
-
-                    <td>
-                        ${Number(item.quantity).toLocaleString("vi-VN")}
-                    </td>
+                        <td>
+                            ${Number(
+                                order.quantity || 0
+                            ).toLocaleString(
+                                "vi-VN"
+                            )}
+                        </td>
 
 
-                    <td>
-
-                        <span class="amount">
-                            ${money(item.total)}
-                        </span>
-
-                    </td>
-
-
-                    <td>
-
-                        <a
-                            href="${escapeHtml(item.target)}"
-                            target="_blank"
-                            style="
-                                color:#a894ff;
-                                max-width:180px;
-                                display:block;
-                                overflow:hidden;
-                                text-overflow:ellipsis;
-                                white-space:nowrap;
-                            "
-                        >
-                            ${escapeHtml(item.target)}
-                        </a>
-
-                    </td>
+                        <td>
+                            <span class="amount">
+                                ${money(
+                                    order.total
+                                )}
+                            </span>
+                        </td>
 
 
-                    <td>
+                        <td>
 
-                        <span class="status ${statusClass}">
-                            ${statusText}
-                        </span>
+                            <a
+                                class="link"
+                                href="${facebook}"
+                                target="_blank"
+                                rel="noopener noreferrer">
+                                ${facebook}
+                            </a>
 
-                    </td>
+                        </td>
 
 
-                    <td>
+                        <td>
+                            ${statusLabel(
+                                order.status
+                            )}
+                        </td>
 
-                        ${
-                            canProcess
 
-                            ?
+                        <td>
 
-                            `
-                            <div class="actions">
+                            ${
+                                canComplete
 
+                                ?
+
+                                `
                                 <button
                                     class="btn green small"
-                                    onclick="completeOrder('${escapeHtml(item.id)}')">
-                                    ✓ Duyệt
+                                    onclick="completeOrder('${order.id}')">
+                                    ✓ Đã xử lý
                                 </button>
+                                `
 
+                                :
 
-                                <button
-                                    class="btn red small"
-                                    onclick="cancelOrder('${escapeHtml(item.id)}')">
-                                    ✕ Hủy
-                                </button>
+                                `
+                                <span
+                                    style="
+                                    color:#666d7a;
+                                    font-size:12px;
+                                    ">
+                                    Đã xử lý
+                                </span>
+                                `
+                            }
 
-                            </div>
-                            `
+                        </td>
 
-                            :
+                    </tr>
+                `;
 
-                            `<span style="color:#666">
-                                Đã xử lý
-                            </span>`
-                        }
-
-                    </td>
-
-                </tr>
-
-            `;
-
-        }).join("");
+            }
+        ).join("");
 
 }
 
 
-// ==============================
-// DUYỆT ĐƠN
-// ==============================
+/* =====================================================
+   COMPLETE ORDER
+===================================================== */
 
 async function completeOrder(id){
 
-    if(!confirm(
-        "Xác nhận hoàn thành đơn hàng?"
-    )){
+    if(
+        !confirm(
+            "Xác nhận đơn này đã hoàn thành?"
+        )
+    ){
 
         return;
 
     }
 
 
+    toast(
+        "⏳ Đang cập nhật đơn..."
+    );
+
+
     const {
+        data,
         error
-    } = await sb
-        .from("orders")
-        .update({
-            status:"completed"
-        })
-        .eq("id",id);
+    } = await sb.rpc(
+        "complete_order",
+        {
+            p_id:id
+        }
+    );
+
+
+    console.log(
+        "COMPLETE ORDER RESULT:",
+        data
+    );
 
 
     if(error){
@@ -1443,23 +1436,32 @@ async function completeOrder(id){
             error
         );
 
-
-        toast(
-            "❌ Không thể duyệt đơn"
-        );
-
-
-        showError(
-            "Lỗi duyệt đơn:\n" +
+        alert(
+            "Không thể hoàn thành đơn:\n\n" +
             error.message
         );
 
         return;
+
+    }
+
+
+    if(
+        !data ||
+        data.ok !== true
+    ){
+
+        alert(
+            "RPC không trả về kết quả hợp lệ."
+        );
+
+        return;
+
     }
 
 
     toast(
-        "✅ Đã duyệt đơn"
+        "✅ Đơn hàng đã hoàn thành."
     );
 
 
@@ -1468,70 +1470,11 @@ async function completeOrder(id){
 }
 
 
-// ==============================
-// HỦY ĐƠN
-// ==============================
-
-async function cancelOrder(id){
-
-    if(!confirm(
-        "Xác nhận hủy đơn hàng?"
-    )){
-
-        return;
-
-    }
-
-
-    const {
-        error
-    } = await sb
-        .from("orders")
-        .update({
-            status:"cancelled"
-        })
-        .eq("id",id);
-
-
-    if(error){
-
-        console.error(
-            "CANCEL ORDER ERROR:",
-            error
-        );
-
-
-        toast(
-            "❌ Không thể hủy đơn"
-        );
-
-
-        showError(
-            "Lỗi hủy đơn:\n" +
-            error.message
-        );
-
-        return;
-    }
-
-
-    toast(
-        "✅ Đã hủy đơn"
-    );
-
-
-    await loadOrders();
-
-}
-
-
-// ==============================
-// LOAD ALL
-// ==============================
+/* =====================================================
+   LOAD EVERYTHING
+===================================================== */
 
 async function loadAll(){
-
-    hideError();
 
     await Promise.all([
         loadDeposits(),
@@ -1541,9 +1484,9 @@ async function loadAll(){
 }
 
 
-// ==============================
-// LOGOUT
-// ==============================
+/* =====================================================
+   LOGOUT
+===================================================== */
 
 async function logout(){
 
@@ -1555,26 +1498,11 @@ async function logout(){
 }
 
 
-// ==============================
-// INIT
-// ==============================
+/* =====================================================
+   INIT
+===================================================== */
 
 async function init(){
-
-    /*
-     * Đợi Supabase khôi phục session
-     */
-
-    const {
-        data
-    } = await sb.auth.getSession();
-
-
-    console.log(
-        "SESSION:",
-        data.session
-    );
-
 
     const isAdmin =
         await checkAdmin();
