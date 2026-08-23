@@ -1,20 +1,15 @@
+```html
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-
 <meta charset="UTF-8">
-
-<meta
-    name="viewport"
-    content="width=device-width,initial-scale=1"
->
+<meta name="viewport" content="width=device-width,initial-scale=1">
 
 <title>ADD FR</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
-
 *{
     box-sizing:border-box;
     margin:0;
@@ -24,11 +19,10 @@
 body{
     background:#08090d;
     color:#fff;
-    font-family:Arial,Helvetica,sans-serif;
+    font-family:Arial,sans-serif;
 }
 
-button,
-input{
+button,input{
     font-family:inherit;
 }
 
@@ -37,13 +31,9 @@ button{
 }
 
 button:disabled{
+    opacity:.55;
     cursor:not-allowed;
 }
-
-
-/* =========================
-   NAV
-========================= */
 
 .nav{
     max-width:1100px;
@@ -52,7 +42,6 @@ button:disabled{
     display:flex;
     justify-content:space-between;
     align-items:center;
-    gap:15px;
 }
 
 .logo{
@@ -85,33 +74,14 @@ button:disabled{
     border-radius:11px;
     padding:12px 17px;
     font-weight:bold;
-    color:#fff;
-    background:linear-gradient(
-        135deg,
-        #a087ff,
-        #644cff
-    );
-    transition:.2s;
-}
-
-.btn:hover{
-    transform:translateY(-1px);
-}
-
-.btn:disabled{
-    opacity:.5;
-    transform:none;
+    color:white;
+    background:linear-gradient(135deg,#a087ff,#644cff);
 }
 
 .btn.dark{
     background:#111319;
     border:1px solid #292d38;
 }
-
-
-/* =========================
-   CONTAINER
-========================= */
 
 .container{
     max-width:1100px;
@@ -134,7 +104,6 @@ button:disabled{
 h1{
     font-size:60px;
     line-height:1;
-    letter-spacing:-2px;
 }
 
 .hero p{
@@ -143,15 +112,9 @@ h1{
     line-height:1.7;
 }
 
-
-/* =========================
-   CARDS
-========================= */
-
 .cards{
     display:grid;
-    grid-template-columns:
-        repeat(3,1fr);
+    grid-template-columns:repeat(3,1fr);
     gap:15px;
     margin-top:35px;
 }
@@ -173,11 +136,6 @@ h1{
     line-height:1.6;
 }
 
-
-/* =========================
-   SECTION
-========================= */
-
 .section{
     margin-top:60px;
 }
@@ -185,11 +143,6 @@ h1{
 .section h2{
     margin-bottom:20px;
 }
-
-
-/* =========================
-   SERVICE
-========================= */
 
 .service{
     display:flex;
@@ -216,11 +169,6 @@ h1{
     margin-bottom:8px;
 }
 
-
-/* =========================
-   ORDERS
-========================= */
-
 .order{
     padding:20px;
     margin-bottom:12px;
@@ -239,12 +187,6 @@ h1{
     font-weight:bold;
 }
 
-.order-date{
-    margin-top:5px;
-    color:#656c79;
-    font-size:11px;
-}
-
 .status{
     padding:6px 10px;
     border-radius:30px;
@@ -252,17 +194,16 @@ h1{
     color:#b9aaff;
     font-size:11px;
     height:max-content;
-    white-space:nowrap;
 }
 
-.status.completed{
-    background:#173324;
-    color:#5fe398;
+.status.success{
+    background:#173523;
+    color:#75e39a;
 }
 
-.status.cancelled{
-    background:#361d22;
-    color:#ff7481;
+.status.cancel{
+    background:#3a1c1c;
+    color:#ff8585;
 }
 
 .order-info{
@@ -273,18 +214,31 @@ h1{
     word-break:break-word;
 }
 
-.empty{
-    padding:30px;
-    text-align:center;
-    border:1px dashed #292d38;
-    border-radius:15px;
-    color:#6d7481;
+.deposit-history{
+    padding:20px;
+    margin-bottom:12px;
+    border:1px solid #292d38;
+    border-radius:17px;
+    background:#111319;
 }
 
+.deposit-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:15px;
+}
 
-/* =========================
-   MODAL
-========================= */
+.deposit-amount{
+    font-size:17px;
+    font-weight:bold;
+}
+
+.deposit-time{
+    color:#656c79;
+    font-size:11px;
+    margin-top:5px;
+}
 
 .modal{
     position:fixed;
@@ -295,7 +249,7 @@ h1{
     justify-content:center;
     padding:20px;
     background:rgba(0,0,0,.8);
-    backdrop-filter:blur(8px);
+    overflow:auto;
 }
 
 .modal.show{
@@ -303,15 +257,13 @@ h1{
 }
 
 .box{
-    width:min(480px,100%);
+    width:min(500px,100%);
     max-height:90vh;
     overflow:auto;
     padding:25px;
     border:1px solid #30343e;
     border-radius:22px;
     background:#111319;
-    box-shadow:
-        0 25px 80px rgba(0,0,0,.5);
 }
 
 .box h2{
@@ -322,25 +274,8 @@ h1{
     color:#777e8c;
     font-size:13px;
     margin-bottom:20px;
+    line-height:1.6;
 }
-
-.close{
-    float:right;
-    border:0;
-    background:none;
-    color:#aaa;
-    font-size:25px;
-    line-height:1;
-}
-
-.close:hover{
-    color:#fff;
-}
-
-
-/* =========================
-   FORM
-========================= */
 
 label{
     display:block;
@@ -364,144 +299,111 @@ input:focus{
     border-color:#9178ff;
 }
 
-input::placeholder{
-    color:#555c69;
-}
-
 .full{
     width:100%;
     margin-top:18px;
 }
 
+.close{
+    float:right;
+    border:0;
+    background:none;
+    color:#aaa;
+    font-size:25px;
+}
 
-/* =========================
-   BALANCE BOX
-========================= */
+.empty{
+    padding:30px;
+    text-align:center;
+    border:1px dashed #292d38;
+    border-radius:15px;
+    color:#6d7481;
+}
 
-.balance-box{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin:18px 0 5px;
-    padding:15px;
+.bank-box{
+    margin-top:15px;
+    padding:18px;
     border:1px solid #292d38;
-    border-radius:14px;
-    background:#181a22;
+    border-radius:17px;
+    background:#090a0e;
 }
 
-.balance-label{
-    color:#858c99;
-    font-size:11px;
-}
-
-.balance-value{
+.qr{
+    width:220px;
+    max-width:100%;
     display:block;
-    margin-top:5px;
-    color:#a894ff;
-    font-size:20px;
-    font-weight:900;
+    margin:0 auto 18px;
+    border-radius:15px;
+    background:#fff;
+    padding:8px;
 }
 
-.balance-icon{
-    width:42px;
-    height:42px;
-    display:grid;
-    place-items:center;
-    border-radius:12px;
-    background:#29233f;
-    color:#a894ff;
-    font-size:20px;
-}
-
-
-/* =========================
-   ORDER SUMMARY
-========================= */
-
-.order-summary{
-    margin-top:18px;
-    border:1px solid #292d38;
-    border-radius:14px;
-    overflow:hidden;
-}
-
-.summary-row{
+.bank-line{
     display:flex;
     justify-content:space-between;
-    align-items:center;
-    padding:12px 14px;
-    background:#101218;
-    border-bottom:1px solid #292d38;
     gap:15px;
+    padding:9px 0;
+    border-bottom:1px solid #20232b;
+    font-size:13px;
 }
 
-.summary-row:last-child{
+.bank-line:last-child{
     border-bottom:0;
 }
 
-.summary-row span{
-    color:#858c99;
-    font-size:12px;
+.bank-label{
+    color:#777e8c;
 }
 
-.summary-row strong{
-    font-size:13px;
+.bank-value{
     text-align:right;
+    font-weight:bold;
+    word-break:break-word;
 }
 
-.summary-total{
-    background:#181a22;
+.transfer-content{
+    margin-top:14px;
+    padding:13px;
+    border-radius:12px;
+    background:#19152b;
+    border:1px solid #40356a;
 }
 
-.summary-total strong{
-    color:#a894ff;
-    font-size:18px;
-}
-
-.remaining-row strong{
-    color:#5fe398;
-}
-
-.remaining-row strong.not-enough{
-    color:#ff6677;
-}
-
-
-/* =========================
-   WARNING
-========================= */
-
-.balance-warning{
-    display:none;
-    margin-top:10px;
-    padding:10px 12px;
-    border-radius:10px;
-    background:#321c21;
-    color:#ff7b88;
-    font-size:11px;
-}
-
-.balance-warning.show{
+.transfer-content small{
     display:block;
+    color:#8d94a3;
+    margin-bottom:6px;
 }
 
-.form-hint{
-    margin-top:5px;
-    color:#626a79;
-    font-size:10px;
+.transfer-content strong{
+    color:#b9aaff;
+    font-size:16px;
+    word-break:break-all;
 }
 
+.total-preview{
+    margin-top:15px;
+    padding:15px;
+    border-radius:12px;
+    background:#19152b;
+    border:1px solid #40356a;
+}
 
-/* =========================
-   TOAST
-========================= */
+.total-preview div{
+    display:flex;
+    justify-content:space-between;
+    margin:6px 0;
+}
+
+.total-preview strong{
+    color:#b9aaff;
+}
 
 #toast{
     position:fixed;
     left:50%;
     bottom:20px;
     z-index:1000;
-    max-width:calc(100% - 30px);
     padding:13px 18px;
     border-radius:12px;
     background:#191c24;
@@ -509,6 +411,7 @@ input::placeholder{
     transform:translate(-50%,20px);
     opacity:0;
     transition:.25s;
+    max-width:90%;
     text-align:center;
 }
 
@@ -517,39 +420,7 @@ input::placeholder{
     transform:translate(-50%,0);
 }
 
-
-/* =========================
-   RESPONSIVE
-========================= */
-
 @media(max-width:700px){
-
-    .nav{
-        padding:15px;
-    }
-
-    .logo{
-        font-size:18px;
-    }
-
-    .account{
-        gap:5px;
-    }
-
-    .balance{
-        font-size:11px;
-        padding:9px 10px;
-    }
-
-    .btn.dark{
-        padding:10px;
-        font-size:11px;
-    }
-
-    .container{
-        padding:
-            20px 15px 60px;
-    }
 
     h1{
         font-size:43px;
@@ -559,27 +430,31 @@ input::placeholder{
         grid-template-columns:1fr;
     }
 
+    .account{
+        gap:5px;
+    }
+
+    .balance{
+        font-size:12px;
+    }
+
     .service{
+        flex-direction:column;
         align-items:flex-start;
     }
 
     .service > div:last-child{
-        text-align:right;
+        width:100%;
     }
 
+    .service .btn{
+        width:100%;
+    }
 }
-
 </style>
-
 </head>
 
-
 <body>
-
-
-<!-- =========================
-     NAV
-========================= -->
 
 <header class="nav">
 
@@ -587,285 +462,182 @@ input::placeholder{
         <span>ADD</span> FR
     </div>
 
-
     <div class="account">
 
         <div class="balance">
-            💰
-            <span id="balance">
-                0đ
-            </span>
+            💰 <span id="balance">0đ</span>
         </div>
 
-
-        <button
-            class="btn dark"
-            onclick="logout()">
-
+        <button class="btn dark" onclick="logout()">
             Đăng xuất
-
         </button>
 
     </div>
 
 </header>
 
-
-
-<!-- =========================
-     MAIN
-========================= -->
-
 <main class="container">
 
+<section class="hero">
 
-    <!-- HERO -->
+    <div class="badge">
+        DỊCH VỤ ONLINE
+    </div>
 
-    <section class="hero">
-
-        <div class="badge">
-            DỊCH VỤ ONLINE
-        </div>
-
-
-        <h1>
-            Mua Add Fr
-            <br>
-
-            <span style="color:#858b9b">
-                nhanh & chuyên nghiệp.
-            </span>
-
-        </h1>
-
-
-        <p>
-
-            Xin chào
-            <strong id="username">
-                ...
-            </strong>.
-
-            <br>
-
-            Đặt dịch vụ, nạp tiền
-            và theo dõi đơn hàng.
-
-        </p>
-
-
+    <h1>
+        Mua Add Fr
         <br>
+        <span style="color:#858b9b">
+            nhanh & chuyên nghiệp.
+        </span>
+    </h1>
+
+    <p>
+        Xin chào
+        <strong id="username">...</strong>.
+        <br>
+        Đặt dịch vụ, nạp tiền và theo dõi đơn hàng.
+    </p>
+
+    <br>
+
+    <button class="btn" onclick="openDeposit()">
+        ＋ Nạp tiền
+    </button>
+
+</section>
 
 
-        <button
-            class="btn"
-            onclick="openDeposit()">
+<div class="cards">
 
-            ＋ Nạp tiền
+    <div class="card">
+        <h3>⚡ Xử lý nhanh</h3>
+        <p>
+            Đơn hàng được tiếp nhận và xử lý
+            theo từng trạng thái.
+        </p>
+    </div>
 
-        </button>
+    <div class="card">
+        <h3>🔒 Theo dõi đơn</h3>
+        <p>
+            Xem lịch sử và trạng thái đơn
+            trực tiếp trên tài khoản.
+        </p>
+    </div>
 
-    </section>
+    <div class="card">
+        <h3>🤖 An Toàn - Bảo Mật</h3>
+        <p>
+            Sử dụng công cụ ổn định và theo dõi
+            trạng thái dịch vụ trực tiếp.
+        </p>
+    </div>
+
+</div>
 
 
+<section class="section">
 
-    <!-- INFO CARDS -->
+    <div class="badge">
+        SẢN PHẨM
+    </div>
 
-    <div class="cards">
+    <h2>
+        Dịch vụ nổi bật
+    </h2>
 
+    <div class="service">
 
-        <div class="card">
+        <div class="service-info">
 
             <h3>
-                ⚡ Xử lý nhanh
+                ＋ Mua Add Fr
             </h3>
 
             <p>
-                Đơn hàng được tiếp nhận
-                và xử lý theo từng trạng thái.
+                Giá 5.000đ / 100 Add Fr
             </p>
 
         </div>
 
+        <div>
 
-        <div class="card">
+            <div class="price">
+                5.000đ / 100
+            </div>
 
-            <h3>
-                🔒 Theo dõi đơn
-            </h3>
-
-            <p>
-                Xem lịch sử và trạng thái
-                đơn trực tiếp trên tài khoản.
-            </p>
+            <button class="btn" onclick="openOrder()">
+                Đặt đơn
+            </button>
 
         </div>
-
-
-        <div class="card">
-
-            <h3>
-                🤖 An Toàn - Bảo Mật
-            </h3>
-
-            <p>
-                Sử dụng công cụ ổn định,
-                hạn chế rủi ro khi sử dụng dịch vụ.
-            </p>
-
-        </div>
-
 
     </div>
 
+</section>
 
 
-    <!-- SERVICE -->
+<section class="section">
 
-    <section class="section">
+    <div class="badge">
+        ORDER TRACKING
+    </div>
 
-        <div class="badge">
-            SẢN PHẨM
+    <h2>
+        Lịch sử đơn hàng
+    </h2>
+
+    <div id="orders">
+        <div class="empty">
+            Đang tải...
         </div>
+    </div>
+
+</section>
 
 
-        <h2>
-            Dịch vụ nổi bật
-        </h2>
+<section class="section">
 
+    <div class="badge">
+        DEPOSIT HISTORY
+    </div>
 
-        <div class="service">
+    <h2>
+        Lịch sử nạp tiền
+    </h2>
 
-            <div class="service-info">
-
-                <h3>
-                    ＋ Mua Add Fr
-                </h3>
-
-                <p>
-                    Giá 5.000đ / 100 Add Fr
-                </p>
-
-            </div>
-
-
-            <div>
-
-                <div class="price">
-                    5.000đ / 100
-                </div>
-
-
-                <button
-                    class="btn"
-                    onclick="openOrder()">
-
-                    Đặt đơn
-
-                </button>
-
-            </div>
-
+    <div id="deposits">
+        <div class="empty">
+            Đang tải...
         </div>
+    </div>
 
-    </section>
-
-
-
-    <!-- HISTORY -->
-
-    <section class="section">
-
-        <div class="badge">
-            ORDER TRACKING
-        </div>
-
-
-        <h2>
-            Lịch sử đơn hàng
-        </h2>
-
-
-        <div id="orders">
-
-            <div class="empty">
-                Đang tải...
-            </div>
-
-        </div>
-
-    </section>
-
+</section>
 
 </main>
 
 
+<!-- ORDER MODAL -->
 
-<!-- =========================
-     ORDER MODAL
-========================= -->
-
-<div
-    class="modal"
-    id="orderModal">
+<div class="modal" id="orderModal">
 
     <div class="box">
 
-
-        <button
-            class="close"
-            onclick="closeModal('orderModal')">
-
+        <button class="close"
+                onclick="closeModal('orderModal')">
             ×
-
         </button>
-
 
         <h2>
             Đặt Add Fr
         </h2>
 
-
         <div class="sub">
-            Số tiền sẽ được trừ trực tiếp
-            từ số dư.
+            Số tiền sẽ được trừ trực tiếp từ số dư.
         </div>
-
-
-        <!-- CURRENT BALANCE -->
-
-        <div class="balance-box">
-
-            <div>
-
-                <div class="balance-label">
-                    Số dư hiện tại
-                </div>
-
-
-                <strong
-                    class="balance-value"
-                    id="orderBalance">
-
-                    0đ
-
-                </strong>
-
-            </div>
-
-
-            <div class="balance-icon">
-                ₫
-            </div>
-
-        </div>
-
-
-
-        <!-- QUANTITY -->
 
         <label>
-
             Số lượng
 
             <input
@@ -874,170 +646,121 @@ input::placeholder{
                 min="100"
                 step="100"
                 value="100"
-                oninput="updateOrderTotal()"
-            >
-
+                oninput="updateOrderTotal()">
         </label>
 
+        <div class="total-preview">
 
-        <div class="form-hint">
-            Tối thiểu 100 Add Fr,
-            số lượng phải chia hết cho 100.
+            <div>
+                <span>Số lượng</span>
+                <strong id="quantityPreview">
+                    100
+                </strong>
+            </div>
+
+            <div>
+                <span>Đơn giá</span>
+                <strong>
+                    5.000đ / 100
+                </strong>
+            </div>
+
+            <div>
+                <span>Thành tiền</span>
+                <strong id="orderTotal">
+                    5.000đ
+                </strong>
+            </div>
+
         </div>
 
-
-
-        <!-- FACEBOOK URL -->
-
         <label>
-
             Facebook URL
 
             <input
                 id="target"
-                type="url"
-                placeholder="https://facebook.com/..."
-            >
-
+                placeholder="https://facebook.com/...">
         </label>
 
-
-        <div class="form-hint">
-            Chỉ chấp nhận link Facebook.
-        </div>
-
-
-
-        <!-- SUMMARY -->
-
-        <div class="order-summary">
-
-
-            <div class="summary-row">
-
-                <span>
-                    Đơn giá
-                </span>
-
-                <strong>
-                    5.000đ / 100
-                </strong>
-
-            </div>
-
-
-            <div class="summary-row">
-
-                <span>
-                    Số lượng
-                </span>
-
-                <strong id="summaryQuantity">
-                    100
-                </strong>
-
-            </div>
-
-
-            <div
-                class="summary-row summary-total">
-
-                <span>
-                    Tổng tiền
-                </span>
-
-                <strong id="orderTotal">
-                    5.000đ
-                </strong>
-
-            </div>
-
-
-            <div
-                class="summary-row remaining-row">
-
-                <span>
-                    Số dư sau khi đặt
-                </span>
-
-                <strong id="remainingBalance">
-                    0đ
-                </strong>
-
-            </div>
-
-
-        </div>
-
-
-
-        <!-- WARNING -->
-
-        <div
-            id="balanceWarning"
-            class="balance-warning">
-
-            💰 Số dư không đủ
-            để tạo đơn này.
-
-        </div>
-
-
-
-        <!-- SUBMIT -->
-
         <button
-            id="orderSubmitBtn"
             class="btn full"
             onclick="createOrder()">
-
             Xác nhận đặt hàng
-
         </button>
-
 
     </div>
 
 </div>
 
 
+<!-- DEPOSIT MODAL -->
 
-<!-- =========================
-     DEPOSIT MODAL
-========================= -->
-
-<div
-    class="modal"
-    id="depositModal">
+<div class="modal" id="depositModal">
 
     <div class="box">
 
-
-        <button
-            class="close"
-            onclick="closeModal('depositModal')">
-
+        <button class="close"
+                onclick="closeModal('depositModal')">
             ×
-
         </button>
-
 
         <h2>
             Nạp tiền
         </h2>
 
-
         <div class="sub">
+            Nhập số tiền muốn nạp. Sau đó chuyển khoản
+            đúng nội dung để admin xác nhận.
+        </div>
 
-            Nhập số tiền muốn nạp.
-            Sau đó gửi yêu cầu cho admin
-            để được duyệt.
+
+        <div class="bank-box">
+
+            <!-- QR NGÂN HÀNG -->
+            <img
+                id="bankQr"
+                class="qr"
+                src="qr-bank.png"
+                alt="QR ngân hàng"
+                onerror="this.style.display='none'">
+
+            <div class="bank-line">
+                <span class="bank-label">
+                    Ngân hàng
+                </span>
+
+                <span class="bank-value"
+                      id="bankName">
+                    YOUR BANK
+                </span>
+            </div>
+
+            <div class="bank-line">
+                <span class="bank-label">
+                    Số tài khoản
+                </span>
+
+                <span class="bank-value"
+                      id="bankAccount">
+                    0000000000
+                </span>
+            </div>
+
+            <div class="bank-line">
+                <span class="bank-label">
+                    Chủ tài khoản
+                </span>
+
+                <span class="bank-value"
+                      id="bankOwner">
+                    YOUR NAME
+                </span>
+            </div>
 
         </div>
 
 
         <label>
-
             Số tiền
 
             <input
@@ -1046,105 +769,120 @@ input::placeholder{
                 min="5000"
                 step="1000"
                 placeholder="50000"
-            >
-
+                oninput="updateTransferContent()">
         </label>
 
 
-        <label>
+        <div class="transfer-content">
 
+            <small>
+                Nội dung chuyển khoản
+            </small>
+
+            <strong id="transferContent">
+                NAP ADD FR
+            </strong>
+
+        </div>
+
+
+        <label>
             Ghi chú
 
             <input
                 id="depositNote"
-                placeholder="VD: CK ngân hàng"
-            >
-
+                placeholder="Ghi chú thêm nếu cần">
         </label>
 
 
         <button
-            id="depositBtn"
             class="btn full"
             onclick="createDeposit()">
-
             Gửi yêu cầu nạp
-
         </button>
-
 
     </div>
 
 </div>
 
 
-
-<!-- TOAST -->
-
 <div id="toast"></div>
-
 
 
 <script>
 
-
-/* =================================================
+/* =========================================================
    SUPABASE
-================================================= */
+========================================================= */
 
 const SUPABASE_URL =
-    "https://nslmutblflfotcxvctpp.supabase.co";
-
+"https://nslmutblflfotcxvctpp.supabase.co";
 
 const SUPABASE_KEY =
-    "sb_publishable_kESQyw5xcjTe1irApsuRGQ_4X1GR0Xr";
+"sb_publishable_kESQyw5xcjTe1irApsuRGQ_4X1GR0Xr";
 
+
+/* =========================================================
+   TELEGRAM EDGE FUNCTION
+========================================================= */
 
 const TELEGRAM_FUNCTION =
-    SUPABASE_URL +
-    "/functions/v1/notify-telegram";
+SUPABASE_URL +
+"/functions/v1/notify-telegram";
 
+
+/* =========================================================
+   CẤU HÌNH NGÂN HÀNG
+   CHỈ SỬA 4 DÒNG NÀY
+========================================================= */
+
+const BANK_NAME =
+"MB BANK";
+
+const BANK_ACCOUNT =
+"0000000000";
+
+const BANK_OWNER =
+"NGUYEN ANH TU";
+
+const QR_IMAGE =
+"qr-bank.png";
+
+
+/* =========================================================
+   SUPABASE CLIENT
+========================================================= */
 
 const sb =
-    supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_KEY
-    );
+supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+);
 
 
+/* =========================================================
+   GLOBAL
+========================================================= */
 
-/* =================================================
-   CONFIG
-================================================= */
-
-const PRICE_PER_100 = 5000;
-
-
-/*
-    Số dư hiện tại của user.
-*/
-
-window.currentBalance = 0;
+let currentUser = null;
+let currentProfile = null;
 
 
-
-/* =================================================
+/* =========================================================
    MONEY
-================================================= */
+========================================================= */
 
 function money(n){
 
     return Number(n || 0)
-        .toLocaleString("vi-VN")
-        + "đ";
+        .toLocaleString("vi-VN") + "đ";
 
 }
 
 
-
-/* =================================================
+/* =========================================================
    TOAST
-================================================= */
+========================================================= */
 
 function toast(text){
 
@@ -1155,12 +893,10 @@ function toast(text){
 
     el.classList.add("show");
 
-    clearTimeout(
-        window.toastTimer
-    );
+    clearTimeout(window.toastTimer);
 
     window.toastTimer =
-        setTimeout(function(){
+        setTimeout(() => {
 
             el.classList.remove("show");
 
@@ -1169,10 +905,9 @@ function toast(text){
 }
 
 
-
-/* =================================================
+/* =========================================================
    MODAL
-================================================= */
+========================================================= */
 
 function closeModal(id){
 
@@ -1183,31 +918,15 @@ function closeModal(id){
 }
 
 
-
-async function openOrder(){
+function openOrder(){
 
     document
         .getElementById("orderModal")
         .classList.add("show");
 
-
-    /*
-        Lấy số dư mới nhất trước
-        khi mở modal.
-    */
-
-    await loadProfile();
-
-
-    document
-        .getElementById("quantity")
-        .value = 100;
-
-
     updateOrderTotal();
 
 }
-
 
 
 function openDeposit(){
@@ -1216,152 +935,91 @@ function openDeposit(){
         .getElementById("depositModal")
         .classList.add("show");
 
+    updateTransferContent();
+
 }
 
 
+/* =========================================================
+   BANK INFO
+========================================================= */
 
-/* =================================================
-   ORDER PRICE
-================================================= */
+function setupBank(){
+
+    document
+        .getElementById("bankName")
+        .textContent = BANK_NAME;
+
+    document
+        .getElementById("bankAccount")
+        .textContent = BANK_ACCOUNT;
+
+    document
+        .getElementById("bankOwner")
+        .textContent = BANK_OWNER;
+
+    document
+        .getElementById("bankQr")
+        .src = QR_IMAGE;
+
+}
+
+
+/* =========================================================
+   ORDER TOTAL
+========================================================= */
 
 function updateOrderTotal(){
 
-    const quantityInput =
-        document.getElementById(
-            "quantity"
-        );
-
-
-    let quantity =
-        Number(quantityInput.value);
-
-
-    if(
-        !Number.isInteger(quantity) ||
-        quantity < 100
-    ){
-
-        quantity = 100;
-
-    }
-
+    const quantity =
+        Number(
+            document.getElementById("quantity").value
+        ) || 0;
 
     const total =
-        Math.ceil(
-            quantity / 100
-        ) * PRICE_PER_100;
-
-
-    const balance =
-        Number(
-            window.currentBalance || 0
-        );
-
-
-    const remaining =
-        balance - total;
-
-
-
-    /*
-        Số lượng
-    */
+        Math.floor(quantity / 100) * 5000;
 
     document
-        .getElementById(
-            "summaryQuantity"
-        )
+        .getElementById("quantityPreview")
         .textContent =
-            quantity.toLocaleString(
-                "vi-VN"
-            );
-
-
-
-    /*
-        Tổng tiền
-    */
+        quantity.toLocaleString("vi-VN");
 
     document
-        .getElementById(
-            "orderTotal"
-        )
+        .getElementById("orderTotal")
         .textContent =
-            money(total);
-
-
-
-    /*
-        Số dư sau khi đặt
-    */
-
-    const remainingElement =
-        document.getElementById(
-            "remainingBalance"
-        );
-
-
-    remainingElement.textContent =
-        money(
-            Math.max(
-                remaining,
-                0
-            )
-        );
-
-
-
-    /*
-        Warning
-    */
-
-    const warning =
-        document.getElementById(
-            "balanceWarning"
-        );
-
-
-    const button =
-        document.getElementById(
-            "orderSubmitBtn"
-        );
-
-
-    if(remaining < 0){
-
-        remainingElement
-            .classList.add(
-                "not-enough"
-            );
-
-        warning.classList.add(
-            "show"
-        );
-
-        button.disabled = true;
-
-    }else{
-
-        remainingElement
-            .classList.remove(
-                "not-enough"
-            );
-
-        warning.classList.remove(
-            "show"
-        );
-
-        button.disabled = false;
-
-    }
+        money(total);
 
 }
 
 
+/* =========================================================
+   TRANSFER CONTENT
+========================================================= */
 
-/* =================================================
+function updateTransferContent(){
+
+    const username =
+        currentProfile?.username ||
+        "USER";
+
+    const safeUsername =
+        String(username)
+            .replace(/[^a-zA-Z0-9]/g,"")
+            .toUpperCase();
+
+    const content =
+        "NAP " + safeUsername;
+
+    document
+        .getElementById("transferContent")
+        .textContent = content;
+
+}
+
+
+/* =========================================================
    TELEGRAM
-================================================= */
+========================================================= */
 
 async function sendTelegram(message){
 
@@ -1375,7 +1033,7 @@ async function sendTelegram(message){
 
                     headers:{
                         "Content-Type":
-                            "application/json"
+                        "application/json"
                     },
 
                     body:JSON.stringify({
@@ -1384,29 +1042,21 @@ async function sendTelegram(message){
                 }
             );
 
-
         const result =
             await response.json();
 
-
-        if(!result.ok){
-
-            console.error(
-                "Telegram:",
-                result
-            );
-
-        }
-
+        console.log(
+            "Telegram:",
+            result
+        );
 
         return result;
 
-
-    }catch(e){
+    }catch(error){
 
         console.error(
             "Telegram error:",
-            e
+            error
         );
 
         return null;
@@ -1416,10 +1066,9 @@ async function sendTelegram(message){
 }
 
 
-
-/* =================================================
+/* =========================================================
    LOAD PROFILE
-================================================= */
+========================================================= */
 
 async function loadProfile(){
 
@@ -1428,7 +1077,7 @@ async function loadProfile(){
             user
         }
     } =
-        await sb.auth.getUser();
+    await sb.auth.getUser();
 
 
     if(!user){
@@ -1441,22 +1090,18 @@ async function loadProfile(){
     }
 
 
+    currentUser = user;
+
 
     const {
         data:profile,
         error
     } =
-        await sb
-            .from("profiles")
-            .select(
-                "username,balance"
-            )
-            .eq(
-                "id",
-                user.id
-            )
-            .single();
-
+    await sb
+        .from("profiles")
+        .select("username,balance")
+        .eq("id",user.id)
+        .single();
 
 
     if(error){
@@ -1475,129 +1120,61 @@ async function loadProfile(){
     }
 
 
+    currentProfile = profile;
 
-    /*
-        Lưu số dư global.
-    */
-
-    window.currentBalance =
-        Number(
-            profile.balance || 0
-        );
-
-
-
-    /*
-        Username.
-    */
 
     document
-        .getElementById(
-            "username"
-        )
+        .getElementById("username")
         .textContent =
-            profile.username ||
-            "User";
+        profile.username ||
+        "User";
 
-
-
-    /*
-        Header balance.
-    */
 
     document
-        .getElementById(
-            "balance"
-        )
+        .getElementById("balance")
         .textContent =
-            money(
-                window.currentBalance
-            );
+        money(profile.balance);
 
 
-
-    /*
-        Modal balance.
-    */
-
-    const modalBalance =
-        document.getElementById(
-            "orderBalance"
-        );
-
-
-    if(modalBalance){
-
-        modalBalance.textContent =
-            money(
-                window.currentBalance
-            );
-
-    }
-
+    updateTransferContent();
 
 
     return {
-        user:user,
-        profile:profile
+        user,
+        profile
     };
 
 }
 
 
-
-/* =================================================
+/* =========================================================
    LOAD ORDERS
-================================================= */
+========================================================= */
 
 async function loadOrders(){
 
-    const {
-        data:{
-            user
-        }
-    } =
-        await sb.auth.getUser();
-
-
-    if(!user){
-
+    if(!currentUser)
         return;
 
-    }
-
-
-
-    /*
-        Chỉ lấy đơn của user
-        đang đăng nhập.
-    */
 
     const {
         data,
         error
     } =
-        await sb
-            .from("orders")
-            .select("*")
-            .eq(
-                "user_id",
-                user.id
-            )
-            .order(
-                "created_at",
-                {
-                    ascending:false
-                }
-            );
-
+    await sb
+        .from("orders")
+        .select("*")
+        .eq("user_id",currentUser.id)
+        .order(
+            "created_at",
+            {
+                ascending:false
+            }
+        );
 
 
     const box =
-        document.getElementById(
-            "orders"
-        );
-
+        document.getElementById("orders");
 
 
     if(error){
@@ -1607,11 +1184,11 @@ async function loadOrders(){
             error
         );
 
-
-        box.innerHTML = `
-            <div class="empty">
-                Không tải được lịch sử đơn.
-            </div>
+        box.innerHTML =
+        `
+        <div class="empty">
+            Không tải được lịch sử đơn.
+        </div>
         `;
 
         return;
@@ -1619,210 +1196,289 @@ async function loadOrders(){
     }
 
 
+    if(!data || !data.length){
 
-    if(
-        !data ||
-        !data.length
-    ){
-
-        box.innerHTML = `
-            <div class="empty">
-                Chưa có đơn hàng.
-            </div>
+        box.innerHTML =
+        `
+        <div class="empty">
+            Chưa có đơn hàng.
+        </div>
         `;
 
         return;
 
     }
-
 
 
     box.innerHTML =
-        data.map(function(o){
+    data.map(o => {
 
-            let status =
-                "🟡 Đang xử lý";
+        let status =
+            "🟡 Đang xử lý";
 
-            let statusClass =
-                "";
-
-
-            if(
-                o.status ===
-                "completed"
-            ){
-
-                status =
-                    "🟢 Hoàn thành";
-
-                statusClass =
-                    "completed";
-
-            }
+        let statusClass = "";
 
 
-            if(
-                o.status ===
-                "cancelled"
-            ){
+        if(o.status === "completed"){
 
-                status =
-                    "🔴 Đã hủy";
+            status =
+                "🟢 Hoàn thành";
 
-                statusClass =
-                    "cancelled";
+            statusClass =
+                "success";
 
-            }
+        }
 
 
+        if(o.status === "cancelled"){
 
-            return `
+            status =
+                "🔴 Đã hủy";
 
-                <div class="order">
+            statusClass =
+                "cancel";
 
-                    <div class="order-head">
-
-                        <div>
-
-                            <div class="order-code">
-                                ${escapeHtml(
-                                    o.order_code
-                                )}
-                            </div>
-
-                            <div
-                                class="order-date">
-
-                                ${o.created_at
-                                    ? new Date(
-                                        o.created_at
-                                      ).toLocaleString(
-                                        "vi-VN"
-                                      )
-                                    : ""
-                                }
-
-                            </div>
-
-                        </div>
+        }
 
 
-                        <div
-                            class="status ${statusClass}">
+        return `
+        <div class="order">
 
-                            ${status}
+            <div class="order-head">
 
-                        </div>
+                <div>
 
+                    <div class="order-code">
+                        ${escapeHtml(o.order_code)}
                     </div>
 
-
-                    <div class="order-info">
-
-                        📦
-                        ${Number(
-                            o.quantity || 0
-                        ).toLocaleString(
-                            "vi-VN"
-                        )}
-                        Add Fr
-
-                        <br>
-
-                        💰
-                        ${money(o.total)}
-
-                        <br>
-
-                        🔗
-                        ${escapeHtml(
-                            o.target
-                        )}
-
+                    <div
+                        style="
+                        color:#656c79;
+                        font-size:11px;
+                        margin-top:5px
+                        "
+                    >
+                        ${new Date(o.created_at)
+                            .toLocaleString("vi-VN")}
                     </div>
 
                 </div>
 
-            `;
+                <div class="status ${statusClass}">
+                    ${status}
+                </div>
 
-        }).join("");
+            </div>
+
+            <div class="order-info">
+
+                📦 ${Number(o.quantity)
+                    .toLocaleString("vi-VN")} Add Fr
+
+                <br>
+
+                💰 ${money(o.total)}
+
+                <br>
+
+                🔗 ${escapeHtml(o.target)}
+
+            </div>
+
+        </div>
+        `;
+
+    }).join("");
 
 }
 
 
+/* =========================================================
+   LOAD DEPOSIT HISTORY
+========================================================= */
 
-/* =================================================
+async function loadDeposits(){
+
+    if(!currentUser)
+        return;
+
+
+    const {
+        data,
+        error
+    } =
+    await sb
+        .from("deposit_requests")
+        .select("*")
+        .eq("user_id",currentUser.id)
+        .order(
+            "created_at",
+            {
+                ascending:false
+            }
+        );
+
+
+    const box =
+        document.getElementById("deposits");
+
+
+    if(error){
+
+        console.error(
+            "DEPOSIT HISTORY ERROR:",
+            error
+        );
+
+        box.innerHTML =
+        `
+        <div class="empty">
+            Không tải được lịch sử nạp tiền.
+        </div>
+        `;
+
+        return;
+
+    }
+
+
+    if(!data || !data.length){
+
+        box.innerHTML =
+        `
+        <div class="empty">
+            Chưa có yêu cầu nạp tiền.
+        </div>
+        `;
+
+        return;
+
+    }
+
+
+    box.innerHTML =
+    data.map(d => {
+
+        let status =
+            "🟡 Chờ duyệt";
+
+        let statusClass = "";
+
+
+        if(d.status === "approved"){
+
+            status =
+                "🟢 Đã duyệt";
+
+            statusClass =
+                "success";
+
+        }
+
+
+        if(d.status === "rejected"){
+
+            status =
+                "🔴 Từ chối";
+
+            statusClass =
+                "cancel";
+
+        }
+
+
+        return `
+        <div class="deposit-history">
+
+            <div class="deposit-row">
+
+                <div>
+
+                    <div class="deposit-amount">
+                        ${money(d.amount)}
+                    </div>
+
+                    <div class="deposit-time">
+                        ${new Date(d.created_at)
+                            .toLocaleString("vi-VN")}
+                    </div>
+
+                </div>
+
+                <div class="status ${statusClass}">
+                    ${status}
+                </div>
+
+            </div>
+
+            <div class="order-info">
+
+                📝 ${escapeHtml(
+                    d.note || "Không có ghi chú"
+                )}
+
+                <br>
+
+                🆔 ${escapeHtml(
+                    d.id
+                )}
+
+            </div>
+
+        </div>
+        `;
+
+    }).join("");
+
+}
+
+
+/* =========================================================
    ESCAPE HTML
-================================================= */
+========================================================= */
 
 function escapeHtml(value){
 
-    return String(
-        value ?? ""
-    )
-    .replace(
-        /&/g,
-        "&amp;"
-    )
-    .replace(
-        /</g,
-        "&lt;"
-    )
-    .replace(
-        />/g,
-        "&gt;"
-    )
-    .replace(
-        /"/g,
-        "&quot;"
-    )
-    .replace(
-        /'/g,
-        "&#039;"
-    );
+    return String(value ?? "")
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
 
 }
 
 
-
-/* =================================================
+/* =========================================================
    CREATE ORDER
-================================================= */
+========================================================= */
 
 async function createOrder(){
 
     const quantity =
         Number(
-            document.getElementById(
-                "quantity"
-            ).value
+            document
+                .getElementById("quantity")
+                .value
         );
 
 
     const target =
         document
-            .getElementById(
-                "target"
-            )
+            .getElementById("target")
             .value
             .trim();
 
 
     const button =
-        document.getElementById(
-            "orderSubmitBtn"
+        document.querySelector(
+            "#orderModal button.btn.full"
         );
 
 
-
-    /*
-        Quantity
-    */
-
     if(
-        !Number.isInteger(
-            quantity
-        ) ||
+        !Number.isInteger(quantity) ||
         quantity < 100
     ){
 
@@ -1835,10 +1491,7 @@ async function createOrder(){
     }
 
 
-
-    if(
-        quantity % 100 !== 0
-    ){
+    if(quantity % 100 !== 0){
 
         toast(
             "Số lượng phải chia hết cho 100."
@@ -1849,20 +1502,11 @@ async function createOrder(){
     }
 
 
-
-    /*
-        Facebook URL
-    */
-
     const facebookRegex =
         /^https?:\/\/(www\.)?facebook\.com\/.+/i;
 
 
-    if(
-        !facebookRegex.test(
-            target
-        )
-    ){
+    if(!facebookRegex.test(target)){
 
         toast(
             "Link phải có dạng https://facebook.com/..."
@@ -1873,79 +1517,30 @@ async function createOrder(){
     }
 
 
+    if(button){
 
-    /*
-        Tính tiền trước.
-    */
+        button.disabled = true;
 
-    const total =
-        Math.ceil(
-            quantity / 100
-        ) * PRICE_PER_100;
-
-
-
-    /*
-        Kiểm tra số dư local
-        trước khi gọi RPC.
-    */
-
-    if(
-        Number(
-            window.currentBalance || 0
-        ) < total
-    ){
-
-        toast(
-            "💰 Số dư không đủ."
-        );
-
-        updateOrderTotal();
-
-        return;
+        button.textContent =
+            "⏳ Đang tạo đơn...";
 
     }
 
 
-
-    /*
-        Loading
-    */
-
-    button.disabled = true;
-
-    button.textContent =
-        "⏳ Đang tạo đơn...";
-
-
-
     try{
-
-
-        /*
-            Gọi RPC.
-        */
 
         const {
             data,
             error
         } =
-            await sb.rpc(
-                "create_order",
-                {
-                    p_quantity:
-                        quantity,
+        await sb.rpc(
+            "create_order",
+            {
+                p_quantity:quantity,
+                p_target:target
+            }
+        );
 
-                    p_target:
-                        target
-                }
-            );
-
-
-
-        /*
-            Supabase error.
-        */
 
         if(error){
 
@@ -1954,18 +1549,13 @@ async function createOrder(){
                 error
             );
 
-
             let message =
                 error.message ||
                 "Không tạo được đơn.";
 
 
-            const upper =
-                message.toUpperCase();
-
-
             if(
-                upper.includes(
+                message.includes(
                     "INSUFFICIENT_BALANCE"
                 )
             ){
@@ -1975,19 +1565,9 @@ async function createOrder(){
 
             }
 
-            else if(
-                upper.includes(
-                    "FACEBOOK_LINK_REQUIRED"
-                )
-            ){
 
-                message =
-                    "🔗 Link phải là Facebook.";
-
-            }
-
-            else if(
-                upper.includes(
+            if(
+                message.includes(
                     "NOT_AUTHENTICATED"
                 )
             ){
@@ -1997,14 +1577,15 @@ async function createOrder(){
 
             }
 
-            else if(
-                upper.includes(
+
+            if(
+                message.includes(
                     "PROFILE_NOT_FOUND"
                 )
             ){
 
                 message =
-                    "👤 Không tìm thấy hồ sơ tài khoản.";
+                    "👤 Không tìm thấy hồ sơ.";
 
             }
 
@@ -2016,29 +1597,15 @@ async function createOrder(){
         }
 
 
+        if(!data || !data.ok){
 
-        /*
-            Kiểm tra RPC result.
-        */
-
-        console.log(
-            "CREATE ORDER RESULT:",
-            data
-        );
-
-
-        if(
-            !data ||
-            !data.ok
-        ){
+            console.error(
+                "RPC RESULT:",
+                data
+            );
 
             toast(
                 "Không tạo được đơn."
-            );
-
-            console.error(
-                "Invalid RPC result:",
-                data
             );
 
             return;
@@ -2046,32 +1613,23 @@ async function createOrder(){
         }
 
 
-
-        /*
-            Thành công.
-        */
-
         toast(
             "✅ Đặt hàng thành công!"
         );
 
 
-
-        /*
-            Gửi Telegram.
-        */
-
         await sendTelegram(
+`
+🛒 ĐƠN HÀNG ADD FR MỚI
 
-`🛒 ĐƠN HÀNG ADD FR MỚI
-
-🆔 Mã đơn: ${data.order_code}
+🆔 Mã đơn:
+${data.order_code}
 
 👤 Username:
-${document.getElementById("username").textContent}
+${currentProfile?.username || "User"}
 
 📦 Số lượng:
-${quantity.toLocaleString("vi-VN")} Add Fr
+${quantity} Add Fr
 
 💰 Tổng tiền:
 ${money(data.total)}
@@ -2079,132 +1637,84 @@ ${money(data.total)}
 🔗 Facebook:
 ${target}
 
-💳 Số dư trước:
-${money(window.currentBalance)}
-
-💳 Số dư sau:
-${money(
-    Math.max(
-        Number(
-            window.currentBalance
-        ) - Number(data.total),
-        0
-    )
-)}
-
 🟡 Trạng thái:
-Đang xử lý`
-
+Đang xử lý
+`
         );
 
-
-
-        /*
-            Đóng modal.
-        */
 
         closeModal(
             "orderModal"
         );
 
 
-
-        /*
-            Reset.
-        */
-
-        document.getElementById(
-            "quantity"
-        ).value = 100;
+        document
+            .getElementById("quantity")
+            .value = 100;
 
 
-        document.getElementById(
-            "target"
-        ).value = "";
+        document
+            .getElementById("target")
+            .value = "";
 
-
-
-        /*
-            Load lại số dư thật
-            từ Supabase.
-        */
 
         await loadProfile();
 
-
-        /*
-            Load lại lịch sử.
-        */
-
         await loadOrders();
 
-
-
-    }catch(err){
+    }
+    catch(error){
 
         console.error(
-            "UNEXPECTED ERROR:",
-            err
+            "UNEXPECTED:",
+            error
         );
-
 
         toast(
-            err instanceof Error
-                ? err.message
-                : "Có lỗi xảy ra."
+            error?.message ||
+            "Có lỗi xảy ra."
         );
 
+    }
+    finally{
 
-    }finally{
+        if(button){
 
-        button.disabled =
-            false;
+            button.disabled = false;
 
-        button.textContent =
-            "Xác nhận đặt hàng";
+            button.textContent =
+                "Xác nhận đặt hàng";
+
+        }
 
     }
 
 }
 
 
-
-/* =================================================
+/* =========================================================
    CREATE DEPOSIT
-================================================= */
+========================================================= */
 
 async function createDeposit(){
 
     const amount =
         Number(
             document
-                .getElementById(
-                    "depositAmount"
-                )
+                .getElementById("depositAmount")
                 .value
         );
 
 
     const note =
         document
-            .getElementById(
-                "depositNote"
-            )
+            .getElementById("depositNote")
             .value
             .trim();
 
 
-    const button =
-        document.getElementById(
-            "depositBtn"
-        );
-
-
-
     if(
-        !Number.isInteger(
-            amount
-        ) ||
+        !Number.isInteger(amount) ||
         amount < 5000
     ){
 
@@ -2217,17 +1727,7 @@ async function createDeposit(){
     }
 
 
-
-    const {
-        data:{
-            user
-        }
-    } =
-        await sb.auth.getUser();
-
-
-
-    if(!user){
+    if(!currentUser){
 
         toast(
             "Vui lòng đăng nhập."
@@ -2238,78 +1738,72 @@ async function createDeposit(){
     }
 
 
+    const username =
+        currentProfile?.username ||
+        "USER";
 
-    button.disabled = true;
 
-    button.textContent =
-        "⏳ Đang gửi...";
+    const safeUsername =
+        String(username)
+            .replace(/[^a-zA-Z0-9]/g,"")
+            .toUpperCase();
 
+
+    const transferContent =
+        "NAP " + safeUsername;
+
+
+    const button =
+        document.querySelector(
+            "#depositModal button.btn.full"
+        );
+
+
+    if(button){
+
+        button.disabled = true;
+
+        button.textContent =
+            "⏳ Đang gửi...";
+
+    }
 
 
     try{
 
-
         /*
-            Lấy username.
-        */
-
-        const {
-            data:profile,
-            error:profileError
-        } =
-            await sb
-                .from("profiles")
-                .select(
-                    "username"
-                )
-                .eq(
-                    "id",
-                    user.id
-                )
-                .single();
-
-
-
-        if(profileError){
-
-            console.error(
-                profileError
-            );
-
-            toast(
-                "Không lấy được thông tin tài khoản."
-            );
-
-            return;
-
-        }
-
-
-
-        /*
-            Tạo yêu cầu nạp.
-        */
+         * deposit_requests hiện tại:
+         * id
+         * user_id
+         * amount
+         * status
+         * created_at
+         * approve_at
+         *
+         * note nếu bảng của bạn có cột note.
+         */
 
         const {
             error
         } =
-            await sb
-                .from(
-                    "deposit_requests"
-                )
-                .insert({
+        await sb
+            .from("deposit_requests")
+            .insert({
 
-                    user_id:
-                        user.id,
+                user_id:
+                    currentUser.id,
 
-                    amount:
-                        amount,
+                amount:
+                    amount,
 
-                    note:
-                        note || null
+                status:
+                    "pending",
 
-                });
+                note:
+                    note ||
+                    transferContent
 
+            });
 
 
         if(error){
@@ -2319,38 +1813,94 @@ async function createDeposit(){
                 error
             );
 
-            toast(
-                "Không tạo được yêu cầu nạp."
-            );
+            /*
+             * Nếu bảng không có cột note,
+             * thử insert lại chỉ với các cột
+             * chắc chắn đang có.
+             */
 
-            return;
+            if(
+                error.message &&
+                error.message
+                    .toLowerCase()
+                    .includes("note")
+            ){
+
+                const retry =
+                    await sb
+                        .from("deposit_requests")
+                        .insert({
+
+                            user_id:
+                                currentUser.id,
+
+                            amount:
+                                amount,
+
+                            status:
+                                "pending"
+
+                        });
+
+
+                if(retry.error){
+
+                    console.error(
+                        "DEPOSIT RETRY ERROR:",
+                        retry.error
+                    );
+
+                    toast(
+                        "Không tạo được yêu cầu nạp."
+                    );
+
+                    return;
+
+                }
+
+            }
+            else{
+
+                toast(
+                    "Không tạo được yêu cầu nạp."
+                );
+
+                return;
+
+            }
 
         }
 
 
-
-        /*
-            Báo Telegram.
-        */
-
         await sendTelegram(
-
-`💰 YÊU CẦU NẠP TIỀN
+`
+💰 YÊU CẦU NẠP TIỀN
 
 👤 Username:
-${profile?.username || "User"}
+${username}
+
+🆔 User ID:
+${currentUser.id}
 
 💵 Số tiền:
 ${money(amount)}
 
-📝 Ghi chú:
+🏦 Ngân hàng:
+${BANK_NAME}
+
+💳 STK:
+${BANK_ACCOUNT}
+
+📝 Nội dung CK:
+${transferContent}
+
+📌 Ghi chú:
 ${note || "Không có"}
 
 🟡 Trạng thái:
-Chờ admin duyệt`
-
+Chờ duyệt
+`
         );
-
 
 
         toast(
@@ -2358,39 +1908,56 @@ Chờ admin duyệt`
         );
 
 
-
         closeModal(
             "depositModal"
         );
 
 
-        document.getElementById(
-            "depositAmount"
-        ).value = "";
+        document
+            .getElementById("depositAmount")
+            .value = "";
 
 
-        document.getElementById(
-            "depositNote"
-        ).value = "";
+        document
+            .getElementById("depositNote")
+            .value = "";
 
 
-    }finally{
+        await loadDeposits();
 
-        button.disabled =
-            false;
+    }
+    catch(error){
 
-        button.textContent =
-            "Gửi yêu cầu nạp";
+        console.error(
+            "UNEXPECTED DEPOSIT ERROR:",
+            error
+        );
+
+        toast(
+            error?.message ||
+            "Có lỗi khi gửi yêu cầu."
+        );
+
+    }
+    finally{
+
+        if(button){
+
+            button.disabled = false;
+
+            button.textContent =
+                "Gửi yêu cầu nạp";
+
+        }
 
     }
 
 }
 
 
-
-/* =================================================
+/* =========================================================
    LOGOUT
-================================================= */
+========================================================= */
 
 async function logout(){
 
@@ -2402,17 +1969,16 @@ async function logout(){
 }
 
 
-
-/* =================================================
+/* =========================================================
    AUTH STATE
-================================================= */
+========================================================= */
 
 sb.auth.onAuthStateChange(
-    function(event,session){
+    (event,session) => {
 
         if(
-            event ===
-            "SIGNED_OUT"
+            event === "SIGNED_OUT" ||
+            !session
         ){
 
             location.href =
@@ -2424,19 +1990,21 @@ sb.auth.onAuthStateChange(
 );
 
 
-
-/* =================================================
+/* =========================================================
    INIT
-================================================= */
+========================================================= */
 
 async function init(){
+
+    setupBank();
+
 
     const {
         data:{
             session
         }
     } =
-        await sb.auth.getSession();
+    await sb.auth.getSession();
 
 
     if(!session){
@@ -2449,26 +2017,19 @@ async function init(){
     }
 
 
-
     await loadProfile();
 
     await loadOrders();
 
-
-    /*
-        Khởi tạo giá.
-    */
-
-    updateOrderTotal();
+    await loadDeposits();
 
 }
 
 
-
 init();
-
 
 </script>
 
 </body>
 </html>
+```
