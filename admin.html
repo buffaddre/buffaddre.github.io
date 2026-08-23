@@ -2,108 +2,23 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>ADD FR - Admin</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
-*{
-    box-sizing:border-box;
-    margin:0;
-    padding:0;
-}
+*{box-sizing:border-box;margin:0;padding:0}
 
 body{
     background:#08090d;
     color:#fff;
-    font-family:Arial,Helvetica,sans-serif;
-}
-
-button,input{
-    font-family:inherit;
+    font-family:Arial,sans-serif;
 }
 
 button{
     cursor:pointer;
-}
-
-.login{
-    min-height:100vh;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    padding:20px;
-}
-
-.login-box{
-    width:100%;
-    max-width:420px;
-    padding:30px;
-    border:1px solid #292d38;
-    border-radius:24px;
-    background:#111319;
-}
-
-.logo{
-    font-size:24px;
-    font-weight:900;
-    letter-spacing:2px;
-    margin-bottom:8px;
-}
-
-.logo span{
-    color:#9276ff;
-}
-
-.subtitle{
-    color:#777e8d;
-    font-size:13px;
-    margin-bottom:25px;
-}
-
-label{
-    display:block;
-    color:#9299a8;
-    font-size:12px;
-    margin-top:15px;
-}
-
-input{
-    width:100%;
-    padding:13px;
-    margin-top:7px;
-    border:1px solid #292d36;
-    border-radius:11px;
-    background:#0b0c10;
-    color:#fff;
-    outline:none;
-}
-
-input:focus{
-    border-color:#9178ff;
-}
-
-.btn{
-    width:100%;
-    margin-top:20px;
-    padding:14px;
-    border:0;
-    border-radius:12px;
-    background:linear-gradient(135deg,#a087ff,#644cff);
-    color:#fff;
-    font-weight:bold;
-}
-
-.error{
-    color:#ff7777;
-    font-size:12px;
-    margin-top:12px;
-}
-
-#admin{
-    display:none;
+    font-family:inherit;
 }
 
 .nav{
@@ -111,79 +26,84 @@ input:focus{
     margin:auto;
     padding:22px;
     display:flex;
-    align-items:center;
     justify-content:space-between;
+    align-items:center;
 }
 
-.logout{
-    padding:10px 15px;
-    border:1px solid #292d38;
+.logo{
+    font-size:22px;
+    font-weight:900;
+    letter-spacing:2px;
+}
+
+.logo span{
+    color:#9276ff;
+}
+
+.btn{
+    border:0;
     border-radius:10px;
-    background:#111319;
+    padding:10px 15px;
     color:#fff;
+    font-weight:bold;
+    background:linear-gradient(135deg,#a087ff,#644cff);
+}
+
+.btn.red{
+    background:#402027;
+    color:#ff8e9c;
 }
 
 .container{
     max-width:1200px;
     margin:auto;
-    padding:20px 22px 80px;
+    padding:25px 20px 80px;
 }
 
-.badge{
-    color:#9276ff;
-    font-size:11px;
-    font-weight:bold;
-    letter-spacing:3px;
-    margin-bottom:10px;
+.title{
+    font-size:35px;
+    font-weight:900;
 }
 
-h1{
-    font-size:42px;
+.sub{
+    margin-top:7px;
+    color:#777e8c;
 }
 
 .stats{
     display:grid;
-    grid-template-columns:repeat(4,1fr);
+    grid-template-columns:repeat(3,1fr);
     gap:12px;
-    margin-top:30px;
+    margin:30px 0;
 }
 
 .stat{
+    padding:20px;
+    border:1px solid #292d38;
+    border-radius:17px;
+    background:#111319;
+}
+
+.stat b{
+    display:block;
+    font-size:25px;
+    margin-bottom:8px;
+}
+
+.stat span{
+    color:#777e8c;
+    font-size:12px;
+}
+
+.order{
+    margin-bottom:14px;
     padding:20px;
     border:1px solid #292d38;
     border-radius:18px;
     background:#111319;
 }
 
-.stat-title{
-    color:#777e8d;
-    font-size:12px;
-    margin-bottom:10px;
-}
-
-.stat-value{
-    font-size:25px;
-    font-weight:900;
-}
-
-.section{
-    margin-top:35px;
-}
-
-.section h2{
-    font-size:23px;
-    margin-bottom:15px;
-}
-
-.card{
-    padding:18px;
-    border:1px solid #292d38;
-    border-radius:18px;
-    background:#111319;
-    margin-bottom:12px;
-}
-
-.card-top{
+.head{
     display:flex;
     justify-content:space-between;
     gap:15px;
@@ -191,27 +111,28 @@ h1{
 
 .code{
     font-weight:900;
+    font-size:17px;
 }
 
 .date{
+    margin-top:5px;
     color:#666d7b;
     font-size:11px;
-    margin-top:5px;
 }
 
 .status{
     height:max-content;
-    padding:7px 10px;
+    padding:7px 11px;
     border-radius:30px;
     background:#29233f;
     color:#b9aaff;
-    font-size:10px;
+    font-size:11px;
 }
 
 .info{
-    margin-top:13px;
-    color:#9299a8;
-    font-size:12px;
+    margin-top:15px;
+    color:#9aa1ae;
+    font-size:13px;
     line-height:1.9;
     word-break:break-word;
 }
@@ -219,71 +140,43 @@ h1{
 .actions{
     display:flex;
     gap:8px;
-    margin-top:15px;
-}
-
-.action{
-    padding:10px 13px;
-    border:0;
-    border-radius:10px;
-    color:#fff;
-    font-weight:bold;
-}
-
-.approve{
-    background:#17663d;
-}
-
-.reject{
-    background:#632b32;
-}
-
-.complete{
-    background:#5b49bb;
+    margin-top:17px;
+    flex-wrap:wrap;
 }
 
 .empty{
-    padding:35px;
+    padding:40px;
     text-align:center;
-    color:#666d7b;
     border:1px dashed #292d38;
-    border-radius:16px;
+    border-radius:17px;
+    color:#6d7481;
 }
 
-.toast{
+#toast{
     position:fixed;
-    bottom:25px;
     left:50%;
-    transform:translateX(-50%);
-    padding:13px 17px;
-    border:1px solid #303542;
+    bottom:25px;
+    padding:13px 18px;
     border-radius:12px;
     background:#191c24;
+    border:1px solid #303542;
+    transform:translate(-50%,20px);
     opacity:0;
-    pointer-events:none;
     transition:.25s;
+    z-index:999;
 }
 
-.toast.show{
+#toast.show{
     opacity:1;
+    transform:translate(-50%,0);
 }
 
-@media(max-width:800px){
-    .stats{
-        grid-template-columns:1fr 1fr;
-    }
-}
-
-@media(max-width:500px){
+@media(max-width:700px){
     .stats{
         grid-template-columns:1fr;
     }
 
-    h1{
-        font-size:32px;
-    }
-
-    .card-top{
+    .head{
         flex-direction:column;
     }
 }
@@ -292,405 +185,523 @@ h1{
 
 <body>
 
-<!-- LOGIN -->
+<header class="nav">
 
-<div class="login" id="loginPage">
+    <div class="logo">
+        <span>ADD</span> FR ADMIN
+    </div>
 
-    <div class="login-box">
+    <button class="btn" onclick="logout()">
+        Đăng xuất
+    </button>
 
-        <div class="logo">
-            <span>ADD</span> FR
+</header>
+
+
+<main class="container">
+
+    <div class="title">
+        Quản lý đơn hàng
+    </div>
+
+    <div class="sub">
+        Duyệt và cập nhật trạng thái đơn hàng.
+    </div>
+
+
+    <div class="stats">
+
+        <div class="stat">
+            <b id="totalOrders">0</b>
+            <span>Tổng đơn</span>
         </div>
 
-        <div class="subtitle">
-            Administrator Panel
+        <div class="stat">
+            <b id="pendingOrders">0</b>
+            <span>Đang xử lý</span>
         </div>
 
-        <label>Email</label>
-
-        <input
-            id="email"
-            type="email"
-            placeholder="admin@email.com"
-        >
-
-        <label>Mật khẩu</label>
-
-        <input
-            id="password"
-            type="password"
-            placeholder="••••••••"
-        >
-
-        <button
-            class="btn"
-            onclick="login()"
-        >
-            Đăng nhập Admin
-        </button>
-
-        <div
-            class="error"
-            id="loginError"
-        ></div>
+        <div class="stat">
+            <b id="completedOrders">0</b>
+            <span>Hoàn thành</span>
+        </div>
 
     </div>
 
-</div>
 
-
-<!-- ADMIN -->
-
-<div id="admin">
-
-    <header class="nav">
-
-        <div class="logo">
-            <span>ADD</span> FR
+    <div id="orders">
+        <div class="empty">
+            Đang tải đơn hàng...
         </div>
+    </div>
 
-        <button
-            class="logout"
-            onclick="logout()"
-        >
-            Đăng xuất
-        </button>
-
-    </header>
+</main>
 
 
-    <main class="container">
-
-        <div class="badge">
-            ADMINISTRATION
-        </div>
-
-        <h1>
-            Dashboard
-        </h1>
-
-
-        <div class="stats">
-
-            <div class="stat">
-                <div class="stat-title">
-                    Khách hàng
-                </div>
-
-                <div
-                    class="stat-value"
-                    id="usersCount"
-                >
-                    0
-                </div>
-            </div>
-
-
-            <div class="stat">
-
-                <div class="stat-title">
-                    Tổng số dư
-                </div>
-
-                <div
-                    class="stat-value"
-                    id="balanceTotal"
-                >
-                    0đ
-                </div>
-
-            </div>
-
-
-            <div class="stat">
-
-                <div class="stat-title">
-                    Chờ nạp
-                </div>
-
-                <div
-                    class="stat-value"
-                    id="pendingDeposits"
-                >
-                    0
-                </div>
-
-            </div>
-
-
-            <div class="stat">
-
-                <div class="stat-title">
-                    Đơn xử lý
-                </div>
-
-                <div
-                    class="stat-value"
-                    id="processingOrders"
-                >
-                    0
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <!-- DEPOSITS -->
-
-        <section class="section">
-
-            <div class="badge">
-                DEPOSITS
-            </div>
-
-            <h2>
-                Yêu cầu nạp tiền
-            </h2>
-
-            <div id="deposits"></div>
-
-        </section>
-
-
-        <!-- ORDERS -->
-
-        <section class="section">
-
-            <div class="badge">
-                ORDERS
-            </div>
-
-            <h2>
-                Đơn hàng
-            </h2>
-
-            <div id="orders"></div>
-
-        </section>
-
-    </main>
-
-</div>
-
-
-<div
-    class="toast"
-    id="toast"
-></div>
+<div id="toast"></div>
 
 
 <script>
 
-/* =========================================
-   SUPABASE
-   ========================================= */
-
-/*
-   LẤY 2 GIÁ TRỊ NÀY TRONG:
-
-   Supabase
-   → Project Settings
-   → API
-*/
-
 const SUPABASE_URL =
-    "https://nslmutblflfotcxvctpp.supabase.co";
+"https://nslmutblflfotcxvctpp.supabase.co";
 
-const SUPABASE_ANON_KEY =
-    "sb_publishable_kESQyw5xcjTe1irApsuRGQ_4X1GR0Xr";
+const SUPABASE_KEY =
+"sb_publishable_kESQyw5xcjTe1irApsuRGQ_4X1GR0Xr";
+
+const TELEGRAM_FUNCTION =
+SUPABASE_URL +
+"/functions/v1/notify-telegram";
+
+const sb =
+supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+);
 
 
-const supabaseClient =
-    supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_ANON_KEY
-    );
-
-
-/* =========================================
-   UTIL
-   ========================================= */
-
-function money(value){
-
-    return Number(value || 0)
+function money(n){
+    return Number(n)
         .toLocaleString("vi-VN") + "đ";
-
 }
 
 
-function escapeHTML(value){
-
+function escapeHtml(value){
     return String(value ?? "")
         .replace(/&/g,"&amp;")
         .replace(/</g,"&lt;")
         .replace(/>/g,"&gt;")
         .replace(/"/g,"&quot;")
         .replace(/'/g,"&#039;");
-
 }
 
 
-function toast(message){
+function toast(text){
 
     const el =
         document.getElementById("toast");
 
-    el.textContent = message;
+    el.textContent = text;
 
     el.classList.add("show");
 
-    setTimeout(
-        () => el.classList.remove("show"),
-        3000
-    );
+    clearTimeout(window.toastTimer);
 
+    window.toastTimer =
+        setTimeout(() => {
+            el.classList.remove("show");
+        },3000);
 }
 
 
-/* =========================================
-   LOGIN
-   ========================================= */
+async function sendTelegram(message){
 
-async function login(){
+    try{
 
-    const email =
-        document
-        .getElementById("email")
-        .value
-        .trim();
+        const response =
+            await fetch(
+                TELEGRAM_FUNCTION,
+                {
+                    method:"POST",
+                    headers:{
+                        "Content-Type":
+                            "application/json"
+                    },
+                    body:JSON.stringify({
+                        message:message
+                    })
+                }
+            );
 
-    const password =
-        document
-        .getElementById("password")
-        .value;
+        return await response.json();
+
+    }catch(error){
+
+        console.error(
+            "Telegram:",
+            error
+        );
+
+    }
+}
 
 
-    const error =
-        document
-        .getElementById("loginError");
+async function checkAdmin(){
 
+    const {
+        data:{
+            user
+        }
+    } = await sb.auth.getUser();
 
-    error.textContent = "";
+    if(!user){
 
+        location.href =
+            "login.html";
 
-    if(!email || !password){
-
-        error.textContent =
-            "Vui lòng nhập email và mật khẩu.";
-
-        return;
-
+        return false;
     }
 
 
     const {
-        data,
-        error:loginError
-    } =
-        await supabaseClient.auth
-        .signInWithPassword({
-
-            email,
-            password
-
-        });
-
-
-    if(loginError){
-
-        error.textContent =
-            loginError.message;
-
-        return;
-
-    }
-
-
-    await checkAdmin(data.user);
-
-}
-
-
-/* =========================================
-   CHECK ADMIN
-   ========================================= */
-
-async function checkAdmin(user){
-
-    const {
-        data,
+        data:profile,
         error
-    } =
-        await supabaseClient
+    } = await sb
         .from("profiles")
-        .select("username,balance,is_admin")
+        .select("username,is_admin")
         .eq("id",user.id)
         .single();
 
 
-    if(error || !data){
+    if(
+        error ||
+        !profile ||
+        profile.is_admin !== true
+    ){
 
-        await supabaseClient.auth.signOut();
+        alert(
+            "Bạn không có quyền admin."
+        );
 
-        document
-        .getElementById("loginError")
-        .textContent =
-            "Không tìm thấy profile Admin.";
+        location.href =
+            "index.html";
 
-        return;
-
+        return false;
     }
 
-
-    if(data.is_admin !== true){
-
-        await supabaseClient.auth.signOut();
-
-        document
-        .getElementById("loginError")
-        .textContent =
-            "Tài khoản này không có quyền Admin.";
-
-        return;
-
-    }
-
-
-    document
-    .getElementById("loginPage")
-    .style.display = "none";
-
-
-    document
-    .getElementById("admin")
-    .style.display = "block";
-
-
-    await loadDashboard();
-
+    return true;
 }
 
 
-/* =========================================
-   SESSION
-   ========================================= */
-
-async function checkSession(){
+async function loadOrders(){
 
     const {
-        data
-    } =
-        await supabaseClient
-        .auth
-        .getSession();
+        data:orders,
+        error
+    } = await sb
+        .from("orders")
+        .select("*")
+        .order("created_at",{
+            ascending:false
+        });
 
 
-    if(data.session){
+    if(error){
 
-        await checkAdmin(
-            data.session.user
+        console.error(error);
+
+        document
+            .getElementById("orders")
+            .innerHTML = `
+                <div class="empty">
+                    Không tải được đơn hàng.
+                </div>
+            `;
+
+        return;
+    }
+
+
+    const total =
+        orders?.length || 0;
+
+    const pending =
+        orders?.filter(
+            o =>
+                o.status === "processing"
+        ).length || 0;
+
+    const completed =
+        orders?.filter(
+            o =>
+                o.status === "completed"
+        ).length || 0;
+
+
+    document
+        .getElementById("totalOrders")
+        .textContent = total;
+
+    document
+        .getElementById("pendingOrders")
+        .textContent = pending;
+
+    document
+        .getElementById("completedOrders")
+        .textContent = completed;
+
+
+    const box =
+        document.getElementById("orders");
+
+
+    if(!orders || !orders.length){
+
+        box.innerHTML = `
+            <div class="empty">
+                Chưa có đơn hàng.
+            </div>
+        `;
+
+        return;
+    }
+
+
+    box.innerHTML =
+        orders.map(order => {
+
+            let status =
+                "🟡 Đang xử lý";
+
+            if(order.status === "approved")
+                status = "🔵 Đã duyệt";
+
+            if(order.status === "completed")
+                status = "🟢 Hoàn thành";
+
+            if(order.status === "cancelled")
+                status = "🔴 Đã hủy";
+
+
+            return `
+
+            <div class="order">
+
+                <div class="head">
+
+                    <div>
+
+                        <div class="code">
+                            ${escapeHtml(
+                                order.order_code
+                            )}
+                        </div>
+
+                        <div class="date">
+                            ${new Date(
+                                order.created_at
+                            ).toLocaleString("vi-VN")}
+                        </div>
+
+                    </div>
+
+                    <div class="status">
+                        ${status}
+                    </div>
+
+                </div>
+
+
+                <div class="info">
+
+                    📦 Số lượng:
+                    <b>
+                        ${escapeHtml(
+                            order.quantity
+                        )}
+                    </b>
+                    Add Fr
+
+                    <br>
+
+                    💰 Tổng tiền:
+                    <b>
+                        ${money(order.total)}
+                    </b>
+
+                    <br>
+
+                    🔗 Facebook:
+                    ${escapeHtml(
+                        order.target
+                    )}
+
+                    <br>
+
+                    👤 User ID:
+                    ${escapeHtml(
+                        order.user_id
+                    )}
+
+                </div>
+
+
+                <div class="actions">
+
+                    ${
+                        order.status === "processing"
+                        ?
+                        `
+                        <button
+                            class="btn"
+                            onclick="updateStatus(
+                                '${order.id}',
+                                'approved'
+                            )"
+                        >
+                            ✓ Duyệt đơn
+                        </button>
+                        `
+                        :
+                        ""
+                    }
+
+
+                    ${
+                        order.status !== "completed"
+                        &&
+                        order.status !== "cancelled"
+                        ?
+                        `
+                        <button
+                            class="btn"
+                            onclick="updateStatus(
+                                '${order.id}',
+                                'completed'
+                            )"
+                        >
+                            ✓ Hoàn thành
+                        </button>
+
+                        <button
+                            class="btn red"
+                            onclick="updateStatus(
+                                '${order.id}',
+                                'cancelled'
+                            )"
+                        >
+                            ✕ Hủy
+                        </button>
+                        `
+                        :
+                        ""
+                    }
+
+                </div>
+
+            </div>
+
+            `;
+
+        }).join("");
+}
+
+
+async function updateStatus(
+    orderId,
+    newStatus
+){
+
+    const confirmText =
+        newStatus === "approved"
+        ? "Duyệt đơn này?"
+        : newStatus === "completed"
+        ? "Đánh dấu đơn hoàn thành?"
+        : "Hủy đơn này?";
+
+
+    if(!confirm(confirmText))
+        return;
+
+
+    const {
+        data,
+        error
+    } = await sb.rpc(
+        "admin_update_order_status",
+        {
+            p_order_id:orderId,
+            p_status:newStatus
+        }
+    );
+
+
+    if(error){
+
+        console.error(error);
+
+        if(
+            error.message
+                .includes("NOT_ADMIN")
+        ){
+
+            toast(
+                "Bạn không có quyền admin."
+            );
+
+        }else{
+
+            toast(
+                error.message ||
+                "Không cập nhật được."
+            );
+
+        }
+
+        return;
+    }
+
+
+    if(!data || !data.ok){
+
+        toast(
+            "Không cập nhật được đơn."
+        );
+
+        return;
+    }
+
+
+    let statusText =
+        "Đã duyệt";
+
+    if(newStatus === "completed")
+        statusText = "Hoàn thành";
+
+    if(newStatus === "cancelled")
+        statusText = "Đã hủy";
+
+
+    toast(
+        "✅ " + statusText
+    );
+
+
+    await loadOrders();
+
+
+    /*
+       Lấy lại thông tin đơn
+       để gửi Telegram
+    */
+
+    const {
+        data:order
+    } = await sb
+        .from("orders")
+        .select("*")
+        .eq("id",orderId)
+        .single();
+
+
+    if(order){
+
+        await sendTelegram(
+
+`🔔 CẬP NHẬT ĐƠN ADD FR
+
+🆔 Mã đơn: ${order.order_code}
+
+📦 Số lượng: ${order.quantity} Add Fr
+
+💰 Tổng tiền: ${money(order.total)}
+
+🔗 Facebook:
+${order.target}
+
+📌 Trạng thái:
+${statusText}`
+
         );
 
     }
@@ -700,563 +711,27 @@ async function checkSession(){
 
 async function logout(){
 
-    await supabaseClient
-        .auth
-        .signOut();
+    await sb.auth.signOut();
 
-    location.reload();
-
+    location.href =
+        "login.html";
 }
 
 
-/* =========================================
-   DASHBOARD
-   ========================================= */
+async function init(){
 
-async function loadDashboard(){
+    const ok =
+        await checkAdmin();
 
-    await Promise.all([
-
-        loadUsers(),
-
-        loadDeposits(),
-
-        loadOrders(),
-
-        loadBalance()
-
-    ]);
-
-}
-
-
-/* =========================================
-   USERS
-   ========================================= */
-
-async function loadUsers(){
-
-    const {
-        count
-    } =
-        await supabaseClient
-        .from("profiles")
-        .select("*",{
-            count:"exact",
-            head:true
-        });
-
-
-    document
-    .getElementById("usersCount")
-    .textContent =
-        count || 0;
-
-}
-
-
-/* =========================================
-   BALANCE
-   ========================================= */
-
-async function loadBalance(){
-
-    const {
-        data
-    } =
-        await supabaseClient
-        .from("profiles")
-        .select("balance");
-
-
-    const total =
-        (data || [])
-        .reduce(
-            (sum,user) =>
-                sum + Number(user.balance || 0),
-            0
-        );
-
-
-    document
-    .getElementById("balanceTotal")
-    .textContent =
-        money(total);
-
-}
-
-
-/* =========================================
-   DEPOSITS
-   ========================================= */
-
-async function loadDeposits(){
-
-    const {
-        data,
-        error
-    } =
-        await supabaseClient
-        .from("deposits")
-        .select(`
-            id,
-            user_id,
-            amount,
-            status,
-            created_at,
-            profiles (
-                username
-            )
-        `)
-        .order(
-            "created_at",
-            {
-                ascending:false
-            }
-        );
-
-
-    if(error){
-
-        console.error(error);
-
+    if(!ok)
         return;
 
-    }
-
-
-    const pending =
-        (data || [])
-        .filter(
-            x => x.status === "pending"
-        );
-
-
-    document
-    .getElementById("pendingDeposits")
-    .textContent =
-        pending.length;
-
-
-    const container =
-        document.getElementById(
-            "deposits"
-        );
-
-
-    if(!pending.length){
-
-        container.innerHTML = `
-            <div class="empty">
-                Không có yêu cầu nạp tiền.
-            </div>
-        `;
-
-        return;
-
-    }
-
-
-    container.innerHTML =
-        pending.map(item => `
-
-            <div class="card">
-
-                <div class="card-top">
-
-                    <div>
-
-                        <div class="code">
-                            DEP-${escapeHTML(
-                                item.id.slice(0,8)
-                            )}
-                        </div>
-
-                        <div class="date">
-                            ${new Date(
-                                item.created_at
-                            ).toLocaleString("vi-VN")}
-                        </div>
-
-                    </div>
-
-                    <div class="status">
-                        🟡 Chờ duyệt
-                    </div>
-
-                </div>
-
-
-                <div class="info">
-
-                    👤 Username:
-                    <b>
-                        @${escapeHTML(
-                            item.profiles?.username ||
-                            "unknown"
-                        )}
-                    </b>
-
-                    <br>
-
-                    💰 Số tiền:
-                    <b>
-                        ${money(item.amount)}
-                    </b>
-
-                </div>
-
-
-                <div class="actions">
-
-                    <button
-                        class="action approve"
-                        onclick="approveDeposit(
-                            '${item.id}'
-                        )"
-                    >
-                        ✓ Duyệt
-                    </button>
-
-                    <button
-                        class="action reject"
-                        onclick="rejectDeposit(
-                            '${item.id}'
-                        )"
-                    >
-                        ✕ Từ chối
-                    </button>
-
-                </div>
-
-            </div>
-
-        `).join("");
+    await loadOrders();
 
 }
 
 
-/* =========================================
-   ORDERS
-   ========================================= */
-
-async function loadOrders(){
-
-    const {
-        data,
-        error
-    } =
-        await supabaseClient
-        .from("orders")
-        .select(`
-            id,
-            user_id,
-            order_code,
-            quantity,
-            target,
-            total,
-            status,
-            created_at,
-            profiles (
-                username
-            )
-        `)
-        .order(
-            "created_at",
-            {
-                ascending:false
-            }
-        );
-
-
-    if(error){
-
-        console.error(error);
-
-        return;
-
-    }
-
-
-    const processing =
-        (data || [])
-        .filter(
-            x => x.status === "processing"
-        );
-
-
-    document
-    .getElementById("processingOrders")
-    .textContent =
-        processing.length;
-
-
-    const container =
-        document.getElementById(
-            "orders"
-        );
-
-
-    if(!data?.length){
-
-        container.innerHTML = `
-            <div class="empty">
-                Chưa có đơn hàng.
-            </div>
-        `;
-
-        return;
-
-    }
-
-
-    container.innerHTML =
-        data.map(item => `
-
-            <div class="card">
-
-                <div class="card-top">
-
-                    <div>
-
-                        <div class="code">
-                            ${escapeHTML(
-                                item.order_code
-                            )}
-                        </div>
-
-                        <div class="date">
-                            ${new Date(
-                                item.created_at
-                            ).toLocaleString("vi-VN")}
-                        </div>
-
-                    </div>
-
-                    <div class="status">
-                        ${
-                            item.status === "processing"
-                            ? "🟡 Đang xử lý"
-                            : item.status === "completed"
-                            ? "🟢 Hoàn thành"
-                            : "🔴 Đã hủy"
-                        }
-                    </div>
-
-                </div>
-
-
-                <div class="info">
-
-                    👤 @${escapeHTML(
-                        item.profiles?.username ||
-                        "unknown"
-                    )}
-
-                    <br>
-
-                    📦 ${escapeHTML(
-                        item.quantity
-                    )} Add Fr
-
-                    <br>
-
-                    💰 ${money(
-                        item.total
-                    )}
-
-                    <br>
-
-                    🔗 ${escapeHTML(
-                        item.target
-                    )}
-
-                </div>
-
-
-                ${
-                    item.status === "processing"
-                    ? `
-                        <div class="actions">
-
-                            <button
-                                class="action complete"
-                                onclick="completeOrder(
-                                    '${item.id}'
-                                )"
-                            >
-                                ✓ Hoàn thành
-                            </button>
-
-                        </div>
-                    `
-                    : ""
-                }
-
-            </div>
-
-        `).join("");
-
-}
-
-
-/* =========================================
-   DEPOSIT ACTIONS
-   ========================================= */
-
-/*
-   TẠM THỜI:
-
-   Các nút dưới đây chỉ đổi trạng thái.
-
-   Phần cộng tiền thật nên chuyển sang
-   Supabase RPC có SECURITY DEFINER.
-*/
-
-
-async function approveDeposit(id){
-
-    if(!confirm(
-        "Xác nhận duyệt giao dịch này?"
-    )) return;
-
-
-    const {
-        error
-    } =
-        await supabaseClient
-        .from("deposits")
-        .update({
-
-            status:"approved",
-
-            approved_at:
-                new Date().toISOString()
-
-        })
-        .eq("id",id)
-        .eq("status","pending");
-
-
-    if(error){
-
-        toast(
-            "Không thể duyệt giao dịch."
-        );
-
-        console.error(error);
-
-        return;
-
-    }
-
-
-    toast(
-        "Đã duyệt giao dịch."
-    );
-
-
-    await loadDashboard();
-
-}
-
-
-async function rejectDeposit(id){
-
-    if(!confirm(
-        "Từ chối yêu cầu nạp này?"
-    )) return;
-
-
-    const {
-        error
-    } =
-        await supabaseClient
-        .from("deposits")
-        .update({
-
-            status:"rejected"
-
-        })
-        .eq("id",id)
-        .eq("status","pending");
-
-
-    if(error){
-
-        toast(
-            "Không thể từ chối."
-        );
-
-        return;
-
-    }
-
-
-    toast(
-        "Đã từ chối giao dịch."
-    );
-
-
-    await loadDashboard();
-
-}
-
-
-/* =========================================
-   ORDER ACTION
-   ========================================= */
-
-async function completeOrder(id){
-
-    if(!confirm(
-        "Xác nhận hoàn thành đơn?"
-    )) return;
-
-
-    const {
-        error
-    } =
-        await supabaseClient
-        .from("orders")
-        .update({
-
-            status:"completed",
-
-            completed_at:
-                new Date().toISOString()
-
-        })
-        .eq("id",id)
-        .eq("status","processing");
-
-
-    if(error){
-
-        toast(
-            "Không thể cập nhật đơn."
-        );
-
-        return;
-
-    }
-
-
-    toast(
-        "Đã chuyển đơn sang hoàn thành."
-    );
-
-
-    await loadDashboard();
-
-}
-
-
-/* =========================================
-   START
-   ========================================= */
-
-checkSession();
+init();
 
 </script>
 
