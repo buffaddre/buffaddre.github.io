@@ -765,7 +765,7 @@ input:focus{
             <input
                 id="depositAmount"
                 type="number"
-                min="5000"
+                min="10000"
                 step="1000"
                 placeholder="50000"
                 oninput="updateTransferContent()">
@@ -976,7 +976,7 @@ function updateOrderTotal(){
         ) || 0;
 
     const total =
-        Math.floor(quantity / 100) * 5000;
+        Math.floor(quantity / 100) * 10000;
 
     document
         .getElementById("quantityPreview")
@@ -1714,11 +1714,11 @@ async function createDeposit(){
 
     if(
         !Number.isInteger(amount) ||
-        amount < 5000
+        amount < 10000
     ){
 
         toast(
-            "Số tiền nạp tối thiểu 5.000đ."
+            "Số tiền nạp tối thiểu 10.000đ."
         );
 
         return;
