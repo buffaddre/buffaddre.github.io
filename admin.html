@@ -1,18 +1,14 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 
-<meta name="viewport"
-content="width=device-width,initial-scale=1">
-
-<title>ADD FR - Admin</title>
+<title>Admin Panel - ADD FR</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
-
 *{
     box-sizing:border-box;
     margin:0;
@@ -33,11 +29,11 @@ button{
 .nav{
     max-width:1200px;
     margin:auto;
-    padding:22px 20px;
-
+    padding:20px;
     display:flex;
     justify-content:space-between;
     align-items:center;
+    gap:15px;
 }
 
 .logo{
@@ -50,142 +46,29 @@ button{
     color:#9276ff;
 }
 
-.container{
-    max-width:1200px;
-    margin:auto;
-    padding:30px 20px 80px;
+.nav-right{
+    display:flex;
+    align-items:center;
+    gap:10px;
 }
 
-.title{
-    font-size:36px;
-    font-weight:900;
-}
-
-.subtitle{
-    margin-top:7px;
-    color:#777e8c;
-    font-size:14px;
-}
-
-.stats{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:12px;
-    margin:30px 0;
-}
-
-.stat{
-    padding:20px;
-    border:1px solid #292d38;
-    border-radius:18px;
-    background:#111319;
-}
-
-.stat-number{
-    font-size:27px;
-    font-weight:900;
-}
-
-.stat-label{
-    margin-top:6px;
-    color:#777e8c;
+.admin-badge{
+    padding:9px 13px;
+    border-radius:10px;
+    border:1px solid #332d52;
+    background:#15121f;
+    color:#bbaaff;
     font-size:12px;
-}
-
-.section{
-    margin-top:45px;
-}
-
-.section-title{
-    font-size:25px;
-    font-weight:900;
-    margin-bottom:18px;
-}
-
-.card{
-    margin-bottom:12px;
-    padding:20px;
-    border:1px solid #292d38;
-    border-radius:18px;
-    background:#111319;
-}
-
-.card-head{
-    display:flex;
-    justify-content:space-between;
-    gap:15px;
-}
-
-.code{
-    font-weight:900;
-    font-size:16px;
-}
-
-.date{
-    margin-top:5px;
-    color:#656c79;
-    font-size:11px;
-}
-
-.status{
-    height:max-content;
-    padding:7px 11px;
-    border-radius:30px;
-    font-size:11px;
-    background:#29233f;
-    color:#b9aaff;
-}
-
-.status.approved{
-    background:#183625;
-    color:#62e79a;
-}
-
-.status.rejected{
-    background:#3b2025;
-    color:#ff8997;
-}
-
-.info{
-    margin-top:14px;
-    color:#9299a7;
-    font-size:13px;
-    line-height:1.9;
-    word-break:break-word;
-}
-
-.info b{
-    color:#fff;
-}
-
-.actions{
-    display:flex;
-    gap:8px;
-    margin-top:17px;
-    flex-wrap:wrap;
+    font-weight:bold;
 }
 
 .btn{
     border:0;
     border-radius:10px;
-    padding:10px 15px;
-    color:#fff;
+    padding:11px 16px;
     font-weight:bold;
-    background:linear-gradient(
-        135deg,
-        #a087ff,
-        #644cff
-    );
-}
-
-.btn.green{
-    background:#173d2a;
-    color:#66e49a;
-}
-
-.btn.red{
-    background:#402027;
-    color:#ff8997;
+    color:#fff;
+    background:linear-gradient(135deg,#a087ff,#644cff);
 }
 
 .btn.dark{
@@ -193,34 +76,217 @@ button{
     border:1px solid #292d38;
 }
 
+.btn.green{
+    background:#173d2b;
+    border:1px solid #285c40;
+    color:#7df0a9;
+}
+
+.btn.red{
+    background:#3d191d;
+    border:1px solid #63252c;
+    color:#ff8992;
+}
+
+.btn.small{
+    padding:8px 11px;
+    font-size:12px;
+}
+
+.container{
+    max-width:1200px;
+    margin:auto;
+    padding:25px 20px 80px;
+}
+
+.hero{
+    padding:25px 0 35px;
+}
+
+.badge{
+    color:#9276ff;
+    font-size:11px;
+    font-weight:bold;
+    letter-spacing:3px;
+    margin-bottom:12px;
+}
+
+h1{
+    font-size:42px;
+}
+
+.hero p{
+    color:#777e8c;
+    margin-top:10px;
+}
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:15px;
+    margin-bottom:45px;
+}
+
+.stat{
+    padding:22px;
+    border-radius:18px;
+    border:1px solid #292d38;
+    background:#111319;
+}
+
+.stat-title{
+    color:#777e8c;
+    font-size:12px;
+}
+
+.stat-value{
+    font-size:28px;
+    font-weight:900;
+    margin-top:8px;
+}
+
+.section{
+    margin-top:40px;
+}
+
+.section-title{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:10px;
+    margin-bottom:18px;
+}
+
+.section-title h2{
+    font-size:22px;
+}
+
+.table-wrap{
+    overflow-x:auto;
+    border:1px solid #292d38;
+    border-radius:18px;
+    background:#111319;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    min-width:850px;
+}
+
+th{
+    text-align:left;
+    color:#858c99;
+    font-size:11px;
+    text-transform:uppercase;
+    padding:15px;
+    border-bottom:1px solid #292d38;
+}
+
+td{
+    padding:15px;
+    border-bottom:1px solid #20232b;
+    font-size:13px;
+    vertical-align:middle;
+}
+
+tr:last-child td{
+    border-bottom:0;
+}
+
+.user-id{
+    max-width:150px;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    color:#777e8c;
+    font-size:11px;
+}
+
+.order-code{
+    font-weight:bold;
+    color:#b7a9ff;
+}
+
+.amount{
+    font-weight:bold;
+    color:#8ef0ae;
+}
+
+.status{
+    display:inline-block;
+    padding:6px 9px;
+    border-radius:20px;
+    font-size:10px;
+    font-weight:bold;
+}
+
+.status.pending{
+    background:#322a17;
+    color:#ffd76b;
+}
+
+.status.completed{
+    background:#163622;
+    color:#7df0a9;
+}
+
+.status.cancelled{
+    background:#3b181d;
+    color:#ff858f;
+}
+
+.status.approved{
+    background:#163622;
+    color:#7df0a9;
+}
+
+.status.rejected{
+    background:#3b181d;
+    color:#ff858f;
+}
+
+.actions{
+    display:flex;
+    gap:7px;
+    flex-wrap:wrap;
+}
+
 .empty{
     padding:35px;
     text-align:center;
-    border:1px dashed #292d38;
-    border-radius:17px;
-    color:#6d7481;
+    color:#686f7c;
 }
 
-.refresh{
-    margin-left:8px;
+.loading{
+    padding:35px;
+    text-align:center;
+    color:#8d94a3;
+}
+
+#errorBox{
+    display:none;
+    margin-bottom:20px;
+    padding:15px;
+    border-radius:12px;
+    background:#3b181d;
+    border:1px solid #63252c;
+    color:#ff9ba3;
+    white-space:pre-wrap;
 }
 
 #toast{
     position:fixed;
     left:50%;
-    bottom:25px;
+    bottom:20px;
     z-index:9999;
-
     padding:13px 18px;
-
     border-radius:12px;
-    border:1px solid #303542;
-
     background:#191c24;
-
+    border:1px solid #303542;
     transform:translate(-50%,20px);
     opacity:0;
-
+    pointer-events:none;
     transition:.25s;
 }
 
@@ -229,154 +295,113 @@ button{
     transform:translate(-50%,0);
 }
 
-@media(max-width:800px){
+@media(max-width:700px){
 
-    .stats{
-        grid-template-columns:repeat(2,1fr);
+    h1{
+        font-size:32px;
     }
-
-}
-
-@media(max-width:500px){
 
     .stats{
         grid-template-columns:1fr;
     }
 
-    .card-head{
-        flex-direction:column;
+    .nav{
+        align-items:flex-start;
     }
 
+    .nav-right{
+        flex-direction:column;
+        align-items:flex-end;
+    }
 }
-
 </style>
-
 </head>
 
-
 <body>
-
 
 <header class="nav">
 
     <div class="logo">
-        <span>ADD</span> FR ADMIN
+        <span>ADD</span> FR
     </div>
 
-    <div>
+    <div class="nav-right">
+        <div class="admin-badge">
+            🛡️ ADMIN
+        </div>
 
-        <button
-            class="btn dark"
-            onclick="loadAll()">
-            🔄 Làm mới
-        </button>
-
-        <button
-            class="btn dark"
-            onclick="logout()">
+        <button class="btn dark" onclick="logout()">
             Đăng xuất
         </button>
-
     </div>
 
 </header>
 
 
-
 <main class="container">
 
+    <section class="hero">
 
-    <div class="title">
-        Quản lý hệ thống
-    </div>
+        <div class="badge">
+            ADMINISTRATION
+        </div>
 
-    <div class="subtitle">
-        Quản lý nạp tiền và đơn hàng.
-    </div>
+        <h1>
+            Quản lý hệ thống
+        </h1>
+
+        <p>
+            Xin chào <strong id="adminName">...</strong>
+        </p>
+
+    </section>
 
 
+    <div id="errorBox"></div>
 
-    <!-- STATS -->
 
-    <div class="stats">
+    <section class="stats">
 
         <div class="stat">
 
+            <div class="stat-title">
+                YÊU CẦU NẠP CHỜ DUYỆT
+            </div>
+
             <div
-                class="stat-number"
-                id="depositCount">
+                class="stat-value"
+                id="pendingDeposits">
                 0
             </div>
 
-            <div class="stat-label">
-                Nạp tiền chờ duyệt
-            </div>
-
         </div>
 
 
         <div class="stat">
 
+            <div class="stat-title">
+                ĐƠN ĐANG XỬ LÝ
+            </div>
+
             <div
-                class="stat-number"
-                id="orderCount">
+                class="stat-value"
+                id="pendingOrders">
                 0
             </div>
 
-            <div class="stat-label">
-                Đơn đang xử lý
-            </div>
-
         </div>
 
 
         <div class="stat">
 
-            <div
-                class="stat-number"
-                id="approvedDeposit">
-                0đ
+            <div class="stat-title">
+                TỔNG ĐƠN
             </div>
 
-            <div class="stat-label">
-                Tiền đã duyệt
-            </div>
-
-        </div>
-
-
-        <div class="stat">
-
             <div
-                class="stat-number"
-                id="completedOrders">
+                class="stat-value"
+                id="totalOrders">
                 0
-            </div>
-
-            <div class="stat-label">
-                Đơn hoàn thành
-            </div>
-
-        </div>
-
-    </div>
-
-
-
-    <!-- ========================= -->
-    <!-- DEPOSIT -->
-    <!-- ========================= -->
-
-    <section class="section">
-
-        <div class="section-title">
-            💰 Yêu cầu nạp tiền
-        </div>
-
-        <div id="deposits">
-
-            <div class="empty">
-                Đang tải yêu cầu nạp...
             </div>
 
         </div>
@@ -384,55 +409,150 @@ button{
     </section>
 
 
-
     <!-- ========================= -->
-    <!-- ORDERS -->
+    <!-- NẠP TIỀN -->
     <!-- ========================= -->
 
     <section class="section">
 
         <div class="section-title">
-            📦 Đơn hàng
+
+            <h2>
+                💰 Yêu cầu nạp tiền
+            </h2>
+
+            <button
+                class="btn dark small"
+                onclick="loadAll()">
+                ↻ Làm mới
+            </button>
+
         </div>
 
-        <div id="orders">
 
-            <div class="empty">
-                Đang tải đơn hàng...
-            </div>
+        <div class="table-wrap">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>ID</th>
+
+                        <th>User ID</th>
+
+                        <th>Số tiền</th>
+
+                        <th>Trạng thái</th>
+
+                        <th>Thời gian</th>
+
+                        <th>Thao tác</th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody id="depositTable">
+
+                    <tr>
+                        <td colspan="6">
+                            <div class="loading">
+                                Đang tải...
+                            </div>
+                        </td>
+                    </tr>
+
+                </tbody>
+
+            </table>
 
         </div>
 
     </section>
 
+
+    <!-- ========================= -->
+    <!-- ĐƠN HÀNG -->
+    <!-- ========================= -->
+
+    <section class="section">
+
+        <div class="section-title">
+
+            <h2>
+                📦 Quản lý đơn hàng
+            </h2>
+
+            <button
+                class="btn dark small"
+                onclick="loadOrders()">
+                ↻ Làm mới
+            </button>
+
+        </div>
+
+
+        <div class="table-wrap">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>Mã đơn</th>
+
+                        <th>User ID</th>
+
+                        <th>Số lượng</th>
+
+                        <th>Tổng tiền</th>
+
+                        <th>Facebook</th>
+
+                        <th>Trạng thái</th>
+
+                        <th>Thao tác</th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody id="orderTable">
+
+                    <tr>
+                        <td colspan="7">
+                            <div class="loading">
+                                Đang tải...
+                            </div>
+                        </td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
 
 </main>
-
 
 
 <div id="toast"></div>
 
 
-
 <script>
-
-
-/* ================================
-   SUPABASE
-================================ */
-
 
 const SUPABASE_URL =
 "https://nslmutblflfotcxvctpp.supabase.co";
 
-
 const SUPABASE_KEY =
 "sb_publishable_kESQyw5xcjTe1irApsuRGQ_4X1GR0Xr";
-
-
-const TELEGRAM_FUNCTION =
-SUPABASE_URL +
-"/functions/v1/notify-telegram";
 
 
 const sb =
@@ -442,20 +562,16 @@ supabase.createClient(
 );
 
 
+// ==============================
+// UTILS
+// ==============================
 
-/* ================================
-   UTIL
-================================ */
+function money(value){
 
-
-function money(n){
-
-    return Number(n || 0)
-        .toLocaleString("vi-VN")
-        + "đ";
+    return Number(value || 0)
+        .toLocaleString("vi-VN") + "đ";
 
 }
-
 
 
 function escapeHtml(value){
@@ -470,137 +586,192 @@ function escapeHtml(value){
 }
 
 
-
-function toast(text){
+function toast(message){
 
     const el =
         document.getElementById("toast");
 
-    el.textContent = text;
+    el.textContent = message;
 
     el.classList.add("show");
 
-    clearTimeout(
-        window.toastTimer
-    );
+    clearTimeout(window.toastTimer);
 
     window.toastTimer =
-        setTimeout(
-            () => {
-                el.classList.remove("show");
-            },
-            3000
-        );
+        setTimeout(() => {
+
+            el.classList.remove("show");
+
+        },3000);
 
 }
 
 
+function showError(message){
 
-/* ================================
-   TELEGRAM
-================================ */
+    const box =
+        document.getElementById("errorBox");
 
+    box.textContent = message;
 
-async function sendTelegram(message){
-
-    try{
-
-        const response =
-            await fetch(
-                TELEGRAM_FUNCTION,
-                {
-                    method:"POST",
-
-                    headers:{
-                        "Content-Type":
-                            "application/json"
-                    },
-
-                    body:JSON.stringify({
-                        message:message
-                    })
-                }
-            );
-
-        return await response.json();
-
-    }catch(error){
-
-        console.error(
-            "Telegram error:",
-            error
-        );
-
-    }
+    box.style.display = "block";
 
 }
 
 
+function hideError(){
 
-/* ================================
-   ADMIN CHECK
-================================ */
+    document
+        .getElementById("errorBox")
+        .style.display = "none";
 
+}
+
+
+function formatDate(date){
+
+    if(!date) return "-";
+
+    return new Date(date)
+        .toLocaleString("vi-VN");
+
+}
+
+
+// ==============================
+// KIỂM TRA ADMIN
+// ==============================
 
 async function checkAdmin(){
 
+    hideError();
+
     const {
-        data:{
-            user
-        }
+        data,
+        error
     } = await sb.auth.getUser();
+
+
+    if(error){
+
+        console.error(error);
+
+        showError(
+            "Không đọc được phiên đăng nhập:\n" +
+            error.message
+        );
+
+        return false;
+    }
+
+
+    const user = data.user;
 
 
     if(!user){
 
-        location.href =
-            "login.html";
+        /*
+         * Không dùng location.href ở đây ngay lập tức
+         * để tránh trường hợp session chưa kịp khôi phục.
+         */
+
+        showError(
+            "Không có phiên đăng nhập.\n\n" +
+            "Hãy đăng nhập tài khoản trước rồi mở lại admin.html."
+        );
 
         return false;
-
     }
+
+
+    console.log("ADMIN USER:",user);
 
 
     const {
         data:profile,
-        error
+        error:profileError
     } = await sb
         .from("profiles")
-        .select("username,is_admin")
+        .select("username,balance,is_admin")
         .eq("id",user.id)
-        .single();
+        .maybeSingle();
 
 
-    if(
-        error ||
-        !profile ||
-        profile.is_admin !== true
-    ){
+    if(profileError){
 
-        alert(
-            "Tài khoản này không phải admin."
+        console.error(
+            "PROFILE ERROR:",
+            profileError
         );
 
-        location.href =
-            "index.html";
+        showError(
+            "Không đọc được profiles:\n" +
+            profileError.message
+        );
 
         return false;
-
     }
 
 
-    return true;
+    if(!profile){
 
+        showError(
+            "Không tìm thấy profile của tài khoản này.\n\n" +
+            "User ID:\n" +
+            user.id
+        );
+
+        return false;
+    }
+
+
+    console.log("ADMIN PROFILE:",profile);
+
+
+    if(profile.is_admin !== true){
+
+        showError(
+            "Tài khoản này không có quyền ADMIN.\n\n" +
+            "User ID:\n" +
+            user.id
+        );
+
+        return false;
+    }
+
+
+    document
+        .getElementById("adminName")
+        .textContent =
+            profile.username ||
+            user.email ||
+            "Admin";
+
+
+    return true;
 }
 
 
-
-/* ================================
-   LOAD DEPOSITS
-================================ */
-
+// ==============================
+// LOAD DEPOSITS
+// ==============================
 
 async function loadDeposits(){
+
+    const table =
+        document.getElementById("depositTable");
+
+
+    table.innerHTML = `
+        <tr>
+            <td colspan="6">
+                <div class="loading">
+                    Đang tải yêu cầu nạp...
+                </div>
+            </td>
+        </tr>
+    `;
+
 
     const {
         data,
@@ -608,285 +779,343 @@ async function loadDeposits(){
     } = await sb
         .from("deposit_requests")
         .select("*")
-        .order(
-            "created_at",
-            {
-                ascending:false
-            }
-        );
-
-
-    const box =
-        document.getElementById(
-            "deposits"
-        );
+        .order("created_at",{
+            ascending:false
+        });
 
 
     if(error){
 
         console.error(
-            "Deposit error:",
+            "DEPOSIT ERROR:",
             error
         );
 
-        box.innerHTML = `
-            <div class="empty">
-                Không tải được yêu cầu nạp.
-                <br><br>
-                ${escapeHtml(
-                    error.message
-                )}
-            </div>
+        table.innerHTML = `
+            <tr>
+                <td colspan="6">
+                    <div class="empty">
+                        Không tải được yêu cầu nạp.<br><br>
+                        ${escapeHtml(error.message)}
+                    </div>
+                </td>
+            </tr>
         `;
 
         return;
+    }
 
+
+    if(!data || !data.length){
+
+        table.innerHTML = `
+            <tr>
+                <td colspan="6">
+                    <div class="empty">
+                        Chưa có yêu cầu nạp tiền.
+                    </div>
+                </td>
+            </tr>
+        `;
+
+        document
+            .getElementById("pendingDeposits")
+            .textContent = "0";
+
+        return;
     }
 
 
     const pending =
         data.filter(
             x => x.status === "pending"
-        );
+        ).length;
 
 
     document
-        .getElementById(
-            "depositCount"
-        )
-        .textContent =
-            pending.length;
+        .getElementById("pendingDeposits")
+        .textContent = pending;
 
 
-    const approvedMoney =
-        data
-            .filter(
-                x =>
-                    x.status === "approved"
-            )
-            .reduce(
-                (
-                    total,
-                    x
-                ) =>
-                    total +
-                    Number(x.amount || 0),
-                0
-            );
+    table.innerHTML =
+        data.map(item => {
 
+            let statusClass =
+                "pending";
 
-    document
-        .getElementById(
-            "approvedDeposit"
-        )
-        .textContent =
-            money(approvedMoney);
+            let statusText =
+                "🟡 Chờ duyệt";
 
 
-    if(!data.length){
+            if(item.status === "approved"){
 
-        box.innerHTML = `
-            <div class="empty">
-                Chưa có yêu cầu nạp tiền.
-            </div>
-        `;
+                statusClass =
+                    "approved";
 
-        return;
-
-    }
-
-
-    box.innerHTML =
-        data.map(
-            deposit => {
-
-                let statusText =
-                    "🟡 Chờ duyệt";
-
-                let statusClass = "";
-
-
-                if(
-                    deposit.status ===
-                    "approved"
-                ){
-
-                    statusText =
-                        "🟢 Đã duyệt";
-
-                    statusClass =
-                        "approved";
-
-                }
-
-
-                if(
-                    deposit.status ===
-                    "rejected"
-                ){
-
-                    statusText =
-                        "🔴 Từ chối";
-
-                    statusClass =
-                        "rejected";
-
-                }
-
-
-                return `
-
-                <div class="card">
-
-                    <div class="card-head">
-
-                        <div>
-
-                            <div class="code">
-
-                                NẠP #${escapeHtml(
-                                    deposit.id
-                                )}
-
-                            </div>
-
-                            <div class="date">
-
-                                ${new Date(
-                                    deposit.created_at
-                                ).toLocaleString(
-                                    "vi-VN"
-                                )}
-
-                            </div>
-
-                        </div>
-
-
-                        <div
-                            class="status ${statusClass}">
-
-                            ${statusText}
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="info">
-
-                        👤 User ID:
-                        <b>
-                            ${escapeHtml(
-                                deposit.user
-                            )}
-                        </b>
-
-                        <br>
-
-                        💰 Số tiền:
-                        <b>
-                            ${money(
-                                deposit.amount
-                            )}
-                        </b>
-
-                        <br>
-
-                        🕐 Tạo lúc:
-                        ${new Date(
-                            deposit.created_at
-                        ).toLocaleString(
-                            "vi-VN"
-                        )}
-
-                        <br>
-
-                        ${
-                            deposit.approve_at
-                            ?
-                            `
-                            ✅ Xử lý lúc:
-                            ${new Date(
-                                deposit.approve_at
-                            ).toLocaleString(
-                                "vi-VN"
-                            )}
-                            `
-                            :
-                            `
-                            ⏳ Chưa xử lý
-                            `
-                        }
-
-                    </div>
-
-
-                    ${
-                        deposit.status ===
-                        "pending"
-                        ?
-                        `
-
-                        <div class="actions">
-
-                            <button
-                                class="btn green"
-                                onclick="
-                                    approveDeposit(
-                                        '${deposit.id}'
-                                    )
-                                ">
-
-                                ✓ Duyệt tiền
-
-                            </button>
-
-
-                            <button
-                                class="btn red"
-                                onclick="
-                                    rejectDeposit(
-                                        '${deposit.id}'
-                                    )
-                                ">
-
-                                ✕ Từ chối
-
-                            </button>
-
-                        </div>
-
-                        `
-                        :
-                        ""
-                    }
-
-                </div>
-
-                `;
+                statusText =
+                    "🟢 Đã duyệt";
 
             }
-        ).join("");
+
+
+            if(
+                item.status === "rejected" ||
+                item.status === "cancelled"
+            ){
+
+                statusClass =
+                    "rejected";
+
+                statusText =
+                    "🔴 Từ chối";
+
+            }
+
+
+            const canApprove =
+                item.status === "pending";
+
+
+            return `
+
+                <tr>
+
+                    <td>
+                        <strong>
+                            ${escapeHtml(item.id)}
+                        </strong>
+                    </td>
+
+
+                    <td>
+
+                        <div class="user-id">
+                            ${escapeHtml(item.user_id)}
+                        </div>
+
+                    </td>
+
+
+                    <td>
+
+                        <span class="amount">
+                            ${money(item.amount)}
+                        </span>
+
+                    </td>
+
+
+                    <td>
+
+                        <span class="status ${statusClass}">
+                            ${statusText}
+                        </span>
+
+                    </td>
+
+
+                    <td>
+                        ${formatDate(item.created_at)}
+                    </td>
+
+
+                    <td>
+
+                        ${
+                            canApprove
+
+                            ?
+
+                            `
+                            <div class="actions">
+
+                                <button
+                                    class="btn green small"
+                                    onclick="approveDeposit('${escapeHtml(item.id)}','${escapeHtml(item.user_id)}',${Number(item.amount)})">
+                                    ✓ Duyệt
+                                </button>
+
+
+                                <button
+                                    class="btn red small"
+                                    onclick="rejectDeposit('${escapeHtml(item.id)}')">
+                                    ✕ Từ chối
+                                </button>
+
+                            </div>
+                            `
+
+                            :
+
+                            `<span style="color:#666">
+                                Đã xử lý
+                            </span>`
+                        }
+
+                    </td>
+
+                </tr>
+
+            `;
+
+        }).join("");
 
 }
 
 
-
-/* ================================
-   APPROVE DEPOSIT
-================================ */
-
+// ==============================
+// DUYỆT NẠP TIỀN
+// ==============================
 
 async function approveDeposit(
-    depositId
+    depositId,
+    userId,
+    amount
 ){
 
-    if(
-        !confirm(
-            "Xác nhận DUYỆT tiền cho khách?"
-        )
-    ){
+    if(!confirm(
+        "Xác nhận duyệt khoản nạp " +
+        money(amount) +
+        "?"
+    )){
+
+        return;
+
+    }
+
+
+    try{
+
+        /*
+         * Đọc balance hiện tại
+         */
+
+        const {
+            data:profile,
+            error:profileError
+        } = await sb
+            .from("profiles")
+            .select("balance")
+            .eq("id",userId)
+            .maybeSingle();
+
+
+        if(profileError){
+
+            throw profileError;
+
+        }
+
+
+        if(!profile){
+
+            throw new Error(
+                "Không tìm thấy profile của user: " +
+                userId
+            );
+
+        }
+
+
+        const oldBalance =
+            Number(profile.balance || 0);
+
+
+        const newBalance =
+            oldBalance + Number(amount);
+
+
+        /*
+         * Cộng tiền
+         */
+
+        const {
+            error:updateProfileError
+        } = await sb
+            .from("profiles")
+            .update({
+                balance:newBalance
+            })
+            .eq("id",userId);
+
+
+        if(updateProfileError){
+
+            throw updateProfileError;
+
+        }
+
+
+        /*
+         * Đánh dấu yêu cầu đã duyệt
+         */
+
+        const {
+            error:updateDepositError
+        } = await sb
+            .from("deposit_requests")
+            .update({
+                status:"approved",
+                approve_at:new Date().toISOString()
+            })
+            .eq("id",depositId);
+
+
+        if(updateDepositError){
+
+            /*
+             * Nếu lỗi ở bước này thì không nên im lặng.
+             */
+
+            throw updateDepositError;
+
+        }
+
+
+        toast(
+            "✅ Đã duyệt và cộng " +
+            money(amount)
+        );
+
+
+        await loadAll();
+
+    }
+    catch(error){
+
+        console.error(
+            "APPROVE DEPOSIT ERROR:",
+            error
+        );
+
+
+        toast(
+            "❌ Duyệt nạp thất bại"
+        );
+
+
+        showError(
+            "Lỗi duyệt nạp:\n" +
+            (
+                error?.message ||
+                String(error)
+            )
+        );
+
+    }
+
+}
+
+
+// ==============================
+// TỪ CHỐI NẠP
+// ==============================
+
+async function rejectDeposit(id){
+
+    if(!confirm(
+        "Xác nhận từ chối yêu cầu nạp này?"
+    )){
 
         return;
 
@@ -894,67 +1123,35 @@ async function approveDeposit(
 
 
     const {
-        data,
         error
-    } = await sb.rpc(
-        "admin_approve_deposit",
-        {
-            p_deposit_id:
-                depositId
-        }
-    );
+    } = await sb
+        .from("deposit_requests")
+        .update({
+            status:"rejected",
+            approve_at:new Date().toISOString()
+        })
+        .eq("id",id);
 
 
     if(error){
 
-        console.error(
-            "Approve deposit:",
-            error
-        );
+        console.error(error);
 
         toast(
-            "❌ " +
+            "❌ Không thể từ chối"
+        );
+
+        showError(
+            "Lỗi từ chối:\n" +
             error.message
         );
 
         return;
-
-    }
-
-
-    if(!data || !data.ok){
-
-        toast(
-            "❌ Không duyệt được."
-        );
-
-        return;
-
     }
 
 
     toast(
-        "✅ Đã cộng tiền cho khách."
-    );
-
-
-    /*
-       Gửi Telegram
-    */
-
-    await sendTelegram(
-
-`💰 NẠP TIỀN ĐÃ DUYỆT
-
-👤 User ID:
-${data.user_id}
-
-💵 Số tiền:
-${money(data.amount)}
-
-🟢 Trạng thái:
-Đã cộng vào số dư khách.`
-
+        "✅ Đã từ chối yêu cầu"
     );
 
 
@@ -963,601 +1160,390 @@ ${money(data.amount)}
 }
 
 
-
-/* ================================
-   REJECT DEPOSIT
-================================ */
-
-
-async function rejectDeposit(
-    depositId
-){
-
-    if(
-        !confirm(
-            "Xác nhận TỪ CHỐI yêu cầu nạp?"
-        )
-    ){
-
-        return;
-
-    }
-
-
-    const {
-        data,
-        error
-    } = await sb.rpc(
-        "admin_reject_deposit",
-        {
-            p_deposit_id:
-                depositId
-        }
-    );
-
-
-    if(error){
-
-        console.error(
-            "Reject deposit:",
-            error
-        );
-
-        toast(
-            "❌ " +
-            error.message
-        );
-
-        return;
-
-    }
-
-
-    toast(
-        "🚫 Đã từ chối yêu cầu nạp."
-    );
-
-
-    await sendTelegram(
-
-`🚫 YÊU CẦU NẠP TIỀN BỊ TỪ CHỐI
-
-🆔 Deposit:
-${depositId}
-
-🔴 Trạng thái:
-Từ chối`
-
-    );
-
-
-    await loadDeposits();
-
-}
-
-
-
-/* ================================
-   LOAD ORDERS
-================================ */
-
+// ==============================
+// LOAD ORDERS
+// ==============================
 
 async function loadOrders(){
 
+    const table =
+        document.getElementById("orderTable");
+
+
+    table.innerHTML = `
+        <tr>
+            <td colspan="7">
+                <div class="loading">
+                    Đang tải đơn hàng...
+                </div>
+            </td>
+        </tr>
+    `;
+
+
     const {
         data,
         error
     } = await sb
         .from("orders")
         .select("*")
-        .order(
-            "created_at",
-            {
-                ascending:false
-            }
-        );
-
-
-    const box =
-        document.getElementById(
-            "orders"
-        );
+        .order("created_at",{
+            ascending:false
+        });
 
 
     if(error){
 
         console.error(
-            "Orders error:",
+            "ORDERS ERROR:",
             error
         );
 
-        box.innerHTML = `
-            <div class="empty">
-                Không tải được đơn hàng.
-                <br><br>
-                ${escapeHtml(
-                    error.message
-                )}
-            </div>
+
+        table.innerHTML = `
+            <tr>
+                <td colspan="7">
+                    <div class="empty">
+                        Không tải được đơn hàng.<br><br>
+                        ${escapeHtml(error.message)}
+                    </div>
+                </td>
+            </tr>
         `;
 
         return;
-
     }
 
 
-    const processing =
+    if(!data || !data.length){
+
+        table.innerHTML = `
+            <tr>
+                <td colspan="7">
+                    <div class="empty">
+                        Chưa có đơn hàng.
+                    </div>
+                </td>
+            </tr>
+        `;
+
+
+        document
+            .getElementById("pendingOrders")
+            .textContent = "0";
+
+
+        document
+            .getElementById("totalOrders")
+            .textContent = "0";
+
+
+        return;
+    }
+
+
+    const pending =
         data.filter(
-            x =>
-                x.status ===
-                "processing"
-        );
+            x => x.status === "pending"
+        ).length;
 
 
     document
-        .getElementById(
-            "orderCount"
-        )
-        .textContent =
-            processing.length;
+        .getElementById("pendingOrders")
+        .textContent = pending;
 
 
     document
-        .getElementById(
-            "completedOrders"
-        )
-        .textContent =
-            data.filter(
-                x =>
-                    x.status ===
-                    "completed"
-            ).length;
+        .getElementById("totalOrders")
+        .textContent = data.length;
 
 
-    if(!data.length){
+    table.innerHTML =
+        data.map(item => {
 
-        box.innerHTML = `
-            <div class="empty">
-                Chưa có đơn hàng.
-            </div>
-        `;
+            let statusClass =
+                "pending";
 
-        return;
+            let statusText =
+                "🟡 Đang xử lý";
 
-    }
 
+            if(item.status === "completed"){
 
-    box.innerHTML =
-        data.map(
-            order => {
+                statusClass =
+                    "completed";
 
-                let statusText =
-                    "🟡 Đang xử lý";
-
-                let statusClass = "";
-
-
-                if(
-                    order.status ===
-                    "approved"
-                ){
-
-                    statusText =
-                        "🔵 Đã duyệt";
-
-                    statusClass =
-                        "approved";
-
-                }
-
-
-                if(
-                    order.status ===
-                    "completed"
-                ){
-
-                    statusText =
-                        "🟢 Hoàn thành";
-
-                    statusClass =
-                        "approved";
-
-                }
-
-
-                if(
-                    order.status ===
-                    "cancelled"
-                ){
-
-                    statusText =
-                        "🔴 Đã hủy";
-
-                    statusClass =
-                        "rejected";
-
-                }
-
-
-                return `
-
-                <div class="card">
-
-                    <div class="card-head">
-
-                        <div>
-
-                            <div class="code">
-
-                                ${escapeHtml(
-                                    order.order_code
-                                )}
-
-                            </div>
-
-                            <div class="date">
-
-                                ${new Date(
-                                    order.created_at
-                                ).toLocaleString(
-                                    "vi-VN"
-                                )}
-
-                            </div>
-
-                        </div>
-
-
-                        <div
-                            class="status ${statusClass}">
-
-                            ${statusText}
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="info">
-
-                        👤 User ID:
-                        <b>
-                            ${escapeHtml(
-                                order.user_id
-                            )}
-                        </b>
-
-                        <br>
-
-                        📦 Số lượng:
-                        <b>
-                            ${escapeHtml(
-                                order.quantity
-                            )}
-                        </b>
-                        Add Fr
-
-                        <br>
-
-                        💰 Tổng tiền:
-                        <b>
-                            ${money(
-                                order.total
-                            )}
-                        </b>
-
-                        <br>
-
-                        🔗 Facebook:
-                        ${escapeHtml(
-                            order.target
-                        )}
-
-                    </div>
-
-
-                    ${
-                        order.status ===
-                        "processing"
-                        ?
-                        `
-
-                        <div class="actions">
-
-                            <button
-                                class="btn green"
-                                onclick="
-                                    updateOrder(
-                                        '${order.id}',
-                                        'approved'
-                                    )
-                                ">
-
-                                ✓ Duyệt đơn
-
-                            </button>
-
-
-                            <button
-                                class="btn red"
-                                onclick="
-                                    updateOrder(
-                                        '${order.id}',
-                                        'cancelled'
-                                    )
-                                ">
-
-                                ✕ Hủy
-
-                            </button>
-
-                        </div>
-
-                        `
-                        :
-                        ""
-                    }
-
-
-                    ${
-                        order.status ===
-                        "approved"
-                        ?
-                        `
-
-                        <div class="actions">
-
-                            <button
-                                class="btn green"
-                                onclick="
-                                    updateOrder(
-                                        '${order.id}',
-                                        'completed'
-                                    )
-                                ">
-
-                                ✓ Hoàn thành
-
-                            </button>
-
-
-                            <button
-                                class="btn red"
-                                onclick="
-                                    updateOrder(
-                                        '${order.id}',
-                                        'cancelled'
-                                    )
-                                ">
-
-                                ✕ Hủy
-
-                            </button>
-
-                        </div>
-
-                        `
-                        :
-                        ""
-                    }
-
-                </div>
-
-                `;
+                statusText =
+                    "🟢 Hoàn thành";
 
             }
-        ).join("");
+
+
+            if(item.status === "cancelled"){
+
+                statusClass =
+                    "cancelled";
+
+                statusText =
+                    "🔴 Đã hủy";
+
+            }
+
+
+            const canProcess =
+                item.status === "pending";
+
+
+            return `
+
+                <tr>
+
+                    <td>
+
+                        <div class="order-code">
+                            ${escapeHtml(item.order_code)}
+                        </div>
+
+                        <div style="
+                            color:#666;
+                            font-size:10px;
+                            margin-top:5px;
+                        ">
+                            ${formatDate(item.created_at)}
+                        </div>
+
+                    </td>
+
+
+                    <td>
+
+                        <div class="user-id">
+                            ${escapeHtml(item.user_id)}
+                        </div>
+
+                    </td>
+
+
+                    <td>
+                        ${Number(item.quantity).toLocaleString("vi-VN")}
+                    </td>
+
+
+                    <td>
+
+                        <span class="amount">
+                            ${money(item.total)}
+                        </span>
+
+                    </td>
+
+
+                    <td>
+
+                        <a
+                            href="${escapeHtml(item.target)}"
+                            target="_blank"
+                            style="
+                                color:#a894ff;
+                                max-width:180px;
+                                display:block;
+                                overflow:hidden;
+                                text-overflow:ellipsis;
+                                white-space:nowrap;
+                            "
+                        >
+                            ${escapeHtml(item.target)}
+                        </a>
+
+                    </td>
+
+
+                    <td>
+
+                        <span class="status ${statusClass}">
+                            ${statusText}
+                        </span>
+
+                    </td>
+
+
+                    <td>
+
+                        ${
+                            canProcess
+
+                            ?
+
+                            `
+                            <div class="actions">
+
+                                <button
+                                    class="btn green small"
+                                    onclick="completeOrder('${escapeHtml(item.id)}')">
+                                    ✓ Duyệt
+                                </button>
+
+
+                                <button
+                                    class="btn red small"
+                                    onclick="cancelOrder('${escapeHtml(item.id)}')">
+                                    ✕ Hủy
+                                </button>
+
+                            </div>
+                            `
+
+                            :
+
+                            `<span style="color:#666">
+                                Đã xử lý
+                            </span>`
+                        }
+
+                    </td>
+
+                </tr>
+
+            `;
+
+        }).join("");
 
 }
 
 
+// ==============================
+// DUYỆT ĐƠN
+// ==============================
 
-/* ================================
-   UPDATE ORDER
-================================ */
+async function completeOrder(id){
 
+    if(!confirm(
+        "Xác nhận hoàn thành đơn hàng?"
+    )){
 
-async function updateOrder(
-    orderId,
-    newStatus
-){
-
-    let question =
-        "Xác nhận cập nhật đơn?";
-
-
-    if(
-        newStatus ===
-        "approved"
-    ){
-
-        question =
-            "Xác nhận DUYỆT đơn?";
-
-    }
-
-
-    if(
-        newStatus ===
-        "completed"
-    ){
-
-        question =
-            "Xác nhận HOÀN THÀNH đơn?";
-
-    }
-
-
-    if(
-        newStatus ===
-        "cancelled"
-    ){
-
-        question =
-            "Xác nhận HỦY đơn?";
-
-    }
-
-
-    if(!confirm(question))
         return;
+
+    }
 
 
     const {
-        data,
         error
-    } = await sb.rpc(
-        "admin_update_order_status",
-        {
-            p_order_id:
-                orderId,
-
-            p_status:
-                newStatus
-        }
-    );
+    } = await sb
+        .from("orders")
+        .update({
+            status:"completed"
+        })
+        .eq("id",id);
 
 
     if(error){
 
         console.error(
-            "Update order:",
+            "COMPLETE ORDER ERROR:",
             error
         );
 
+
         toast(
-            "❌ " +
+            "❌ Không thể duyệt đơn"
+        );
+
+
+        showError(
+            "Lỗi duyệt đơn:\n" +
             error.message
         );
 
         return;
-
     }
 
 
-    if(!data || !data.ok){
+    toast(
+        "✅ Đã duyệt đơn"
+    );
 
-        toast(
-            "❌ Không cập nhật được."
-        );
+
+    await loadOrders();
+
+}
+
+
+// ==============================
+// HỦY ĐƠN
+// ==============================
+
+async function cancelOrder(id){
+
+    if(!confirm(
+        "Xác nhận hủy đơn hàng?"
+    )){
 
         return;
 
     }
 
 
-    let statusText =
-        "Đã cập nhật";
+    const {
+        error
+    } = await sb
+        .from("orders")
+        .update({
+            status:"cancelled"
+        })
+        .eq("id",id);
 
 
-    if(
-        newStatus ===
-        "approved"
-    ){
+    if(error){
 
-        statusText =
-            "Đã duyệt";
-
-    }
+        console.error(
+            "CANCEL ORDER ERROR:",
+            error
+        );
 
 
-    if(
-        newStatus ===
-        "completed"
-    ){
-
-        statusText =
-            "Đã hoàn thành";
-
-    }
+        toast(
+            "❌ Không thể hủy đơn"
+        );
 
 
-    if(
-        newStatus ===
-        "cancelled"
-    ){
+        showError(
+            "Lỗi hủy đơn:\n" +
+            error.message
+        );
 
-        statusText =
-            "Đã hủy";
-
+        return;
     }
 
 
     toast(
-        "✅ " + statusText
+        "✅ Đã hủy đơn"
     );
 
 
-    /*
-       Lấy đơn để báo Telegram
-    */
-
-    const {
-        data:order
-    } = await sb
-        .from("orders")
-        .select("*")
-        .eq(
-            "id",
-            orderId
-        )
-        .single();
-
-
-    if(order){
-
-        await sendTelegram(
-
-`📦 CẬP NHẬT ĐƠN ADD FR
-
-🆔 Mã đơn:
-${order.order_code}
-
-👤 User ID:
-${order.user_id}
-
-📦 Số lượng:
-${order.quantity} Add Fr
-
-💰 Tổng tiền:
-${money(order.total)}
-
-🔗 Facebook:
-${order.target}
-
-📌 Trạng thái:
-${statusText}`
-
-        );
-
-    }
-
-
     await loadOrders();
 
 }
 
 
-
-/* ================================
-   LOAD ALL
-================================ */
-
+// ==============================
+// LOAD ALL
+// ==============================
 
 async function loadAll(){
 
-    await loadDeposits();
+    hideError();
 
-    await loadOrders();
+    await Promise.all([
+        loadDeposits(),
+        loadOrders()
+    ]);
 
 }
 
 
-
-/* ================================
-   LOGOUT
-================================ */
-
+// ==============================
+// LOGOUT
+// ==============================
 
 async function logout(){
 
@@ -1569,19 +1555,37 @@ async function logout(){
 }
 
 
-
-/* ================================
-   INIT
-================================ */
-
+// ==============================
+// INIT
+// ==============================
 
 async function init(){
 
-    const ok =
+    /*
+     * Đợi Supabase khôi phục session
+     */
+
+    const {
+        data
+    } = await sb.auth.getSession();
+
+
+    console.log(
+        "SESSION:",
+        data.session
+    );
+
+
+    const isAdmin =
         await checkAdmin();
 
-    if(!ok)
+
+    if(!isAdmin){
+
         return;
+
+    }
+
 
     await loadAll();
 
