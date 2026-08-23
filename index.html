@@ -3,17 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-
 <title>ADD FR - Dịch Vụ Online</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
-*{
-    box-sizing:border-box;
-    margin:0;
-    padding:0;
-}
+*{box-sizing:border-box;margin:0;padding:0}
 
 body{
     background:#08090d;
@@ -21,13 +16,8 @@ body{
     font-family:Arial,Helvetica,sans-serif;
 }
 
-button,input{
-    font-family:inherit;
-}
-
-button{
-    cursor:pointer;
-}
+button,input{font-family:inherit}
+button{cursor:pointer}
 
 .nav{
     max-width:1150px;
@@ -36,7 +26,7 @@ button{
     display:flex;
     justify-content:space-between;
     align-items:center;
-    gap:15px;
+    gap:12px;
 }
 
 .logo{
@@ -45,17 +35,15 @@ button{
     letter-spacing:2px;
 }
 
-.logo span{
-    color:#9276ff;
-}
+.logo span{color:#9276ff}
 
 .nav-right{
     display:flex;
     align-items:center;
-    gap:10px;
+    gap:9px;
 }
 
-.user-box{
+.user{
     padding:10px 13px;
     border:1px solid #292d38;
     border-radius:11px;
@@ -63,17 +51,20 @@ button{
     font-size:12px;
 }
 
-.user-box b{
-    color:#a895ff;
+.user b{color:#a895ff}
+
+.btn{
+    padding:12px 16px;
+    border:0;
+    border-radius:11px;
+    color:#fff;
+    font-weight:bold;
+    background:linear-gradient(135deg,#a087ff,#644cff);
 }
 
-.history-btn,
-.login-btn{
-    padding:11px 16px;
-    border-radius:11px;
-    border:1px solid #292d38;
+.btn.secondary{
     background:#111319;
-    color:#fff;
+    border:1px solid #292d38;
 }
 
 .hero{
@@ -100,29 +91,12 @@ h1{
     letter-spacing:-4px;
 }
 
-h1 span{
-    color:#858b9b;
-}
+h1 span{color:#858b9b}
 
 .hero p{
     color:#9299a8;
     line-height:1.7;
     margin-top:25px;
-}
-
-.primary{
-    margin-top:25px;
-    padding:14px 20px;
-    border:0;
-    border-radius:12px;
-    color:white;
-    font-weight:bold;
-    background:linear-gradient(135deg,#a087ff,#644cff);
-}
-
-.primary:disabled{
-    opacity:.5;
-    cursor:not-allowed;
 }
 
 .hero-card{
@@ -155,9 +129,7 @@ h1 span{
     font-weight:900;
 }
 
-.hero-small{
-    color:#777e8d;
-}
+.hero-small{color:#777e8d}
 
 .stats{
     display:grid;
@@ -185,7 +157,7 @@ h1 span{
 .section{
     max-width:1150px;
     margin:auto;
-    padding:30px 25px 90px;
+    padding:30px 25px 70px;
 }
 
 .section-title{
@@ -193,12 +165,37 @@ h1 span{
     margin-bottom:25px;
 }
 
+.account{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:15px;
+}
+
+.card{
+    padding:22px;
+    border:1px solid #292d38;
+    border-radius:20px;
+    background:#111319;
+}
+
+.balance-label{
+    color:#777e8d;
+    font-size:12px;
+}
+
+.balance{
+    margin-top:7px;
+    font-size:32px;
+    font-weight:900;
+    color:#a895ff;
+}
+
 .product{
     display:flex;
     align-items:center;
     gap:18px;
     padding:22px;
-    border:1px solid #292d36;
+    border:1px solid #292d38;
     border-radius:20px;
     background:#111319;
 }
@@ -214,9 +211,7 @@ h1 span{
     font-size:27px;
 }
 
-.product-content{
-    flex:1;
-}
+.product-content{flex:1}
 
 .product-content p{
     margin-top:6px;
@@ -227,54 +222,6 @@ h1 span{
 .price{
     font-weight:900;
     margin-bottom:7px;
-}
-
-.balance-card{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    gap:20px;
-    padding:20px;
-    border:1px solid #292d38;
-    border-radius:18px;
-    background:#111319;
-}
-
-.balance-label{
-    color:#777e8d;
-    font-size:12px;
-}
-
-.balance{
-    margin-top:5px;
-    font-size:28px;
-    font-weight:900;
-    color:#a895ff;
-}
-
-.deposit-box{
-    margin-top:15px;
-    padding:20px;
-    border:1px solid #292d38;
-    border-radius:18px;
-    background:#111319;
-}
-
-.deposit-row{
-    display:flex;
-    gap:10px;
-}
-
-.deposit-row input{
-    flex:1;
-}
-
-.orders-empty{
-    padding:40px;
-    text-align:center;
-    border:1px dashed #2a2e38;
-    border-radius:18px;
-    color:#6f7684;
 }
 
 .order{
@@ -291,9 +238,7 @@ h1 span{
     gap:15px;
 }
 
-.order-id{
-    font-weight:900;
-}
+.order-id{font-weight:900}
 
 .order-date{
     margin-top:5px;
@@ -308,17 +253,17 @@ h1 span{
     font-size:10px;
 }
 
-.status.processing{
+.processing{
     background:#29233f;
     color:#b9aaff;
 }
 
-.status.completed{
+.completed{
     background:#173324;
     color:#5fe398;
 }
 
-.status.cancelled{
+.cancelled{
     background:#432226;
     color:#ff8585;
 }
@@ -331,21 +276,35 @@ h1 span{
     word-break:break-word;
 }
 
-.progress{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:5px;
-    margin-top:14px;
+.deposit{
+    margin-top:15px;
 }
 
-.progress div{
-    height:5px;
-    border-radius:10px;
-    background:#292d36;
+.deposit-list{
+    margin-top:15px;
 }
 
-.progress .active{
-    background:#9178ff;
+.deposit-item{
+    display:flex;
+    justify-content:space-between;
+    gap:10px;
+    padding:15px;
+    margin-bottom:8px;
+    border:1px solid #292d38;
+    border-radius:13px;
+    background:#101218;
+}
+
+.pending{color:#b9aaff}
+.approved{color:#5fe398}
+.rejected{color:#ff8585}
+
+.empty{
+    padding:35px;
+    text-align:center;
+    color:#6f7684;
+    border:1px dashed #292e39;
+    border-radius:18px;
 }
 
 .modal{
@@ -360,9 +319,7 @@ h1 span{
     backdrop-filter:blur(10px);
 }
 
-.modal.show{
-    display:flex;
-}
+.modal.show{display:flex}
 
 .modal-box{
     width:min(500px,100%);
@@ -414,9 +371,7 @@ input{
     color:#fff;
 }
 
-input:focus{
-    border-color:#9178ff;
-}
+input:focus{border-color:#9178ff}
 
 .total{
     display:flex;
@@ -434,11 +389,11 @@ input:focus{
 
 .full{
     width:100%;
-    margin-top:0;
+    margin-top:15px;
 }
 
 .error{
-    margin-top:12px;
+    margin-top:10px;
     color:#ff7777;
     font-size:12px;
 }
@@ -459,13 +414,6 @@ input:focus{
     font-size:30px;
 }
 
-.order-code{
-    display:block;
-    margin:12px 0 22px;
-    color:#a895ff;
-    font-size:21px;
-}
-
 #toast{
     position:fixed;
     left:50%;
@@ -475,7 +423,6 @@ input:focus{
     border:1px solid #303542;
     border-radius:12px;
     background:#191c24;
-    color:#fff;
     opacity:0;
     transform:translate(-50%,20px);
     transition:.25s;
@@ -486,12 +433,6 @@ input:focus{
     transform:translate(-50%,0);
 }
 
-.loading{
-    text-align:center;
-    padding:25px;
-    color:#777e8d;
-}
-
 @media(max-width:750px){
 
     .hero{
@@ -499,28 +440,17 @@ input:focus{
         margin-top:20px;
     }
 
-    h1{
-        font-size:48px;
-    }
+    h1{font-size:48px}
 
     .stats{
         grid-template-columns:1fr;
     }
 
+    .account{
+        grid-template-columns:1fr;
+    }
+
     .product{
-        flex-wrap:wrap;
-    }
-
-    .balance-card{
-        align-items:flex-start;
-        flex-direction:column;
-    }
-
-    .deposit-row{
-        flex-direction:column;
-    }
-
-    .nav{
         flex-wrap:wrap;
     }
 }
@@ -535,10 +465,13 @@ input:focus{
         <span>ADD</span> FR
     </div>
 
-    <div class="nav-right" id="navRight">
+    <div
+        class="nav-right"
+        id="navRight"
+    >
 
         <button
-            class="login-btn"
+            class="btn secondary"
             onclick="openAuth()"
         >
             Đăng nhập
@@ -564,14 +497,15 @@ input:focus{
         </h1>
 
         <p>
-            Đặt dịch vụ, theo dõi tiến trình
-            và lịch sử đơn hàng ngay trên
-            một giao diện.
+            Đặt dịch vụ, nạp tiền,
+            theo dõi tiến trình và
+            lịch sử đơn hàng.
         </p>
 
         <button
-            class="primary"
+            class="btn"
             onclick="openOrder()"
+            style="margin-top:25px"
         >
             Mua ngay →
         </button>
@@ -638,9 +572,9 @@ input:focus{
         Tài khoản
     </h2>
 
-    <div class="balance-card">
+    <div class="account">
 
-        <div>
+        <div class="card">
 
             <div class="balance-label">
                 Số dư hiện tại
@@ -655,13 +589,28 @@ input:focus{
 
         </div>
 
-        <button
-            class="primary"
-            style="margin:0"
-            onclick="openDeposit()"
-        >
-            + Nạp tiền
-        </button>
+
+        <div class="card">
+
+            <button
+                class="btn"
+                onclick="openDeposit()"
+            >
+                + Nạp tiền
+            </button>
+
+            <div
+                style="
+                    margin-top:10px;
+                    color:#777e8d;
+                    font-size:12px
+                "
+            >
+                Nạp tiền sẽ tạo yêu cầu
+                để Admin duyệt.
+            </div>
+
+        </div>
 
     </div>
 
@@ -693,7 +642,7 @@ input:focus{
             </h3>
 
             <p>
-                Dịch vụ theo số lượng bạn lựa chọn.
+                5.000đ / 100 Add Fr
             </p>
 
         </div>
@@ -705,8 +654,7 @@ input:focus{
             </div>
 
             <button
-                class="primary"
-                style="margin:0"
+                class="btn"
                 onclick="openOrder()"
             >
                 Đặt đơn
@@ -719,7 +667,31 @@ input:focus{
 </section>
 
 
-<!-- HISTORY -->
+<!-- DEPOSIT HISTORY -->
+
+<section
+    class="section"
+    id="depositSection"
+    style="display:none"
+>
+
+    <div class="badge">
+        WALLET
+    </div>
+
+    <h2 class="section-title">
+        Lịch sử nạp tiền
+    </h2>
+
+    <div
+        class="deposit-list"
+        id="depositList"
+    ></div>
+
+</section>
+
+
+<!-- ORDERS -->
 
 <section class="section">
 
@@ -733,8 +705,8 @@ input:focus{
 
     <div id="orders">
 
-        <div class="orders-empty">
-            Đăng nhập để xem lịch sử đơn hàng.
+        <div class="empty">
+            Đăng nhập để xem lịch sử đơn.
         </div>
 
     </div>
@@ -742,7 +714,7 @@ input:focus{
 </section>
 
 
-<!-- AUTH -->
+<!-- AUTH MODAL -->
 
 <div
     class="modal"
@@ -753,31 +725,32 @@ input:focus{
 
         <button
             class="close"
-            onclick="closeAuth()"
+            onclick="closeModal('authModal')"
         >
             ×
         </button>
 
-        <div class="modal-title">
-            <span id="authTitle">
-                Đăng nhập
-            </span>
+        <div
+            class="modal-title"
+            id="authTitle"
+        >
+            Đăng nhập
         </div>
 
-        <div class="modal-sub">
-            <span id="authSub">
-                Đăng nhập tài khoản của bạn.
-            </span>
+        <div
+            class="modal-sub"
+            id="authSub"
+        >
+            Đăng nhập tài khoản của bạn.
         </div>
 
 
-        <label>
+        <label id="usernameLabel">
             Username
 
             <input
                 id="username"
-                type="text"
-                placeholder="username"
+                placeholder="anh_tu"
             >
 
         </label>
@@ -787,7 +760,7 @@ input:focus{
             Email
 
             <input
-                id="authEmail"
+                id="email"
                 type="email"
                 placeholder="email@example.com"
             >
@@ -799,7 +772,7 @@ input:focus{
             Mật khẩu
 
             <input
-                id="authPassword"
+                id="password"
                 type="password"
                 placeholder="••••••••"
             >
@@ -814,25 +787,24 @@ input:focus{
 
 
         <button
-            class="primary full"
-            onclick="submitAuth()"
-            id="authSubmit"
+            class="btn full"
+            onclick="authSubmit()"
+            id="authButton"
         >
             Đăng nhập
         </button>
 
 
         <button
+            id="switchAuth"
+            onclick="toggleAuth()"
             style="
                 width:100%;
-                margin-top:10px;
-                padding:12px;
+                margin-top:12px;
                 border:0;
                 background:none;
-                color:#9a8cff;
+                color:#a895ff;
             "
-            onclick="toggleAuthMode()"
-            id="toggleAuth"
         >
             Chưa có tài khoản? Đăng ký
         </button>
@@ -842,7 +814,7 @@ input:focus{
 </div>
 
 
-<!-- ORDER -->
+<!-- ORDER MODAL -->
 
 <div
     class="modal"
@@ -853,7 +825,7 @@ input:focus{
 
         <button
             class="close"
-            onclick="closeOrder()"
+            onclick="closeModal('orderModal')"
         >
             ×
         </button>
@@ -863,7 +835,7 @@ input:focus{
         </div>
 
         <div class="modal-sub">
-            Điền thông tin để tạo đơn.
+            Số dư sẽ được trừ khi tạo đơn.
         </div>
 
 
@@ -887,7 +859,6 @@ input:focus{
 
             <input
                 id="target"
-                type="text"
                 placeholder="https://facebook.com/..."
             >
 
@@ -914,8 +885,8 @@ input:focus{
 
 
         <button
-            id="submitBtn"
-            class="primary full"
+            class="btn full"
+            id="orderButton"
             onclick="createOrder()"
         >
             Xác nhận đặt hàng
@@ -926,7 +897,7 @@ input:focus{
 </div>
 
 
-<!-- DEPOSIT -->
+<!-- DEPOSIT MODAL -->
 
 <div
     class="modal"
@@ -937,7 +908,7 @@ input:focus{
 
         <button
             class="close"
-            onclick="closeDeposit()"
+            onclick="closeModal('depositModal')"
         >
             ×
         </button>
@@ -965,11 +936,14 @@ input:focus{
         </label>
 
 
-        <div class="error" id="depositError"></div>
+        <div
+            class="error"
+            id="depositError"
+        ></div>
 
 
         <button
-            class="primary full"
+            class="btn full"
             onclick="createDeposit()"
         >
             Tạo yêu cầu nạp
@@ -1002,7 +976,7 @@ input:focus{
         </div>
 
         <p style="color:#858c99;margin-top:10px">
-            Mã đơn của bạn:
+            Mã đơn:
         </p>
 
         <strong
@@ -1011,8 +985,8 @@ input:focus{
         ></strong>
 
         <button
-            class="primary full"
-            onclick="closeSuccess()"
+            class="btn"
+            onclick="closeModal('successModal');goHistory()"
         >
             Xem lịch sử đơn
         </button>
@@ -1027,57 +1001,54 @@ input:focus{
 
 <script>
 
-/* ==========================================
+/* ==============================
    SUPABASE
-   ========================================== */
+============================== */
 
 const SUPABASE_URL =
-    "https://nslmutblflfotcxvctpp.supabase.co";
+"https://nslmutblflfotcxvctpp.supabase.co";
 
-const SUPABASE_ANON_KEY =
-    "sb_publishable_kESQyw5xcjTe1irApsuRGQ_4X1GR0Xr";
+const SUPABASE_KEY =
+"sb_publishable_kESQyw5xcjTe1irApsuRGQ_4X1GR0Xr";
+
+const db =
+supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+);
 
 
-const supabaseClient =
-    supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_ANON_KEY
-    );
-
-
-/* ==========================================
+/* ==============================
    SETTINGS
-   ========================================== */
+============================== */
 
 const PRICE_PER_100 = 5000;
 
 
-/* ==========================================
+/* ==============================
    STATE
-   ========================================== */
+============================== */
 
-let currentUser = null;
-
-let currentProfile = null;
-
+let user = null;
+let profile = null;
 let registerMode = false;
 
 
-/* ==========================================
-   UTIL
-   ========================================== */
+/* ==============================
+   HELPERS
+============================== */
 
-function money(value){
+function money(n){
 
-    return Number(value || 0)
+    return Number(n || 0)
         .toLocaleString("vi-VN") + "đ";
 
 }
 
 
-function escapeHTML(value){
+function escapeHTML(s){
 
-    return String(value ?? "")
+    return String(s ?? "")
         .replace(/&/g,"&amp;")
         .replace(/</g,"&lt;")
         .replace(/>/g,"&gt;")
@@ -1087,28 +1058,11 @@ function escapeHTML(value){
 }
 
 
-function orderID(){
+function orderCode(){
 
-    const d = new Date();
-
-    const date =
-        d.getFullYear()
-        .toString()
-        .slice(-2)
-        +
-        String(d.getMonth()+1)
-        .padStart(2,"0")
-        +
-        String(d.getDate())
-        .padStart(2,"0");
-
-    const random =
-        Math.floor(
-            10000 +
-            Math.random() * 90000
-        );
-
-    return "ADR-" + date + "-" + random;
+    return "ADR-" +
+        Date.now().toString().slice(-8) +
+        Math.floor(10 + Math.random()*90);
 
 }
 
@@ -1122,20 +1076,29 @@ function toast(text){
 
     el.classList.add("show");
 
-    clearTimeout(window.toastTimer);
+    clearTimeout(window.__toast);
 
-    window.toastTimer =
+    window.__toast =
         setTimeout(
-            () => el.classList.remove("show"),
+            ()=>el.classList.remove("show"),
             3000
         );
 
 }
 
 
-/* ==========================================
-   AUTH MODAL
-   ========================================== */
+function closeModal(id){
+
+    document
+        .getElementById(id)
+        .classList.remove("show");
+
+}
+
+
+/* ==============================
+   AUTH
+============================== */
 
 function openAuth(){
 
@@ -1146,20 +1109,9 @@ function openAuth(){
 }
 
 
-function closeAuth(){
+function toggleAuth(){
 
-    document
-        .getElementById("authModal")
-        .classList.remove("show");
-
-}
-
-
-function toggleAuthMode(){
-
-    registerMode =
-        !registerMode;
-
+    registerMode = !registerMode;
 
     document
         .getElementById("authTitle")
@@ -1168,7 +1120,6 @@ function toggleAuthMode(){
             ? "Đăng ký"
             : "Đăng nhập";
 
-
     document
         .getElementById("authSub")
         .textContent =
@@ -1176,25 +1127,22 @@ function toggleAuthMode(){
             ? "Tạo tài khoản khách hàng."
             : "Đăng nhập tài khoản của bạn.";
 
-
     document
-        .getElementById("authSubmit")
+        .getElementById("authButton")
         .textContent =
             registerMode
             ? "Tạo tài khoản"
             : "Đăng nhập";
 
-
     document
-        .getElementById("toggleAuth")
+        .getElementById("switchAuth")
         .textContent =
             registerMode
             ? "Đã có tài khoản? Đăng nhập"
             : "Chưa có tài khoản? Đăng ký";
 
-
     document
-        .getElementById("username")
+        .getElementById("usernameLabel")
         .style.display =
             registerMode
             ? "block"
@@ -1203,40 +1151,25 @@ function toggleAuthMode(){
 }
 
 
-/* ==========================================
-   AUTH SUBMIT
-   ========================================== */
-
-async function submitAuth(){
-
-    const username =
-        document
-        .getElementById("username")
-        .value
-        .trim()
-        .toLowerCase();
-
+async function authSubmit(){
 
     const email =
-        document
-        .getElementById("authEmail")
-        .value
-        .trim();
-
+        document.getElementById("email")
+        .value.trim();
 
     const password =
-        document
-        .getElementById("authPassword")
+        document.getElementById("password")
         .value;
 
+    const username =
+        document.getElementById("username")
+        .value.trim()
+        .toLowerCase();
 
     const error =
-        document
-        .getElementById("authError");
-
+        document.getElementById("authError");
 
     error.textContent = "";
-
 
     if(!email || !password){
 
@@ -1253,37 +1186,31 @@ async function submitAuth(){
         if(!/^[a-z0-9_]{3,20}$/.test(username)){
 
             error.textContent =
-                "Username chỉ gồm chữ thường, số và _ (3-20 ký tự).";
+                "Username phải 3-20 ký tự.";
 
             return;
 
         }
 
 
-        const {
-            data,
-            error:signError
-        } =
-            await supabaseClient.auth
-            .signUp({
-
+        const result =
+            await db.auth.signUp({
                 email,
                 password
-
             });
 
 
-        if(signError){
+        if(result.error){
 
             error.textContent =
-                signError.message;
+                result.error.message;
 
             return;
 
         }
 
 
-        if(!data.user){
+        if(!result.data.user){
 
             error.textContent =
                 "Không tạo được tài khoản.";
@@ -1293,14 +1220,12 @@ async function submitAuth(){
         }
 
 
-        const {
-            error:profileError
-        } =
-            await supabaseClient
+        const profileResult =
+            await db
             .from("profiles")
             .insert({
 
-                id:data.user.id,
+                id:result.data.user.id,
 
                 username:username,
 
@@ -1311,10 +1236,10 @@ async function submitAuth(){
             });
 
 
-        if(profileError){
+        if(profileResult.error){
 
             error.textContent =
-                profileError.message;
+                profileResult.error.message;
 
             return;
 
@@ -1322,26 +1247,20 @@ async function submitAuth(){
 
 
         toast(
-            "Tạo tài khoản thành công."
+            "Đăng ký thành công."
         );
 
+        closeModal("authModal");
 
         await loadUser();
-
-
-        closeAuth();
 
         return;
 
     }
 
 
-    const {
-        data,
-        error:loginError
-    } =
-        await supabaseClient.auth
-        .signInWithPassword({
+    const result =
+        await db.auth.signInWithPassword({
 
             email,
             password
@@ -1349,63 +1268,50 @@ async function submitAuth(){
         });
 
 
-    if(loginError){
+    if(result.error){
 
         error.textContent =
-            loginError.message;
+            result.error.message;
 
         return;
 
     }
 
 
-    currentUser =
-        data.user;
-
+    closeModal("authModal");
 
     await loadUser();
-
-    closeAuth();
 
 }
 
 
-/* ==========================================
+/* ==============================
    LOAD USER
-   ========================================== */
+============================== */
 
 async function loadUser(){
 
-    const {
-        data:{
-            user
-        }
-    } =
-        await supabaseClient.auth
-        .getUser();
+    const result =
+        await db.auth.getUser();
 
+    if(!result.data.user){
 
-    if(!user){
+        user = null;
+        profile = null;
 
-        currentUser = null;
-
-        currentProfile = null;
-
-        updateLoggedOut();
+        renderLoggedOut();
 
         return;
 
     }
 
 
-    currentUser = user;
+    user =
+        result.data.user;
 
 
-    const {
-        data,
-        error
-    } =
-        await supabaseClient
+    const profileResult =
+        await db
         .from("profiles")
         .select(
             "id,username,balance,is_admin"
@@ -1414,12 +1320,14 @@ async function loadUser(){
         .single();
 
 
-    if(error){
+    if(profileResult.error){
 
-        console.error(error);
+        console.error(
+            profileResult.error
+        );
 
         toast(
-            "Không tải được thông tin tài khoản."
+            "Không tải được profile."
         );
 
         return;
@@ -1427,64 +1335,33 @@ async function loadUser(){
     }
 
 
-    currentProfile = data;
+    profile =
+        profileResult.data;
 
 
-    updateLoggedIn();
+    renderLoggedIn();
 
     updateBalance();
 
     loadOrders();
 
-}
-
-
-/* ==========================================
-   LOGGED IN UI
-   ========================================== */
-
-function updateLoggedIn(){
-
-    document
-        .getElementById("accountSection")
-        .style.display = "block";
-
-
-    document
-        .getElementById("navRight")
-        .innerHTML = `
-
-            <div class="user-box">
-                👤 <b>
-                    @${escapeHTML(
-                        currentProfile.username
-                    )}
-                </b>
-            </div>
-
-            <button
-                class="history-btn"
-                onclick="goHistory()"
-            >
-                Lịch sử
-            </button>
-
-            <button
-                class="login-btn"
-                onclick="logout()"
-            >
-                Đăng xuất
-            </button>
-
-        `;
+    loadDeposits();
 
 }
 
 
-function updateLoggedOut(){
+/* ==============================
+   UI ACCOUNT
+============================== */
+
+function renderLoggedOut(){
 
     document
         .getElementById("accountSection")
+        .style.display = "none";
+
+    document
+        .getElementById("depositSection")
         .style.display = "none";
 
 
@@ -1493,7 +1370,7 @@ function updateLoggedOut(){
         .innerHTML = `
 
             <button
-                class="login-btn"
+                class="btn secondary"
                 onclick="openAuth()"
             >
                 Đăng nhập
@@ -1504,46 +1381,68 @@ function updateLoggedOut(){
 }
 
 
-/* ==========================================
-   BALANCE
-   ========================================== */
+function renderLoggedIn(){
+
+    document
+        .getElementById("accountSection")
+        .style.display = "block";
+
+    document
+        .getElementById("depositSection")
+        .style.display = "block";
+
+
+    document
+        .getElementById("navRight")
+        .innerHTML = `
+
+            <div class="user">
+                👤 @<b>
+                ${escapeHTML(profile.username)}
+                </b>
+            </div>
+
+            <button
+                class="btn secondary"
+                onclick="logout()"
+            >
+                Đăng xuất
+            </button>
+
+        `;
+
+}
+
 
 function updateBalance(){
 
     document
         .getElementById("balance")
         .textContent =
-            money(
-                currentProfile?.balance || 0
-            );
+            money(profile.balance);
 
 }
 
 
-/* ==========================================
+/* ==============================
    LOGOUT
-   ========================================== */
+============================== */
 
 async function logout(){
 
-    await supabaseClient
-        .auth
-        .signOut();
+    await db.auth.signOut();
 
-    currentUser = null;
+    user = null;
+    profile = null;
 
-    currentProfile = null;
-
-    updateLoggedOut();
+    renderLoggedOut();
 
     document
         .getElementById("orders")
         .innerHTML = `
-
-            <div class="orders-empty">
-                Đăng nhập để xem lịch sử đơn hàng.
+            <div class="empty">
+                Đăng nhập để xem lịch sử đơn.
             </div>
-
         `;
 
     toast("Đã đăng xuất.");
@@ -1551,16 +1450,16 @@ async function logout(){
 }
 
 
-/* ==========================================
-   ORDER MODAL
-   ========================================== */
+/* ==============================
+   ORDER
+============================== */
 
 function openOrder(){
 
-    if(!currentUser){
+    if(!user){
 
         toast(
-            "Vui lòng đăng nhập trước."
+            "Bạn cần đăng nhập trước."
         );
 
         openAuth();
@@ -1577,19 +1476,6 @@ function openOrder(){
 }
 
 
-function closeOrder(){
-
-    document
-        .getElementById("orderModal")
-        .classList.remove("show");
-
-}
-
-
-/* ==========================================
-   PRICE
-   ========================================== */
-
 function updateTotal(){
 
     let q =
@@ -1599,44 +1485,30 @@ function updateTotal(){
             .value
         );
 
-
-    if(q < 100){
-
-        q = 100;
-
-    }
-
-
-    const total =
-        Math.ceil(q / 100)
-        * PRICE_PER_100;
-
+    if(q < 100) q = 100;
 
     document
         .getElementById("total")
         .textContent =
-            money(total);
+            money(
+                Math.ceil(q/100)
+                * PRICE_PER_100
+            );
 
 }
 
 
-/* ==========================================
-   FACEBOOK LINK
-   ========================================== */
-
-function validFacebookURL(value){
+function validFacebookLink(value){
 
     try{
 
         const url =
             new URL(value);
 
-
         const host =
             url.hostname
             .toLowerCase()
             .replace(/^www\./,"");
-
 
         return (
             host === "facebook.com" ||
@@ -1652,15 +1524,11 @@ function validFacebookURL(value){
 }
 
 
-/* ==========================================
-   CREATE ORDER
-   ========================================== */
-
 async function createOrder(){
 
-    if(!currentUser){
+    if(!user){
 
-        closeOrder();
+        closeModal("orderModal");
 
         openAuth();
 
@@ -1676,13 +1544,10 @@ async function createOrder(){
             .value
         );
 
-
     const target =
         document
         .getElementById("target")
-        .value
-        .trim();
-
+        .value.trim();
 
     const targetError =
         document
@@ -1699,7 +1564,7 @@ async function createOrder(){
     ){
 
         toast(
-            "Số lượng phải từ 100 và theo bội số 100."
+            "Số lượng phải là bội số của 100."
         );
 
         return;
@@ -1707,10 +1572,10 @@ async function createOrder(){
     }
 
 
-    if(!validFacebookURL(target)){
+    if(!validFacebookLink(target)){
 
         targetError.textContent =
-            "Link phải là facebook.com hoặc www.facebook.com.";
+            "Link bắt buộc phải là facebook.com/";
 
         return;
 
@@ -1718,20 +1583,14 @@ async function createOrder(){
 
 
     const total =
-        Math.ceil(quantity / 100)
+        Math.ceil(quantity/100)
         * PRICE_PER_100;
 
 
-    const balance =
-        Number(
-            currentProfile.balance || 0
-        );
-
-
-    if(balance < total){
+    if(Number(profile.balance) < total){
 
         toast(
-            "Số dư không đủ. Vui lòng nạp tiền."
+            "Không đủ số dư. Hãy nạp tiền."
         );
 
         return;
@@ -1741,26 +1600,26 @@ async function createOrder(){
 
     const button =
         document
-        .getElementById("submitBtn");
-
+        .getElementById("orderButton");
 
     button.disabled = true;
 
     button.textContent =
-        "⏳ Đang tạo đơn...";
+        "Đang tạo đơn...";
 
 
-    const {
-        data,
-        error
-    } =
-        await supabaseClient
+    const code =
+        orderCode();
+
+
+    const result =
+        await db
         .from("orders")
         .insert({
 
-            user_id:currentUser.id,
+            user_id:user.id,
 
-            order_code:orderID(),
+            order_code:code,
 
             quantity:quantity,
 
@@ -1775,13 +1634,12 @@ async function createOrder(){
         .single();
 
 
-    if(error){
+    if(result.error){
 
-        console.error(error);
+        console.error(result.error);
 
         toast(
-            "Không tạo được đơn: " +
-            error.message
+            "Không tạo được đơn."
         );
 
         button.disabled = false;
@@ -1795,43 +1653,39 @@ async function createOrder(){
 
 
     /*
-       Phần này chỉ phù hợp để TEST.
-       Khi chạy thật nên chuyển việc trừ tiền
-       sang RPC/Database transaction để tránh
-       race condition.
+      TEST MODE:
+      cập nhật số dư sau khi tạo đơn.
+      Khi đưa vào sử dụng thật nên chuyển
+      việc trừ tiền sang Supabase RPC/transaction.
     */
 
     const newBalance =
-        balance - total;
+        Number(profile.balance)
+        - total;
 
 
-    const {
-        error:balanceError
-    } =
-        await supabaseClient
+    const balanceResult =
+        await db
         .from("profiles")
         .update({
-
             balance:newBalance
-
         })
-        .eq(
-            "id",
-            currentUser.id
+        .eq("id",user.id);
+
+
+    if(balanceResult.error){
+
+        console.error(
+            balanceResult.error
         );
 
-
-    if(balanceError){
-
-        console.error(balanceError);
-
         toast(
-            "Đã tạo đơn nhưng chưa trừ được số dư."
+            "Đơn đã tạo nhưng cập nhật số dư lỗi."
         );
 
     }else{
 
-        currentProfile.balance =
+        profile.balance =
             newBalance;
 
         updateBalance();
@@ -1839,13 +1693,12 @@ async function createOrder(){
     }
 
 
-    closeOrder();
+    closeModal("orderModal");
 
     document
         .getElementById("orderCode")
         .textContent =
-            data.order_code;
-
+            code;
 
     document
         .getElementById("successModal")
@@ -1857,42 +1710,35 @@ async function createOrder(){
         .value = "";
 
 
-    await loadOrders();
-
-
     button.disabled = false;
 
     button.textContent =
         "Xác nhận đặt hàng";
 
+
+    loadOrders();
+
 }
 
 
-/* ==========================================
-   LOAD ORDERS
-   ========================================== */
+/* ==============================
+   ORDERS
+============================== */
 
 async function loadOrders(){
 
-    if(!currentUser){
-
-        return;
-
-    }
+    if(!user) return;
 
 
-    const {
-        data,
-        error
-    } =
-        await supabaseClient
+    const result =
+        await db
         .from("orders")
         .select(
-            "id,order_code,quantity,target,total,status,created_at"
+            "order_code,quantity,target,total,status,created_at"
         )
         .eq(
             "user_id",
-            currentUser.id
+            user.id
         )
         .order(
             "created_at",
@@ -1902,37 +1748,16 @@ async function loadOrders(){
         );
 
 
-    if(error){
-
-        console.error(error);
-
-        document
-            .getElementById("orders")
-            .innerHTML = `
-
-                <div class="orders-empty">
-                    Không thể tải lịch sử đơn.
-                </div>
-
-            `;
-
-        return;
-
-    }
-
-
-    const container =
+    const box =
         document.getElementById("orders");
 
 
-    if(!data?.length){
+    if(result.error){
 
-        container.innerHTML = `
-
-            <div class="orders-empty">
-                Chưa có đơn hàng.
+        box.innerHTML = `
+            <div class="empty">
+                Không tải được đơn hàng.
             </div>
-
         `;
 
         return;
@@ -1940,23 +1765,34 @@ async function loadOrders(){
     }
 
 
-    container.innerHTML =
-        data.map(order => {
+    if(!result.data.length){
 
-            let statusText =
-                "🟡 Đang xử lý";
+        box.innerHTML = `
+            <div class="empty">
+                Chưa có đơn hàng.
+            </div>
+        `;
 
-            let statusClass =
+        return;
+
+    }
+
+
+    box.innerHTML =
+        result.data.map(order=>{
+
+            let cls =
                 "processing";
+
+            let status =
+                "🟡 Đang xử lý";
 
 
             if(order.status === "completed"){
 
-                statusText =
-                    "🟢 Hoàn thành";
+                cls = "completed";
 
-                statusClass =
-                    "completed";
+                status = "🟢 Hoàn thành";
 
             }
 
@@ -1966,11 +1802,9 @@ async function loadOrders(){
                 order.status === "rejected"
             ){
 
-                statusText =
-                    "🔴 Đã hủy";
+                cls = "cancelled";
 
-                statusClass =
-                    "cancelled";
+                status = "🔴 Đã hủy";
 
             }
 
@@ -1999,65 +1833,23 @@ async function loadOrders(){
 
                         </div>
 
-                        <div
-                            class="status ${statusClass}"
-                        >
-                            ${statusText}
+                        <div class="status ${cls}">
+                            ${status}
                         </div>
 
                     </div>
 
-
                     <div class="order-info">
 
-                        📦 ${escapeHTML(
-                            order.quantity
-                        )} Add Fr
+                        📦 ${order.quantity} Add Fr
 
                         <br>
 
-                        💰 ${money(
-                            order.total
-                        )}
+                        💰 ${money(order.total)}
 
                         <br>
 
-                        🔗 ${escapeHTML(
-                            order.target
-                        )}
-
-                    </div>
-
-
-                    <div class="progress">
-
-                        <div
-                            class="active"
-                        ></div>
-
-                        <div
-                            class="${
-                                order.status === "completed"
-                                ? "active"
-                                : ""
-                            }"
-                        ></div>
-
-                        <div
-                            class="${
-                                order.status === "completed"
-                                ? "active"
-                                : ""
-                            }"
-                        ></div>
-
-                        <div
-                            class="${
-                                order.status === "completed"
-                                ? "active"
-                                : ""
-                            }"
-                        ></div>
+                        🔗 ${escapeHTML(order.target)}
 
                     </div>
 
@@ -2070,20 +1862,19 @@ async function loadOrders(){
 }
 
 
-/* ==========================================
+/* ==============================
    DEPOSIT
-   ========================================== */
+============================== */
 
 function openDeposit(){
 
-    if(!currentUser){
+    if(!user){
 
         openAuth();
 
         return;
 
     }
-
 
     document
         .getElementById("depositModal")
@@ -2092,27 +1883,7 @@ function openDeposit(){
 }
 
 
-function closeDeposit(){
-
-    document
-        .getElementById("depositModal")
-        .classList.remove("show");
-
-}
-
-
 async function createDeposit(){
-
-    if(!currentUser){
-
-        closeDeposit();
-
-        openAuth();
-
-        return;
-
-    }
-
 
     const amount =
         Number(
@@ -2120,7 +1891,6 @@ async function createDeposit(){
             .getElementById("depositAmount")
             .value
         );
-
 
     const error =
         document
@@ -2143,14 +1913,12 @@ async function createDeposit(){
     }
 
 
-    const {
-        error:depositError
-    } =
-        await supabaseClient
+    const result =
+        await db
         .from("deposits")
         .insert({
 
-            user_id:currentUser.id,
+            user_id:user.id,
 
             amount:amount,
 
@@ -2159,19 +1927,19 @@ async function createDeposit(){
         });
 
 
-    if(depositError){
+    if(result.error){
 
-        console.error(depositError);
+        console.error(result.error);
 
         error.textContent =
-            depositError.message;
+            result.error.message;
 
         return;
 
     }
 
 
-    closeDeposit();
+    closeModal("depositModal");
 
 
     document
@@ -2180,35 +1948,148 @@ async function createDeposit(){
 
 
     toast(
-        "Đã gửi yêu cầu nạp. Chờ Admin duyệt."
+        "Đã tạo yêu cầu nạp, chờ Admin duyệt."
     );
 
-}
 
-
-/* ==========================================
-   SUCCESS
-   ========================================== */
-
-function closeSuccess(){
-
-    document
-        .getElementById("successModal")
-        .classList.remove("show");
-
-    goHistory();
+    loadDeposits();
 
 }
 
 
-/* ==========================================
+/* ==============================
+   DEPOSITS
+============================== */
+
+async function loadDeposits(){
+
+    if(!user) return;
+
+
+    const result =
+        await db
+        .from("deposits")
+        .select(
+            "amount,status,created_at"
+        )
+        .eq(
+            "user_id",
+            user.id
+        )
+        .order(
+            "created_at",
+            {
+                ascending:false
+            }
+        );
+
+
+    const box =
+        document
+        .getElementById("depositList");
+
+
+    if(result.error){
+
+        box.innerHTML = `
+            <div class="empty">
+                Chưa thể tải lịch sử nạp.
+            </div>
+        `;
+
+        return;
+
+    }
+
+
+    if(!result.data.length){
+
+        box.innerHTML = `
+            <div class="empty">
+                Chưa có yêu cầu nạp tiền.
+            </div>
+        `;
+
+        return;
+
+    }
+
+
+    box.innerHTML =
+        result.data.map(item=>{
+
+            let text =
+                "Đang chờ";
+
+            let cls =
+                "pending";
+
+
+            if(item.status === "approved"){
+
+                text = "Đã duyệt";
+
+                cls = "approved";
+
+            }
+
+
+            if(item.status === "rejected"){
+
+                text = "Từ chối";
+
+                cls = "rejected";
+
+            }
+
+
+            return `
+
+                <div class="deposit-item">
+
+                    <div>
+
+                        <b>
+                            +${money(item.amount)}
+                        </b>
+
+                        <div
+                            style="
+                                margin-top:5px;
+                                color:#626a79;
+                                font-size:10px
+                            "
+                        >
+                            ${new Date(
+                                item.created_at
+                            ).toLocaleString(
+                                "vi-VN"
+                            )}
+                        </div>
+
+                    </div>
+
+                    <span class="${cls}">
+                        ${text}
+                    </span>
+
+                </div>
+
+            `;
+
+        }).join("");
+
+}
+
+
+/* ==============================
    HISTORY
-   ========================================== */
+============================== */
 
 function goHistory(){
 
     document
-        .querySelector(".section:last-of-type")
+        .getElementById("orders")
         .scrollIntoView({
             behavior:"smooth"
         });
@@ -2216,14 +2097,13 @@ function goHistory(){
 }
 
 
-/* ==========================================
-   START
-   ========================================== */
+/* ==============================
+   INIT
+============================== */
 
 document
-    .getElementById("username")
+    .getElementById("usernameLabel")
     .style.display = "none";
-
 
 updateTotal();
 
