@@ -398,6 +398,68 @@ input:focus{
     color:#b9aaff;
 }
 
+
+.free-buff{
+    margin-top:18px;
+    padding:20px;
+    border:1px solid #3b315f;
+    border-radius:18px;
+    background:linear-gradient(135deg,#151226,#111319);
+}
+
+.free-buff .free-buff-row{
+    display:flex;
+    align-items:center;
+    gap:18px;
+}
+
+.free-buff .free-icon{
+    width:48px;
+    height:48px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:14px;
+    background:#211a3d;
+    font-size:24px;
+}
+
+.free-buff .free-info{
+    flex:1;
+}
+
+.free-buff .free-info p{
+    margin-top:5px;
+    color:#777e8c;
+    font-size:13px;
+    line-height:1.6;
+}
+
+.free-buff .free-reward{
+    margin-top:8px;
+    color:#b9aaff;
+    font-size:13px;
+    font-weight:bold;
+}
+
+.free-buff .btn{
+    white-space:nowrap;
+}
+
+.request-list{
+    margin-top:15px;
+}
+
+@media(max-width:700px){
+    .free-buff .free-buff-row{
+        flex-direction:column;
+        align-items:flex-start;
+    }
+    .free-buff .btn{
+        width:100%;
+    }
+}
+
 #toast{
     position:fixed;
     left:50%;
@@ -595,6 +657,24 @@ input:focus{
 
 </section>
 
+
+<section class="section">
+
+    <div class="badge">
+        FREE BUFF
+    </div>
+
+    <h2>
+        Lịch sử yêu cầu Xu miễn phí
+    </h2>
+
+    <div id="freeBuffRequests">
+        <div class="empty">
+            Đang tải...
+        </div>
+    </div>
+
+</section>
 
 <section class="section">
 
@@ -805,6 +885,51 @@ input:focus{
 
 </div>
 
+
+<!-- FREE BUFF MODAL -->
+<div class="modal" id="freeBuffModal">
+    <div class="box">
+
+        <button class="close"
+                onclick="closeModal('freeBuffModal')">
+            ×
+        </button>
+
+        <h2>🎁 Nhận 5 Xu miễn phí</h2>
+
+        <div class="sub">
+            Nhập <b>tài khoản / username Xu</b> để admin kiểm tra.
+            <b>Không nhập mật khẩu</b>. Sau khi admin duyệt, hệ thống
+            sẽ tự cộng 5 Xu vào số dư web của bạn.
+        </div>
+
+        <label>
+            Tài khoản Xu
+            <input
+                id="freeBuffAccount"
+                type="text"
+                maxlength="100"
+                autocomplete="off"
+                placeholder="Nhập username / ID tài khoản Xu">
+        </label>
+
+        <label>
+            Ghi chú
+            <input
+                id="freeBuffNote"
+                type="text"
+                maxlength="250"
+                placeholder="Thông tin thêm nếu cần">
+        </label>
+
+        <button class="btn full"
+                id="freeBuffSubmit"
+                onclick="createFreeBuffRequest()">
+            Gửi yêu cầu kiểm tra
+        </button>
+
+    </div>
+</div>
 
 <div id="toast"></div>
 
@@ -1956,6 +2081,232 @@ Chờ duyệt
 
 
 /* =========================================================
+   FREE BUFF REQUEST
+   - Chỉ lưu username/ID tài khoản Xu.
+   - Không thu thập mật khẩu.
+   - Việc cộng 5 Xu phải được thực hiện phía server/RPC
+     sau khi admin duyệt.
+========================================================= */
+
+function openFreeBuff(){
+    if(!currentUser){
+        toast("Vui lòng đăng nhập.");
+        return;
+    }
+
+    document
+        .getElementById("freeBuffModal")
+        .classList.add("show");
+}
+
+async function createFreeBuffRequest(){
+
+    if(!currentUser){
+        toast("Vui lòng đăng nhập.");
+        return;
+    }
+
+    const account =
+        document
+            .getElementById("freeBuffAccount")
+            .value
+            .trim();
+
+    const note =
+        document
+            .getElementById("freeBuffNote")
+            .value
+            .trim();
+
+    const button =
+        document.getElementById("freeBuffSubmit");
+
+    if(account.length < 2){
+        toast("Vui lòng nhập tài khoản Xu.");
+        return;
+    }
+
+    if(account.length > 100){
+        toast("Tài khoản Xu quá dài.");
+        return;
+    }
+
+    if(button){
+        button.disabled = true;
+        button.textContent = "⏳ Đang gửi...";
+    }
+
+    try{
+
+        const { data, error } =
+            await sb
+                .from("free_buff_requests")
+                .insert({
+                    user_id: currentUser.id,
+                    xu_account: account,
+                    note: note || null,
+                    reward: 5,
+                    status: "pending"
+                })
+                .select()
+                .single();
+
+        if(error){
+            console.error("FREE BUFF ERROR:", error);
+
+            if(
+                error.message &&
+                error.message.toLowerCase().includes("permission")
+            ){
+                toast("Không có quyền gửi yêu cầu.");
+            }else{
+                toast(error.message || "Không gửi được yêu cầu.");
+            }
+
+            return;
+        }
+
+        await sendTelegram(`
+🎁 YÊU CẦU BUFF XU MIỄN PHÍ
+
+👤 Username web:
+${currentProfile?.username || "User"}
+
+🆔 User ID:
+${currentUser.id}
+
+💰 Tài khoản Xu:
+${account}
+
+🎁 Phần thưởng:
+5 Xu
+
+📝 Ghi chú:
+${note || "Không có"}
+
+🟡 Trạng thái:
+Chờ admin duyệt
+`);
+
+        toast("✅ Đã gửi yêu cầu. Chờ admin kiểm tra.");
+
+        document.getElementById("freeBuffAccount").value = "";
+        document.getElementById("freeBuffNote").value = "";
+
+        closeModal("freeBuffModal");
+        await loadFreeBuffRequests();
+
+    }catch(error){
+
+        console.error("UNEXPECTED FREE BUFF ERROR:", error);
+
+        toast(
+            error?.message ||
+            "Có lỗi khi gửi yêu cầu."
+        );
+
+    }finally{
+
+        if(button){
+            button.disabled = false;
+            button.textContent = "Gửi yêu cầu kiểm tra";
+        }
+
+    }
+}
+
+async function loadFreeBuffRequests(){
+
+    if(!currentUser)
+        return;
+
+    const box =
+        document.getElementById("freeBuffRequests");
+
+    const { data, error } =
+        await sb
+            .from("free_buff_requests")
+            .select("id,xu_account,reward,status,created_at,approved_at,note")
+            .eq("user_id", currentUser.id)
+            .order("created_at", { ascending:false });
+
+    if(error){
+        console.error("FREE BUFF HISTORY ERROR:", error);
+
+        box.innerHTML = `
+            <div class="empty">
+                Không tải được lịch sử yêu cầu.
+            </div>
+        `;
+
+        return;
+    }
+
+    if(!data || !data.length){
+
+        box.innerHTML = `
+            <div class="empty">
+                Chưa có yêu cầu Xu miễn phí.
+            </div>
+        `;
+
+        return;
+    }
+
+    box.innerHTML =
+        data.map(r => {
+
+            let status = "🟡 Chờ duyệt";
+            let statusClass = "";
+
+            if(r.status === "approved"){
+                status = "🟢 Đã duyệt +5 Xu";
+                statusClass = "success";
+            }
+
+            if(r.status === "rejected"){
+                status = "🔴 Từ chối";
+                statusClass = "cancel";
+            }
+
+            return `
+                <div class="deposit-history">
+
+                    <div class="deposit-row">
+
+                        <div>
+                            <div class="deposit-amount">
+                                +${Number(r.reward || 5).toLocaleString("vi-VN")} Xu
+                            </div>
+
+                            <div class="deposit-time">
+                                ${new Date(r.created_at).toLocaleString("vi-VN")}
+                            </div>
+                        </div>
+
+                        <div class="status ${statusClass}">
+                            ${status}
+                        </div>
+
+                    </div>
+
+                    <div class="order-info">
+                        🎁 Tài khoản Xu:
+                        ${escapeHtml(r.xu_account)}
+
+                        <br>
+
+                        📝 ${escapeHtml(r.note || "Không có ghi chú")}
+                    </div>
+
+                </div>
+            `;
+
+        }).join("");
+}
+
+
+/* =========================================================
    LOGOUT
 ========================================================= */
 
@@ -2022,6 +2373,8 @@ async function init(){
     await loadOrders();
 
     await loadDeposits();
+
+    await loadFreeBuffRequests();
 
 }
 
