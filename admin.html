@@ -145,7 +145,7 @@ h1{
 
 .stats{
     display:grid;
-    grid-template-columns:repeat(3,1fr);
+    grid-template-columns:repeat(4,1fr);
     gap:15px;
     margin-top:25px;
 }
@@ -423,6 +423,20 @@ tr:last-child td{
             <div class="stat">
 
                 <div class="stat-title">
+                    Yêu cầu Buff miễn phí
+                </div>
+
+                <div
+                    class="stat-value"
+                    id="pendingFreeBuffCount">
+                    0
+                </div>
+
+            </div>
+
+            <div class="stat">
+
+                <div class="stat-title">
                     Đơn đang xử lý
                 </div>
 
@@ -513,6 +527,60 @@ tr:last-child td{
                         </td>
                     </tr>
 
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+
+    <!-- ========================= -->
+    <!-- BUFF MIỄN PHÍ -->
+    <!-- ========================= -->
+
+    <section class="section">
+
+        <div class="section-head">
+
+            <h2>
+                🎁 Quản lý Buff miễn phí
+            </h2>
+
+            <button
+                class="btn dark small"
+                onclick="loadFreeBuffRequests()">
+                ↻ Làm mới
+            </button>
+
+        </div>
+
+        <div class="table-wrap">
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>User ID</th>
+                        <th>Tài khoản Xu</th>
+                        <th>Ghi chú</th>
+                        <th>Thưởng</th>
+                        <th>Trạng thái</th>
+                        <th>Thời gian</th>
+                        <th>Thao tác</th>
+                    </tr>
+                </thead>
+
+                <tbody id="freeBuffTable">
+                    <tr>
+                        <td colspan="8">
+                            <div class="loading">
+                                Đang tải yêu cầu Buff...
+                            </div>
+                        </td>
+                    </tr>
                 </tbody>
 
             </table>
@@ -1478,6 +1546,7 @@ async function loadAll(){
 
     await Promise.all([
         loadDeposits(),
+        loadFreeBuffRequests(),
         loadOrders()
     ]);
 
