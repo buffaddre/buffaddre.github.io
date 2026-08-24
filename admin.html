@@ -1225,6 +1225,110 @@ async function rejectDeposit(id){
 
 
 /* =====================================================
+   FREE BUFF REQUESTS
+===================================================== */
+
+async function loadFreeBuffRequests(){
+
+    const table = document.getElementById("freeBuffTable");
+    if(!table) return;
+
+    table.innerHTML = `
+        <tr><td colspan="8"><div class="loading">Đang tải yêu cầu Buff...</div></td></tr>
+    `;
+
+    const { data, error } = await sb
+        .from("free_buff_requests")
+        .select("id,user_id,xu_account,note,reward,status,created_at,approved_at")
+        .order("created_at", {ascending:false});
+
+    if(error){
+        console.error("FREE BUFF LOAD ERROR:", error);
+        table.innerHTML = `
+            <tr><td colspan="8"><div class="empty">
+                Không tải được yêu cầu Buff.<br><br>
+                ${escapeHtml(error.message)}
+            </div></td></tr>
+        `;
+        const counter=document.getElementById("pendingFreeBuffCount");
+        if(counter) counter.textContent="0";
+        return;
+    }
+
+    const rows=data || [];
+    const counter=document.getElementById("pendingFreeBuffCount");
+    if(counter) counter.textContent=rows.filter(r=>r.status==="pending").length;
+
+    if(!rows.length){
+        table.innerHTML=`<tr><td colspan="8"><div class="empty">Chưa có yêu cầu Buff miễn phí.</div></td></tr>`;
+        return;
+    }
+
+    table.innerHTML=rows.map(r=>{
+        const pending=r.status==="pending";
+        return `
+        <tr>
+            <td><div class="user-id">${escapeHtml(r.id)}</div></td>
+            <td><div class="user-id">${escapeHtml(r.user_id)}</div></td>
+            <td><b>${escapeHtml(r.xu_account)}</b></td>
+            <td>${escapeHtml(r.note || "")}</td>
+            <td><span class="amount">+${Number(r.reward || 5)} Xu</span></td>
+            <td>${statusLabel(r.status)}</td>
+            <td>${new Date(r.created_at).toLocaleString("vi-VN")}</td>
+            <td>
+                ${pending ? `
+                    <div class="actions">
+                        <button class="btn green small" onclick="approveFreeBuff('${r.id}')">✓ Duyệt +5</button>
+                        <button class="btn red small" onclick="rejectFreeBuff('${r.id}')">✕ Từ chối</button>
+                    </div>
+                ` : `<span style="color:#666d7a;font-size:12px">Đã xử lý</span>`}
+            </td>
+        </tr>`;
+    }).join("");
+}
+
+async function approveFreeBuff(id){
+    if(!confirm("Duyệt yêu cầu này và cộng 5 Xu?")) return;
+
+    const {data,error}=await sb.rpc("approve_free_buff",{p_id:id});
+
+    if(error){
+        console.error("APPROVE FREE BUFF ERROR:",error);
+        alert("Không thể duyệt:\n\n"+error.message);
+        return;
+    }
+
+    if(!data || data.ok!==true){
+        alert("Không thể duyệt: "+(data?.error || "RPC không trả về kết quả hợp lệ."));
+        return;
+    }
+
+    toast("✅ Đã duyệt và cộng 5 Xu.");
+    await loadFreeBuffRequests();
+}
+
+async function rejectFreeBuff(id){
+    if(!confirm("Từ chối yêu cầu Buff này?")) return;
+
+    const {data,error}=await sb.rpc("reject_free_buff",{p_id:id});
+
+    if(error){
+        console.error("REJECT FREE BUFF ERROR:",error);
+        alert("Không thể từ chối:\n\n"+error.message);
+        return;
+    }
+
+    if(!data || data.ok!==true){
+        alert("Không thể từ chối: "+(data?.error || "RPC không trả về kết quả hợp lệ."));
+        return;
+    }
+
+    toast("❌ Đã từ chối.");
+    await loadFreeBuffRequests();
+}
+
+
+/* =====================================================
    LOAD ORDERS
 ===================================================== */
 
