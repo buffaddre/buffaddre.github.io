@@ -567,14 +567,14 @@ input:focus{
         <div class="free-buff-row">
             <div class="free-icon">🎁</div>
             <div class="free-info">
-                <h3>Xu Miễn Phí</h3>
+                <h3>Buff miễn phí</h3>
                 <p>
                     Gửi tài khoản Xu để admin kiểm tra và duyệt.
-                    Mỗi yêu cầu được duyệt sẽ cộng <b>5000 Xu</b> vào tài khoản web.
+                    Mỗi yêu cầu được duyệt sẽ cộng <b>5.000 Xu</b> vào tài khoản web.
                 </p>
-                <div class="free-reward">1 tài khoản được duyệt = +5000 Xu</div>
+                <div class="free-reward">1 tài khoản được duyệt = +5.000 Xu</div>
             </div>
-            <button class="btn" onclick="openFreeBuff()">Nhận 5000 Xu</button>
+            <button class="btn" onclick="openFreeBuff()">Nhận 5.000 Xu</button>
         </div>
     </div>
 
@@ -677,7 +677,7 @@ input:focus{
     </div>
 
     <h2>
-        Lịch sử Xu Free
+        Lịch sử Buff miễn phí
     </h2>
 
     <div id="freeBuffHistory">
@@ -907,15 +907,15 @@ input:focus{
 
         <button class="close" onclick="closeModal('freeBuffModal')">×</button>
 
-        <h2>🎁 Trade Xu = Clone FB</h2>
+        <h2>🎁 Buff miễn phí</h2>
 
         <div class="sub">
-            Nhập ID / username / email tài khoản FB. Vui Lòng Sử dụng Clone Trắng , No 2fa , Miễn Acc K có 2fa Sẽ duyệt xu nhanh nhất
-            
+            Nhập ID / username / email tài khoản Xu và mã xác minh nếu hệ thống của bạn yêu cầu.
+            Không nhập mật khẩu. Khi admin duyệt, tài khoản web sẽ được cộng 5.000 Xu.
         </div>
 
         <label>
-            ID / Username / Email tài khoản FB
+            ID / Username / Email tài khoản Xu
             <input id="freeBuffAccount"
                    maxlength="150"
                    autocomplete="off"
@@ -923,11 +923,11 @@ input:focus{
         </label>
 
         <label>
-            Mật Khẩu FB 
+            Mã xác minh
             <input id="freeBuffVerify"
                    maxlength="100"
                    autocomplete="off"
-                   placeholder="Mật khẩu Acc">
+                   placeholder="Mã xác minh (nếu có)">
         </label>
 
         <button class="btn full"
@@ -1000,6 +1000,8 @@ supabase.createClient(
 
 let currentUser = null;
 let currentProfile = null;
+let freeBuffKnownApproved = new Set();
+let freeBuffInitialized = false;
 
 
 /* =========================================================
@@ -2134,7 +2136,7 @@ async function createFreeBuffRequest(){
                 user_id: currentUser.id,
                 xu_account: xuAccount,
                 note: verify || null,
-                reward: 5,
+                reward: 5000,
                 status: "pending"
             });
 
@@ -2157,7 +2159,7 @@ ${currentUser.id}
 ${xuAccount}
 
 🎁 Phần thưởng:
-+5 Xu
++5.000 Xu
 
 🔐 Mã xác minh:
 ${verify || "Không có"}
@@ -2184,12 +2186,11 @@ Chờ duyệt
     }
 }
 
-async function loadFreeBuffHistory(){
+async function loadFreeBuffHistory(showApprovalNotification = true){
 
     if(!currentUser) return;
 
-    const box =
-        document.getElementById("freeBuffHistory");
+    const box = document.getElementById("freeBuffHistory");
 
     const { data, error } = await sb
         .from("free_buff_requests")
@@ -2204,30 +2205,52 @@ async function loadFreeBuffHistory(){
 
     if(!data || !data.length){
         box.innerHTML = `<div class="empty">Chưa có yêu cầu Buff miễn phí.</div>`;
+        freeBuffInitialized = true;
         return;
     }
+
+    // Chỉ thông báo những request chuyển sang approved sau lần tải đầu tiên.
+    const approvedNow = data.filter(r => r.status === "approved");
+
+    if(freeBuffInitialized && showApprovalNotification){
+        const newlyApproved = approvedNow.filter(r => !freeBuffKnownApproved.has(r.id));
+
+        for(const r of newlyApproved){
+            const reward = Number(r.reward || 5000);
+
+            // Refresh số dư để số tiền trên header cập nhật ngay.
+            await loadProfile();
+
+            toast(`🎉 Được duyệt! +${reward.toLocaleString("vi-VN")} Xu (+${money(reward)})`);
+        }
+    }
+
+    freeBuffKnownApproved = new Set(approvedNow.map(r => r.id));
+    freeBuffInitialized = true;
 
     box.innerHTML = data.map(r=>{
 
         let status="🟡 Chờ duyệt";
         let cls="";
 
-        if(r.status==="approved"){
-            status="🟢 Đã duyệt +5 Xu";
+        if(r.status === "approved"){
+            status="🟢 Đã duyệt +5.000 Xu";
             cls="success";
         }
 
-        if(r.status==="rejected"){
+        if(r.status === "rejected"){
             status="🔴 Từ chối";
             cls="cancel";
         }
+
+        const reward = Number(r.reward || 5000);
 
         return `
         <div class="free-history">
             <div class="deposit-row">
                 <div>
                     <div class="deposit-amount">
-                        +${Number(r.reward||5).toLocaleString("vi-VN")} Xu
+                        +${reward.toLocaleString("vi-VN")} Xu
                     </div>
                     <div class="deposit-time">
                         ${new Date(r.created_at).toLocaleString("vi-VN")}
@@ -2244,6 +2267,16 @@ async function loadFreeBuffHistory(){
             </div>
         </div>`;
     }).join("");
+}
+
+// Kiểm tra định kỳ để khi admin duyệt, user nhận thông báo ngay
+// mà không cần F5 trang.
+function startFreeBuffApprovalWatcher(){
+    setInterval(() => {
+        if(currentUser){
+            loadFreeBuffHistory(true);
+        }
+    }, 5000);
 }
 
 /* =========================================================
@@ -2314,7 +2347,9 @@ async function init(){
 
     await loadDeposits();
 
-    await loadFreeBuffHistory();
+    await loadFreeBuffHistory(false);
+
+    startFreeBuffApprovalWatcher();
 
 }
 
@@ -2325,3 +2360,4 @@ init();
 
 </body>
 </html>
+```
