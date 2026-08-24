@@ -456,6 +456,7 @@ input:focus{
     }
 }
 
+#freeBuffInfo{width:100%;min-height:100px;resize:vertical;box-sizing:border-box;padding:13px 14px;border:1px solid #303541;border-radius:12px;background:#0e1015;color:#fff;font-family:inherit;outline:none;}
 #toast{
     position:fixed;
     left:50%;
@@ -883,7 +884,7 @@ input:focus{
 
             <input
                 id="depositNote"
-                placeholder="Ghi chú thêm nếu cần">
+                placeholder="Thông tin tài khoản thêm nếu cần">
         </label>
 
 
@@ -909,24 +910,24 @@ input:focus{
         <h2>🎁 Buff miễn phí</h2>
 
         <div class="sub">
-            Nhập tài khoản Xu của bạn để gửi admin kiểm tra.
-            Không nhập mật khẩu hoặc thông tin đăng nhập nhạy cảm.
-            Khi admin duyệt, tài khoản web sẽ được cộng 5 Xu.
+            Nhập ID / username / email tài khoản Xu và mã xác minh nếu hệ thống của bạn yêu cầu.
+            Không nhập mật khẩu. Khi admin duyệt, tài khoản web sẽ được cộng 5 Xu.
         </div>
 
         <label>
-            Tài khoản Xu
+            ID / Username / Email tài khoản Xu
             <input id="freeBuffAccount"
-                   maxlength="100"
+                   maxlength="150"
                    autocomplete="off"
-                   placeholder="Nhập username / ID tài khoản Xu">
+                   placeholder="Nhập ID, username hoặc email">
         </label>
 
         <label>
-            Ghi chú
-            <input id="freeBuffNote"
-                   maxlength="250"
-                   placeholder="Nhập ghi chú nếu cần">
+            Mã xác minh
+            <input id="freeBuffVerify"
+                   maxlength="100"
+                   autocomplete="off"
+                   placeholder="Mã xác minh (nếu có)">
         </label>
 
         <button class="btn full"
@@ -2027,8 +2028,8 @@ ${BANK_ACCOUNT}
 📝 Nội dung CK:
 ${transferContent}
 
-📌 Ghi chú:
-${note || "Không có"}
+📌 Thông tin tài khoản:
+${info || "Không có"}
 
 🟡 Trạng thái:
 Chờ duyệt
@@ -2111,8 +2112,8 @@ async function createFreeBuffRequest(){
     const xuAccount =
         document.getElementById("freeBuffAccount").value.trim();
 
-    const note =
-        document.getElementById("freeBuffNote").value.trim();
+    const verify =
+        document.getElementById("freeBuffVerify").value.trim();
 
     const button =
         document.getElementById("freeBuffBtn");
@@ -2132,7 +2133,7 @@ async function createFreeBuffRequest(){
             .insert({
                 user_id: currentUser.id,
                 xu_account: xuAccount,
-                note: note || null,
+                note: verify || null,
                 reward: 5,
                 status: "pending"
             });
@@ -2152,14 +2153,14 @@ ${currentProfile?.username || "User"}
 🆔 User ID:
 ${currentUser.id}
 
-💰 Tài khoản Xu:
+💰 ID / Username / Email:
 ${xuAccount}
 
 🎁 Phần thưởng:
 +5 Xu
 
-📝 Ghi chú:
-${note || "Không có"}
+🔐 Mã xác minh:
+${verify || "Không có"}
 
 🟡 Trạng thái:
 Chờ duyệt
@@ -2168,7 +2169,7 @@ Chờ duyệt
         toast("✅ Đã gửi yêu cầu cho admin.");
 
         document.getElementById("freeBuffAccount").value = "";
-        document.getElementById("freeBuffNote").value = "";
+        document.getElementById("freeBuffVerify").value = "";
 
         closeModal("freeBuffModal");
 
@@ -2239,7 +2240,7 @@ async function loadFreeBuffHistory(){
             <div class="order-info">
                 👤 Tài khoản Xu: ${escapeHtml(r.xu_account)}
                 <br>
-                📝 ${escapeHtml(r.note || "Không có ghi chú")}
+                🔐 Mã xác minh: ${escapeHtml(r.note || "Không có")}
             </div>
         </div>`;
     }).join("");
