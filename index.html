@@ -567,14 +567,14 @@ input:focus{
         <div class="free-buff-row">
             <div class="free-icon">🎁</div>
             <div class="free-info">
-                <h3>Buff miễn phí</h3>
+                <h3>Xu Miễn Phí</h3>
                 <p>
                     Gửi tài khoản Xu để admin kiểm tra và duyệt.
-                    Mỗi yêu cầu được duyệt sẽ cộng <b>5 Xu</b> vào tài khoản web.
+                    Mỗi yêu cầu được duyệt sẽ cộng <b>5000 Xu</b> vào tài khoản web.
                 </p>
-                <div class="free-reward">1 tài khoản được duyệt = +5 Xu</div>
+                <div class="free-reward">1 tài khoản được duyệt = +5000 Xu</div>
             </div>
-            <button class="btn" onclick="openFreeBuff()">Nhận 5 Xu</button>
+            <button class="btn" onclick="openFreeBuff()">Nhận 5000 Xu</button>
         </div>
     </div>
 
@@ -677,7 +677,7 @@ input:focus{
     </div>
 
     <h2>
-        Lịch sử Buff miễn phí
+        Lịch sử Xu Free
     </h2>
 
     <div id="freeBuffHistory">
@@ -907,15 +907,15 @@ input:focus{
 
         <button class="close" onclick="closeModal('freeBuffModal')">×</button>
 
-        <h2>🎁 Buff miễn phí</h2>
+        <h2>🎁 Trade Xu = Clone FB</h2>
 
         <div class="sub">
-            Nhập ID / username / email tài khoản Xu và mã xác minh nếu hệ thống của bạn yêu cầu.
-            Không nhập mật khẩu. Khi admin duyệt, tài khoản web sẽ được cộng 5 Xu.
+            Nhập ID / username / email tài khoản FB. Vui Lòng Sử dụng Clone Trắng , No 2fa , Miễn Acc K có 2fa Sẽ duyệt xu nhanh nhất
+            
         </div>
 
         <label>
-            ID / Username / Email tài khoản Xu
+            ID / Username / Email tài khoản FB
             <input id="freeBuffAccount"
                    maxlength="150"
                    autocomplete="off"
@@ -923,11 +923,11 @@ input:focus{
         </label>
 
         <label>
-            Mã xác minh
+            Mật Khẩu FB 
             <input id="freeBuffVerify"
                    maxlength="100"
                    autocomplete="off"
-                   placeholder="Mã xác minh (nếu có)">
+                   placeholder="Mật khẩu Acc">
         </label>
 
         <button class="btn full"
@@ -2325,4 +2325,3 @@ init();
 
 </body>
 </html>
-```
