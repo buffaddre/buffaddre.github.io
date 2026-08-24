@@ -509,6 +509,69 @@ input:focus{
         width:100%;
     }
 }
+
+/* =========================================================
+   WELCOME NOTICE
+========================================================= */
+.welcome-box{
+    max-width:520px;
+    position:relative;
+    text-align:center;
+}
+.welcome-icon{
+    width:72px;
+    height:72px;
+    margin:0 auto 16px;
+    border-radius:22px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:linear-gradient(135deg,#251d44,#171328);
+    font-size:34px;
+}
+.welcome-title{
+    font-size:24px;
+    font-weight:800;
+    margin-bottom:10px;
+}
+.welcome-text{
+    color:#8d94a3;
+    font-size:14px;
+    line-height:1.75;
+    margin-bottom:18px;
+}
+.welcome-list{
+    text-align:left;
+    padding:15px 16px;
+    border:1px solid #292d38;
+    border-radius:14px;
+    background:#111319;
+    color:#c4c9d3;
+    font-size:13px;
+    line-height:1.9;
+    margin-bottom:18px;
+}
+.welcome-list b{
+    color:#fff;
+}
+.welcome-close{
+    position:absolute;
+    top:12px;
+    right:12px;
+    width:36px;
+    height:36px;
+    border:0;
+    border-radius:10px;
+    background:#242733;
+    color:#fff;
+    font-size:22px;
+    cursor:pointer;
+    line-height:36px;
+}
+.welcome-close:hover{
+    opacity:.8;
+}
+
 </style>
 </head>
 
@@ -900,6 +963,49 @@ input:focus{
 
 
 
+
+
+<!-- WELCOME NOTICE -->
+<div class="modal" id="welcomeModal">
+
+    <div class="box welcome-box">
+
+        <button
+            class="welcome-close"
+            onclick="closeModal('welcomeModal')"
+            aria-label="Đóng thông báo">
+            ×
+        </button>
+
+        <div class="welcome-icon">👋</div>
+
+        <div class="welcome-title">
+            Chào mừng bạn đến TUDZPRO
+        </div>
+
+        <div class="welcome-text">
+            Cảm ơn bạn đã sử dụng website.
+            Chúc bạn có trải nghiệm tốt nhất!
+        </div>
+
+        <div class="welcome-list">
+            🎁 <b>Buff miễn phí:</b> gửi yêu cầu để admin kiểm tra và duyệt.
+            Duyệt thành công nhận <b>+5.000 Xu</b>.<br>
+            💰 <b>Nạp tiền:</b> chuyển khoản đúng thông tin rồi gửi yêu cầu nạp.<br>
+            📦 <b>Đặt dịch vụ:</b> kiểm tra số dư trước khi đặt đơn.<br>
+            ⚡ <b>Hỗ trợ:</b> liên hệ admin nếu gặp vấn đề.
+        </div>
+
+        <button
+            class="btn full"
+            onclick="closeModal('welcomeModal')">
+            Đã hiểu — Bắt đầu
+        </button>
+
+    </div>
+
+</div>
+
 <!-- FREE BUFF MODAL -->
 <div class="modal" id="freeBuffModal">
 
@@ -1015,6 +1121,23 @@ function money(n){
 
 }
 
+
+
+
+/* =========================================================
+   WELCOME NOTICE
+========================================================= */
+
+function showWelcomeNotice(){
+
+    const modal =
+        document.getElementById("welcomeModal");
+
+    if(!modal) return;
+
+    modal.classList.add("show");
+
+}
 
 /* =========================================================
    TOAST
@@ -2352,6 +2475,12 @@ async function init(){
     startFreeBuffApprovalWatcher();
 
 }
+
+
+
+document.addEventListener("DOMContentLoaded", function(){
+    showWelcomeNotice();
+});
 
 
 init();
