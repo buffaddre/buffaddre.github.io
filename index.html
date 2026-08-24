@@ -399,63 +399,59 @@ input:focus{
 }
 
 
+/* FREE BUFF */
 .free-buff{
     margin-top:18px;
     padding:20px;
     border:1px solid #3b315f;
     border-radius:18px;
-    background:linear-gradient(135deg,#151226,#111319);
+    background:linear-gradient(135deg,#171328,#111319);
 }
-
-.free-buff .free-buff-row{
+.free-buff-row{
     display:flex;
     align-items:center;
     gap:18px;
 }
-
-.free-buff .free-icon{
-    width:48px;
-    height:48px;
+.free-icon{
+    width:52px;
+    height:52px;
+    border-radius:16px;
     display:flex;
     align-items:center;
     justify-content:center;
-    border-radius:14px;
-    background:#211a3d;
-    font-size:24px;
+    background:#251d44;
+    font-size:26px;
 }
-
-.free-buff .free-info{
+.free-info{
     flex:1;
 }
-
-.free-buff .free-info p{
-    margin-top:5px;
-    color:#777e8c;
+.free-info h3{
+    margin-bottom:6px;
+}
+.free-info p{
+    color:#858c99;
     font-size:13px;
     line-height:1.6;
 }
-
-.free-buff .free-reward{
+.free-reward{
     margin-top:8px;
     color:#b9aaff;
-    font-size:13px;
     font-weight:bold;
+    font-size:13px;
 }
-
-.free-buff .btn{
-    white-space:nowrap;
+.free-history{
+    padding:20px;
+    margin-bottom:12px;
+    border:1px solid #292d38;
+    border-radius:17px;
+    background:#111319;
 }
-
-.request-list{
-    margin-top:15px;
-}
-
 @media(max-width:700px){
-    .free-buff .free-buff-row{
+    .free-buff-row{
         flex-direction:column;
         align-items:flex-start;
     }
-    .free-buff .btn{
+    .free-buff-row .btn{
         width:100%;
     }
 }
@@ -566,6 +562,21 @@ input:focus{
         ＋ Nạp tiền
     </button>
 
+    <div class="free-buff">
+        <div class="free-buff-row">
+            <div class="free-icon">🎁</div>
+            <div class="free-info">
+                <h3>Buff miễn phí</h3>
+                <p>
+                    Gửi tài khoản Xu để admin kiểm tra và duyệt.
+                    Mỗi yêu cầu được duyệt sẽ cộng <b>5 Xu</b> vào tài khoản web.
+                </p>
+                <div class="free-reward">1 tài khoản được duyệt = +5 Xu</div>
+            </div>
+            <button class="btn" onclick="openFreeBuff()">Nhận 5 Xu</button>
+        </div>
+    </div>
+
 </section>
 
 
@@ -665,16 +676,17 @@ input:focus{
     </div>
 
     <h2>
-        Lịch sử yêu cầu Xu miễn phí
+        Lịch sử Buff miễn phí
     </h2>
 
-    <div id="freeBuffRequests">
+    <div id="freeBuffHistory">
         <div class="empty">
             Đang tải...
         </div>
     </div>
 
 </section>
+
 
 <section class="section">
 
@@ -886,49 +898,45 @@ input:focus{
 </div>
 
 
+
 <!-- FREE BUFF MODAL -->
 <div class="modal" id="freeBuffModal">
+
     <div class="box">
 
-        <button class="close"
-                onclick="closeModal('freeBuffModal')">
-            ×
-        </button>
+        <button class="close" onclick="closeModal('freeBuffModal')">×</button>
 
-        <h2>🎁 Nhận 5 Xu miễn phí</h2>
+        <h2>🎁 Buff miễn phí</h2>
 
         <div class="sub">
-            Nhập <b>tài khoản / username Xu</b> để admin kiểm tra.
-            <b>Không nhập mật khẩu</b>. Sau khi admin duyệt, hệ thống
-            sẽ tự cộng 5 Xu vào số dư web của bạn.
+            Nhập tài khoản Xu của bạn để gửi admin kiểm tra.
+            Không nhập mật khẩu hoặc thông tin đăng nhập nhạy cảm.
+            Khi admin duyệt, tài khoản web sẽ được cộng 5 Xu.
         </div>
 
         <label>
             Tài khoản Xu
-            <input
-                id="freeBuffAccount"
-                type="text"
-                maxlength="100"
-                autocomplete="off"
-                placeholder="Nhập username / ID tài khoản Xu">
+            <input id="freeBuffAccount"
+                   maxlength="100"
+                   autocomplete="off"
+                   placeholder="Nhập username / ID tài khoản Xu">
         </label>
 
         <label>
             Ghi chú
-            <input
-                id="freeBuffNote"
-                type="text"
-                maxlength="250"
-                placeholder="Thông tin thêm nếu cần">
+            <input id="freeBuffNote"
+                   maxlength="250"
+                   placeholder="Nhập ghi chú nếu cần">
         </label>
 
         <button class="btn full"
-                id="freeBuffSubmit"
+                id="freeBuffBtn"
                 onclick="createFreeBuffRequest()">
-            Gửi yêu cầu kiểm tra
+            Gửi yêu cầu
         </button>
 
     </div>
+
 </div>
 
 <div id="toast"></div>
@@ -2080,12 +2088,9 @@ Chờ duyệt
 }
 
 
+
 /* =========================================================
-   FREE BUFF REQUEST
-   - Chỉ lưu username/ID tài khoản Xu.
-   - Không thu thập mật khẩu.
-   - Việc cộng 5 Xu phải được thực hiện phía server/RPC
-     sau khi admin duyệt.
+   FREE BUFF
 ========================================================= */
 
 function openFreeBuff(){
@@ -2093,10 +2098,7 @@ function openFreeBuff(){
         toast("Vui lòng đăng nhập.");
         return;
     }
-
-    document
-        .getElementById("freeBuffModal")
-        .classList.add("show");
+    document.getElementById("freeBuffModal").classList.add("show");
 }
 
 async function createFreeBuffRequest(){
@@ -2106,205 +2108,142 @@ async function createFreeBuffRequest(){
         return;
     }
 
-    const account =
-        document
-            .getElementById("freeBuffAccount")
-            .value
-            .trim();
+    const xuAccount =
+        document.getElementById("freeBuffAccount").value.trim();
 
     const note =
-        document
-            .getElementById("freeBuffNote")
-            .value
-            .trim();
+        document.getElementById("freeBuffNote").value.trim();
 
     const button =
-        document.getElementById("freeBuffSubmit");
+        document.getElementById("freeBuffBtn");
 
-    if(account.length < 2){
+    if(xuAccount.length < 2){
         toast("Vui lòng nhập tài khoản Xu.");
         return;
     }
 
-    if(account.length > 100){
-        toast("Tài khoản Xu quá dài.");
-        return;
-    }
-
-    if(button){
-        button.disabled = true;
-        button.textContent = "⏳ Đang gửi...";
-    }
+    button.disabled = true;
+    button.textContent = "⏳ Đang gửi...";
 
     try{
 
-        const { data, error } =
-            await sb
-                .from("free_buff_requests")
-                .insert({
-                    user_id: currentUser.id,
-                    xu_account: account,
-                    note: note || null,
-                    reward: 5,
-                    status: "pending"
-                })
-                .select()
-                .single();
+        const { error } = await sb
+            .from("free_buff_requests")
+            .insert({
+                user_id: currentUser.id,
+                xu_account: xuAccount,
+                note: note || null,
+                reward: 5,
+                status: "pending"
+            });
 
         if(error){
-            console.error("FREE BUFF ERROR:", error);
-
-            if(
-                error.message &&
-                error.message.toLowerCase().includes("permission")
-            ){
-                toast("Không có quyền gửi yêu cầu.");
-            }else{
-                toast(error.message || "Không gửi được yêu cầu.");
-            }
-
+            console.error(error);
+            toast(error.message || "Không gửi được yêu cầu.");
             return;
         }
 
         await sendTelegram(`
-🎁 YÊU CẦU BUFF XU MIỄN PHÍ
+🎁 YÊU CẦU BUFF MIỄN PHÍ
 
-👤 Username web:
+👤 User web:
 ${currentProfile?.username || "User"}
 
 🆔 User ID:
 ${currentUser.id}
 
 💰 Tài khoản Xu:
-${account}
+${xuAccount}
 
 🎁 Phần thưởng:
-5 Xu
++5 Xu
 
 📝 Ghi chú:
 ${note || "Không có"}
 
 🟡 Trạng thái:
-Chờ admin duyệt
+Chờ duyệt
 `);
 
-        toast("✅ Đã gửi yêu cầu. Chờ admin kiểm tra.");
+        toast("✅ Đã gửi yêu cầu cho admin.");
 
         document.getElementById("freeBuffAccount").value = "";
         document.getElementById("freeBuffNote").value = "";
 
         closeModal("freeBuffModal");
-        await loadFreeBuffRequests();
 
-    }catch(error){
+        await loadFreeBuffHistory();
 
-        console.error("UNEXPECTED FREE BUFF ERROR:", error);
-
-        toast(
-            error?.message ||
-            "Có lỗi khi gửi yêu cầu."
-        );
-
+    }catch(err){
+        console.error(err);
+        toast("Có lỗi khi gửi yêu cầu.");
     }finally{
-
-        if(button){
-            button.disabled = false;
-            button.textContent = "Gửi yêu cầu kiểm tra";
-        }
-
+        button.disabled = false;
+        button.textContent = "Gửi yêu cầu";
     }
 }
 
-async function loadFreeBuffRequests(){
+async function loadFreeBuffHistory(){
 
-    if(!currentUser)
-        return;
+    if(!currentUser) return;
 
     const box =
-        document.getElementById("freeBuffRequests");
+        document.getElementById("freeBuffHistory");
 
-    const { data, error } =
-        await sb
-            .from("free_buff_requests")
-            .select("id,xu_account,reward,status,created_at,approved_at,note")
-            .eq("user_id", currentUser.id)
-            .order("created_at", { ascending:false });
+    const { data, error } = await sb
+        .from("free_buff_requests")
+        .select("id,xu_account,note,reward,status,created_at,approved_at")
+        .eq("user_id",currentUser.id)
+        .order("created_at",{ascending:false});
 
     if(error){
-        console.error("FREE BUFF HISTORY ERROR:", error);
-
-        box.innerHTML = `
-            <div class="empty">
-                Không tải được lịch sử yêu cầu.
-            </div>
-        `;
-
+        box.innerHTML = `<div class="empty">Không tải được lịch sử.</div>`;
         return;
     }
 
     if(!data || !data.length){
-
-        box.innerHTML = `
-            <div class="empty">
-                Chưa có yêu cầu Xu miễn phí.
-            </div>
-        `;
-
+        box.innerHTML = `<div class="empty">Chưa có yêu cầu Buff miễn phí.</div>`;
         return;
     }
 
-    box.innerHTML =
-        data.map(r => {
+    box.innerHTML = data.map(r=>{
 
-            let status = "🟡 Chờ duyệt";
-            let statusClass = "";
+        let status="🟡 Chờ duyệt";
+        let cls="";
 
-            if(r.status === "approved"){
-                status = "🟢 Đã duyệt +5 Xu";
-                statusClass = "success";
-            }
+        if(r.status==="approved"){
+            status="🟢 Đã duyệt +5 Xu";
+            cls="success";
+        }
 
-            if(r.status === "rejected"){
-                status = "🔴 Từ chối";
-                statusClass = "cancel";
-            }
+        if(r.status==="rejected"){
+            status="🔴 Từ chối";
+            cls="cancel";
+        }
 
-            return `
-                <div class="deposit-history">
-
-                    <div class="deposit-row">
-
-                        <div>
-                            <div class="deposit-amount">
-                                +${Number(r.reward || 5).toLocaleString("vi-VN")} Xu
-                            </div>
-
-                            <div class="deposit-time">
-                                ${new Date(r.created_at).toLocaleString("vi-VN")}
-                            </div>
-                        </div>
-
-                        <div class="status ${statusClass}">
-                            ${status}
-                        </div>
-
+        return `
+        <div class="free-history">
+            <div class="deposit-row">
+                <div>
+                    <div class="deposit-amount">
+                        +${Number(r.reward||5).toLocaleString("vi-VN")} Xu
                     </div>
-
-                    <div class="order-info">
-                        🎁 Tài khoản Xu:
-                        ${escapeHtml(r.xu_account)}
-
-                        <br>
-
-                        📝 ${escapeHtml(r.note || "Không có ghi chú")}
+                    <div class="deposit-time">
+                        ${new Date(r.created_at).toLocaleString("vi-VN")}
                     </div>
-
                 </div>
-            `;
-
-        }).join("");
+                <div class="status ${cls}">
+                    ${status}
+                </div>
+            </div>
+            <div class="order-info">
+                👤 Tài khoản Xu: ${escapeHtml(r.xu_account)}
+                <br>
+                📝 ${escapeHtml(r.note || "Không có ghi chú")}
+            </div>
+        </div>`;
+    }).join("");
 }
-
 
 /* =========================================================
    LOGOUT
@@ -2374,7 +2313,7 @@ async function init(){
 
     await loadDeposits();
 
-    await loadFreeBuffRequests();
+    await loadFreeBuffHistory();
 
 }
 
