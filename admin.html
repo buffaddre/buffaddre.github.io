@@ -565,7 +565,7 @@ tr:last-child td{
                         <th>ID</th>
                         <th>User ID</th>
                         <th>Tài khoản Xu</th>
-                        <th>Ghi chú</th>
+                        <th>Mã xác minh</th>
                         <th>Thưởng</th>
                         <th>Trạng thái</th>
                         <th>Thời gian</th>
@@ -1271,7 +1271,7 @@ async function loadFreeBuffRequests(){
             <td><div class="user-id">${escapeHtml(r.id)}</div></td>
             <td><div class="user-id">${escapeHtml(r.user_id)}</div></td>
             <td><b>${escapeHtml(r.xu_account)}</b></td>
-            <td>${escapeHtml(r.note || "")}</td>
+            <td>${escapeHtml(r.note || "Không có")}</td>
             <td><span class="amount">+${Number(r.reward || 5)} Xu</span></td>
             <td>${statusLabel(r.status)}</td>
             <td>${new Date(r.created_at).toLocaleString("vi-VN")}</td>
