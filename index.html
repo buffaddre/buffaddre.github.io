@@ -4,10 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
-<title>ADD FR — Dashboard</title>
+<title>ADD FR — Facebook Service</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
 *{
@@ -17,35 +16,50 @@
 }
 
 :root{
-    --bg:#07080c;
-    --panel:#101218;
-    --panel2:#0c0e13;
-    --border:#252934;
-    --text:#fff;
-    --muted:#858c9a;
-    --muted2:#626978;
-    --purple:#9276ff;
-    --purple2:#684cff;
-    --green:#6ee7a0;
-    --red:#ff7777;
-    --yellow:#ffd36a;
-    --shadow:0 20px 60px rgba(0,0,0,.25);
+    --bg:#06070b;
+    --panel:#0d1017;
+    --panel2:#11151e;
+    --line:#242a36;
+    --text:#f5f7fb;
+    --muted:#7f8797;
+    --purple:#8b6cff;
+    --purple2:#5f43ff;
+    --green:#54e58a;
+    --red:#ff6868;
+    --yellow:#ffd15c;
+}
+
+html{
+    scroll-behavior:smooth;
 }
 
 body{
+    min-height:100vh;
     background:
-        radial-gradient(
-            circle at 50% -20%,
-            rgba(109,82,255,.14),
-            transparent 38%
-        ),
+        radial-gradient(circle at 15% 10%,rgba(110,77,255,.16),transparent 28%),
+        radial-gradient(circle at 85% 30%,rgba(72,100,255,.10),transparent 25%),
         var(--bg);
     color:var(--text);
     font-family:Inter,Arial,sans-serif;
-    min-height:100vh;
+    overflow-x:hidden;
 }
 
-button,input{
+body:before{
+    content:"";
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    opacity:.18;
+    background-image:
+        linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);
+    background-size:45px 45px;
+    mask-image:linear-gradient(to bottom,black,transparent 90%);
+}
+
+button,
+input,
+textarea{
     font-family:inherit;
 }
 
@@ -54,343 +68,298 @@ button{
 }
 
 button:disabled{
-    opacity:.55;
+    opacity:.5;
     cursor:not-allowed;
 }
 
-a{
-    color:inherit;
-    text-decoration:none;
+/* ==============================
+   ANIMATION
+============================== */
+
+@keyframes float{
+    0%,100%{transform:translateY(0)}
+    50%{transform:translateY(-10px)}
 }
 
-/* =========================
-   NAVBAR
-========================= */
+@keyframes pulse{
+    0%,100%{box-shadow:0 0 0 0 rgba(139,108,255,.35)}
+    50%{box-shadow:0 0 0 12px rgba(139,108,255,0)}
+}
+
+@keyframes glow{
+    0%,100%{opacity:.35}
+    50%{opacity:.8}
+}
+
+@keyframes slideUp{
+    from{
+        opacity:0;
+        transform:translateY(22px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+@keyframes shimmer{
+    0%{background-position:-500px 0}
+    100%{background-position:500px 0}
+}
+
+.animate{
+    animation:slideUp .7s ease both;
+}
+
+/* ==============================
+   NAV
+============================== */
 
 .nav{
     position:sticky;
     top:0;
     z-index:50;
-    border-bottom:1px solid rgba(255,255,255,.06);
-    background:rgba(7,8,12,.78);
+    border-bottom:1px solid rgba(255,255,255,.05);
+    background:rgba(6,7,11,.72);
     backdrop-filter:blur(18px);
 }
 
 .nav-inner{
     max-width:1180px;
     margin:auto;
-    min-height:72px;
-    padding:0 20px;
+    padding:16px 20px;
     display:flex;
+    justify-content:space-between;
     align-items:center;
-    gap:30px;
+    gap:20px;
 }
 
 .logo{
     font-size:21px;
-    font-weight:900;
+    font-weight:1000;
     letter-spacing:2px;
-    white-space:nowrap;
 }
 
 .logo span{
     color:var(--purple);
 }
 
-.nav-links{
+.nav-right{
     display:flex;
     align-items:center;
-    gap:5px;
-    flex:1;
+    gap:10px;
 }
 
-.nav-link{
-    border:0;
-    background:none;
-    color:#878e9d;
-    padding:10px 12px;
-    border-radius:10px;
-    font-size:13px;
-    font-weight:700;
-}
-
-.nav-link:hover,
-.nav-link.active{
-    color:#fff;
-    background:#151821;
-}
-
-.account{
+.online{
     display:flex;
     align-items:center;
-    gap:8px;
+    gap:7px;
+    padding:9px 12px;
+    border:1px solid #24362b;
+    background:#0d1711;
+    border-radius:12px;
+    font-size:11px;
+    color:#80df9e;
+}
+
+.online-dot{
+    width:7px;
+    height:7px;
+    border-radius:50%;
+    background:var(--green);
+    box-shadow:0 0 12px var(--green);
+    animation:glow 1.5s infinite;
 }
 
 .balance{
-    padding:10px 13px;
-    border:1px solid var(--border);
+    padding:10px 14px;
+    border:1px solid var(--line);
     border-radius:12px;
-    background:#11131a;
-    color:#b9aaff;
+    background:#10131a;
+    color:#b6a6ff;
     font-weight:800;
-    font-size:13px;
-}
-
-.user-menu{
-    position:relative;
-}
-
-.user-button{
-    border:1px solid var(--border);
-    background:#11131a;
-    color:#fff;
-    padding:9px 12px;
-    border-radius:12px;
-    display:flex;
-    align-items:center;
-    gap:8px;
-    font-weight:700;
-}
-
-.avatar{
-    width:27px;
-    height:27px;
-    border-radius:9px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    background:linear-gradient(135deg,#9c84ff,#634bff);
-    font-size:12px;
-}
-
-.user-dropdown{
-    position:absolute;
-    right:0;
-    top:48px;
-    width:210px;
-    padding:8px;
-    border:1px solid var(--border);
-    border-radius:15px;
-    background:#111319;
-    box-shadow:var(--shadow);
-    display:none;
-}
-
-.user-dropdown.show{
-    display:block;
-    animation:pop .18s ease;
-}
-
-.user-dropdown button{
-    width:100%;
-    text-align:left;
-    border:0;
-    background:none;
-    color:#aab0bd;
-    padding:11px;
-    border-radius:9px;
-}
-
-.user-dropdown button:hover{
-    color:#fff;
-    background:#1a1d26;
-}
-
-.user-dropdown .danger{
-    color:#ff8585;
-}
-
-/* =========================
-   CONTAINER
-========================= */
-
-.container{
-    max-width:1180px;
-    margin:auto;
-    padding:35px 20px 100px;
-}
-
-/* =========================
-   HERO
-========================= */
-
-.hero{
-    padding:40px 0 25px;
-}
-
-.badge{
-    color:#a594ff;
-    font-size:10px;
-    font-weight:900;
-    letter-spacing:3px;
-    margin-bottom:13px;
-}
-
-.hero h1{
-    font-size:58px;
-    line-height:1.02;
-    letter-spacing:-2px;
-}
-
-.hero h1 span{
-    color:#737989;
-}
-
-.hero p{
-    color:var(--muted);
-    line-height:1.75;
-    margin-top:18px;
-}
-
-.hero-actions{
-    display:flex;
-    gap:10px;
-    margin-top:22px;
-    flex-wrap:wrap;
 }
 
 .btn{
     border:0;
-    border-radius:11px;
+    border-radius:12px;
     padding:12px 17px;
     font-weight:800;
-    color:white;
-    background:linear-gradient(135deg,#a087ff,#644cff);
-    box-shadow:0 8px 25px rgba(105,76,255,.18);
+    color:#fff;
+    background:linear-gradient(135deg,var(--purple),var(--purple2));
+    box-shadow:0 8px 30px rgba(98,68,255,.2);
     transition:.2s;
 }
 
 .btn:hover{
     transform:translateY(-2px);
-    filter:brightness(1.08);
+    box-shadow:0 12px 35px rgba(98,68,255,.32);
 }
 
 .btn.dark{
-    background:#111319;
-    border:1px solid var(--border);
+    background:#11151c;
+    border:1px solid var(--line);
     box-shadow:none;
 }
 
-.btn.small{
-    padding:9px 12px;
-    font-size:12px;
+/* ==============================
+   CONTAINER
+============================== */
+
+.container{
+    width:min(1180px,100%);
+    margin:auto;
+    padding:25px 20px 100px;
 }
 
-.btn.full{
-    width:100%;
-    margin-top:18px;
-}
+/* ==============================
+   HERO
+============================== */
 
-/* =========================
-   SYSTEM STATUS
-========================= */
-
-.system-status{
-    margin-top:25px;
-    padding:12px 15px;
-    border:1px solid #263329;
-    border-radius:13px;
-    background:#0d1510;
+.hero{
+    position:relative;
+    min-height:450px;
+    padding:75px 0 50px;
     display:flex;
-    align-items:center;
-    gap:10px;
-    color:#9aa4a0;
-    font-size:12px;
+    flex-direction:column;
+    justify-content:center;
 }
 
-.online-dot{
-    width:8px;
-    height:8px;
+.hero-orb{
+    position:absolute;
+    right:5%;
+    top:70px;
+    width:260px;
+    height:260px;
     border-radius:50%;
-    background:#55e38a;
-    box-shadow:0 0 12px #55e38a;
+    background:rgba(117,86,255,.12);
+    filter:blur(35px);
+    pointer-events:none;
+    animation:float 5s ease-in-out infinite;
 }
 
-/* =========================
-   DASHBOARD STATS
-========================= */
+.badge{
+    display:inline-flex;
+    width:max-content;
+    color:#aa9bff;
+    font-size:11px;
+    font-weight:900;
+    letter-spacing:3px;
+    margin-bottom:17px;
+}
+
+h1{
+    max-width:800px;
+    font-size:clamp(46px,7vw,82px);
+    line-height:.96;
+    letter-spacing:-4px;
+}
+
+.gradient-text{
+    background:linear-gradient(90deg,#fff,#9e8bff,#6f57ff);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+}
+
+.hero p{
+    max-width:600px;
+    margin-top:22px;
+    color:#858d9e;
+    line-height:1.8;
+}
+
+.hero-actions{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    margin-top:25px;
+}
+
+/* ==============================
+   DASHBOARD
+============================== */
 
 .stats{
     display:grid;
     grid-template-columns:repeat(4,1fr);
     gap:13px;
-    margin-top:25px;
+    margin-top:15px;
 }
 
 .stat{
+    position:relative;
+    overflow:hidden;
     padding:20px;
-    border:1px solid var(--border);
-    border-radius:18px;
-    background:linear-gradient(145deg,#111319,#0d0f14);
-    transition:.2s;
+    border:1px solid var(--line);
+    border-radius:19px;
+    background:linear-gradient(145deg,#11151d,#0b0e14);
+    transition:.25s;
 }
 
 .stat:hover{
-    transform:translateY(-3px);
-    border-color:#393e4c;
+    transform:translateY(-4px);
+    border-color:#3c345d;
 }
 
-.stat-top{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
+.stat:after{
+    content:"";
+    position:absolute;
+    width:80px;
+    height:80px;
+    right:-30px;
+    top:-30px;
+    border-radius:50%;
+    background:rgba(139,108,255,.12);
+    filter:blur(15px);
 }
 
 .stat-icon{
-    width:37px;
-    height:37px;
-    border-radius:11px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    background:#19152c;
+    font-size:20px;
+    margin-bottom:12px;
 }
 
 .stat-label{
-    margin-top:18px;
-    color:#747b89;
-    font-size:12px;
+    color:#737b8b;
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:1px;
 }
 
 .stat-value{
-    margin-top:6px;
-    font-size:23px;
+    margin-top:5px;
+    font-size:22px;
     font-weight:900;
 }
 
-/* =========================
+/* ==============================
    CARDS
-========================= */
+============================== */
 
 .cards{
     display:grid;
     grid-template-columns:repeat(3,1fr);
     gap:14px;
-    margin-top:16px;
-}
-
-.card,
-.service,
-.order,
-.deposit-history,
-.free-history{
-    border:1px solid var(--border);
-    border-radius:18px;
-    background:#101218;
-    transition:.2s;
+    margin-top:18px;
 }
 
 .card{
-    padding:20px;
+    padding:22px;
+    border:1px solid var(--line);
+    border-radius:20px;
+    background:#0e1118;
+    transition:.25s;
 }
 
-.card:hover,
-.service:hover,
-.order:hover,
-.deposit-history:hover,
-.free-history:hover{
-    border-color:#373c49;
-    transform:translateY(-2px);
+.card:hover{
+    transform:translateY(-5px);
+    border-color:#403768;
+    box-shadow:0 20px 50px rgba(0,0,0,.25);
+}
+
+.card-icon{
+    font-size:24px;
+    margin-bottom:15px;
 }
 
 .card h3{
@@ -398,65 +367,151 @@ a{
 }
 
 .card p{
-    color:#777e8c;
+    color:#747c8c;
     font-size:13px;
-    line-height:1.65;
+    line-height:1.7;
 }
 
-/* =========================
+/* ==============================
    SECTION
-========================= */
+============================== */
 
 .section{
-    margin-top:55px;
+    margin-top:70px;
 }
 
 .section-title{
     display:flex;
     justify-content:space-between;
-    align-items:flex-end;
+    align-items:end;
     gap:15px;
-    margin-bottom:18px;
+    margin-bottom:20px;
 }
 
 .section h2{
-    font-size:25px;
+    font-size:27px;
 }
 
-/* =========================
+.service{
+    position:relative;
+    overflow:hidden;
+    display:flex;
+    align-items:center;
+    gap:20px;
+    padding:25px;
+    border:1px solid #332c50;
+    border-radius:24px;
+    background:
+        radial-gradient(circle at 90% 20%,rgba(125,93,255,.12),transparent 30%),
+        #0f121a;
+    transition:.25s;
+}
+
+.service:hover{
+    transform:translateY(-4px);
+    border-color:#584a91;
+}
+
+.service-icon{
+    width:58px;
+    height:58px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:17px;
+    background:#211a3b;
+    font-size:27px;
+}
+
+.service-info{
+    flex:1;
+}
+
+.service-info h3{
+    font-size:18px;
+}
+
+.service-info p{
+    margin-top:6px;
+    color:#777f8f;
+    font-size:13px;
+}
+
+.service-tags{
+    display:flex;
+    flex-wrap:wrap;
+    gap:7px;
+    margin-top:12px;
+}
+
+.tag{
+    padding:5px 9px;
+    border-radius:8px;
+    background:#181c25;
+    color:#8e96a6;
+    font-size:10px;
+}
+
+.service-price{
+    text-align:right;
+}
+
+.price{
+    font-weight:900;
+    font-size:18px;
+    margin-bottom:10px;
+}
+
+/* ==============================
    FREE BUFF
-========================= */
+============================== */
 
 .free-buff{
+    position:relative;
+    overflow:hidden;
     margin-top:18px;
-    padding:21px;
-    border:1px solid #3b315f;
-    border-radius:18px;
+    padding:25px;
+    border:1px solid #40366a;
+    border-radius:23px;
     background:
-        radial-gradient(
-            circle at 0 0,
-            rgba(132,101,255,.13),
-            transparent 45%
-        ),
-        #111219;
+        radial-gradient(circle at 0 100%,rgba(104,76,255,.17),transparent 35%),
+        linear-gradient(135deg,#151124,#0e1118);
+}
+
+.free-buff:before{
+    content:"";
+    position:absolute;
+    width:300px;
+    height:80px;
+    top:0;
+    left:-300px;
+    background:linear-gradient(
+        90deg,
+        transparent,
+        rgba(255,255,255,.06),
+        transparent
+    );
+    transform:skewX(-20deg);
+    animation:shimmer 5s infinite;
 }
 
 .free-buff-row{
     display:flex;
     align-items:center;
-    gap:17px;
+    gap:18px;
 }
 
 .free-icon{
-    width:54px;
-    height:54px;
+    width:58px;
+    height:58px;
     flex-shrink:0;
-    border-radius:16px;
     display:flex;
     align-items:center;
     justify-content:center;
-    background:#251d44;
-    font-size:26px;
+    border-radius:18px;
+    background:#271e47;
+    font-size:28px;
+    animation:float 3s ease-in-out infinite;
 }
 
 .free-info{
@@ -464,209 +519,71 @@ a{
 }
 
 .free-info h3{
-    margin-bottom:5px;
+    margin-bottom:6px;
 }
 
 .free-info p{
-    color:#858c99;
+    color:#858c9b;
     font-size:13px;
-    line-height:1.6;
+    line-height:1.7;
 }
 
 .free-reward{
     margin-top:8px;
     color:#b9aaff;
-    font-weight:800;
     font-size:13px;
-}
-
-.progress{
-    height:6px;
-    margin-top:13px;
-    border-radius:20px;
-    overflow:hidden;
-    background:#222530;
-}
-
-.progress-bar{
-    height:100%;
-    width:0%;
-    border-radius:20px;
-    background:linear-gradient(90deg,#8c72ff,#b29fff);
-    transition:width .5s ease;
-}
-
-/* =========================
-   SERVICE
-========================= */
-
-.service{
-    padding:20px;
-    display:flex;
-    align-items:center;
-    gap:18px;
-}
-
-.service-info{
-    flex:1;
-}
-
-.service-info p{
-    margin-top:6px;
-    color:#777e8c;
-    font-size:13px;
-}
-
-.price{
     font-weight:900;
-    margin-bottom:8px;
 }
 
-/* =========================
+/* ==============================
    FILTER
-========================= */
+============================== */
 
-.toolbar{
+.filters{
     display:flex;
-    gap:8px;
     flex-wrap:wrap;
-    margin-bottom:14px;
-}
-
-.search{
-    flex:1;
-    min-width:220px;
-}
-
-.search input{
-    margin:0;
+    gap:8px;
+    margin-bottom:15px;
 }
 
 .filter{
-    border:1px solid var(--border);
-    background:#101218;
-    color:#9299a7;
+    border:1px solid var(--line);
     border-radius:10px;
-    padding:10px 12px;
+    padding:8px 12px;
+    background:#0d1016;
+    color:#7e8797;
+    font-size:11px;
 }
 
 .filter.active{
     color:#fff;
-    border-color:#5b4a9c;
-    background:#19152b;
+    background:#211a3d;
+    border-color:#4d407c;
 }
 
-/* =========================
+/* ==============================
    ORDER
-========================= */
+============================== */
 
-.order{
-    padding:19px;
+.order,
+.deposit-history,
+.free-history{
+    padding:20px;
     margin-bottom:11px;
+    border:1px solid var(--line);
+    border-radius:18px;
+    background:#0e1118;
+    transition:.2s;
 }
 
-.order-head{
-    display:flex;
-    justify-content:space-between;
-    gap:15px;
+.order:hover,
+.deposit-history:hover,
+.free-history:hover{
+    border-color:#343b4a;
+    transform:translateX(2px);
 }
 
-.order-code{
-    font-weight:900;
-}
-
-.order-time{
-    color:#656c79;
-    font-size:11px;
-    margin-top:5px;
-}
-
-.status{
-    padding:6px 10px;
-    border-radius:30px;
-    background:#29233f;
-    color:#b9aaff;
-    font-size:11px;
-    height:max-content;
-    white-space:nowrap;
-}
-
-.status.success{
-    background:#173523;
-    color:#75e39a;
-}
-
-.status.cancel{
-    background:#3a1c1c;
-    color:#ff8585;
-}
-
-.status.yellow{
-    background:#382e19;
-    color:#ffd56c;
-}
-
-.order-info{
-    margin-top:13px;
-    color:#858c99;
-    font-size:12px;
-    line-height:1.9;
-    word-break:break-word;
-}
-
-.timeline{
-    display:flex;
-    align-items:center;
-    margin-top:18px;
-    gap:0;
-}
-
-.timeline-step{
-    display:flex;
-    align-items:center;
-    flex:1;
-}
-
-.timeline-dot{
-    width:10px;
-    height:10px;
-    border-radius:50%;
-    background:#3a3d46;
-    flex-shrink:0;
-}
-
-.timeline-dot.active{
-    background:#957cff;
-    box-shadow:0 0 12px rgba(149,124,255,.5);
-}
-
-.timeline-line{
-    height:2px;
-    flex:1;
-    background:#292c34;
-}
-
-.timeline-line.active{
-    background:#8067e8;
-}
-
-.timeline-labels{
-    display:flex;
-    justify-content:space-between;
-    margin-top:7px;
-    color:#626977;
-    font-size:9px;
-}
-
-/* =========================
-   DEPOSIT
-========================= */
-
-.deposit-history{
-    padding:19px;
-    margin-bottom:11px;
-}
-
+.order-head,
 .deposit-row{
     display:flex;
     justify-content:space-between;
@@ -674,32 +591,56 @@ a{
     gap:15px;
 }
 
-.deposit-amount{
-    font-size:17px;
+.order-code{
     font-weight:900;
 }
 
+.order-time,
 .deposit-time{
-    color:#656c79;
+    color:#646c7b;
     font-size:11px;
     margin-top:5px;
 }
 
-/* =========================
-   CHART
-========================= */
-
-.chart-box{
-    padding:20px;
-    border:1px solid var(--border);
-    border-radius:18px;
-    background:#101218;
-    height:300px;
+.status{
+    padding:6px 10px;
+    border-radius:30px;
+    background:#29203f;
+    color:#bcaeff;
+    font-size:10px;
+    font-weight:800;
+    white-space:nowrap;
 }
 
-/* =========================
+.status.success{
+    background:#142e1f;
+    color:#71e39a;
+}
+
+.status.cancel{
+    background:#351b1d;
+    color:#ff8585;
+}
+
+.order-info{
+    margin-top:13px;
+    color:#838b9a;
+    font-size:12px;
+    line-height:1.8;
+    word-break:break-word;
+}
+
+.empty{
+    padding:35px;
+    text-align:center;
+    border:1px dashed #292e3a;
+    border-radius:17px;
+    color:#656d7c;
+}
+
+/* ==============================
    MODAL
-========================= */
+============================== */
 
 .modal{
     position:fixed;
@@ -711,23 +652,28 @@ a{
     padding:20px;
     background:rgba(0,0,0,.78);
     backdrop-filter:blur(8px);
-    overflow:auto;
 }
 
 .modal.show{
     display:flex;
+    animation:fadeIn .2s ease;
+}
+
+@keyframes fadeIn{
+    from{opacity:0}
+    to{opacity:1}
 }
 
 .box{
     width:min(510px,100%);
     max-height:90vh;
     overflow:auto;
-    padding:25px;
-    border:1px solid #30343e;
-    border-radius:22px;
-    background:#111319;
-    box-shadow:0 30px 100px rgba(0,0,0,.5);
-    animation:modalIn .2s ease;
+    padding:26px;
+    border:1px solid #303643;
+    border-radius:23px;
+    background:#10131a;
+    box-shadow:0 30px 100px rgba(0,0,0,.55);
+    animation:slideUp .25s ease;
 }
 
 .box h2{
@@ -735,47 +681,58 @@ a{
 }
 
 .sub{
-    color:#777e8c;
+    color:#777f8f;
     font-size:13px;
     margin-bottom:20px;
-    line-height:1.65;
+    line-height:1.7;
 }
 
 .close{
     float:right;
+    width:35px;
+    height:35px;
     border:0;
-    background:none;
+    border-radius:10px;
+    background:#20242d;
     color:#aaa;
-    font-size:25px;
+    font-size:22px;
 }
 
 label{
     display:block;
     margin-top:14px;
-    font-size:12px;
     color:#9299a7;
+    font-size:12px;
 }
 
-input{
+input,
+textarea{
     width:100%;
-    padding:13px;
     margin-top:7px;
-    border:1px solid #292d38;
-    border-radius:10px;
-    background:#090a0e;
+    padding:13px;
+    border:1px solid #292f3b;
+    border-radius:11px;
+    background:#090b10;
     color:#fff;
     outline:none;
 }
 
-input:focus{
-    border-color:#9178ff;
-    box-shadow:0 0 0 3px rgba(145,120,255,.08);
+input:focus,
+textarea:focus{
+    border-color:#8065ff;
+    box-shadow:0 0 0 3px rgba(128,101,255,.08);
 }
 
-.total-preview{
+.full{
+    width:100%;
+    margin-top:18px;
+}
+
+.total-preview,
+.transfer-content{
     margin-top:15px;
     padding:15px;
-    border-radius:12px;
+    border-radius:13px;
     background:#19152b;
     border:1px solid #40356a;
 }
@@ -783,23 +740,20 @@ input:focus{
 .total-preview div{
     display:flex;
     justify-content:space-between;
-    margin:7px 0;
+    margin:6px 0;
 }
 
-.total-preview strong{
+.total-preview strong,
+.transfer-content strong{
     color:#b9aaff;
 }
-
-/* =========================
-   BANK
-========================= */
 
 .bank-box{
     margin-top:15px;
     padding:18px;
-    border:1px solid var(--border);
+    border:1px solid var(--line);
     border-radius:17px;
-    background:#090a0e;
+    background:#090b10;
 }
 
 .qr{
@@ -817,7 +771,7 @@ input:focus{
     justify-content:space-between;
     gap:15px;
     padding:9px 0;
-    border-bottom:1px solid #20232b;
+    border-bottom:1px solid #20242c;
     font-size:13px;
 }
 
@@ -826,7 +780,7 @@ input:focus{
 }
 
 .bank-label{
-    color:#777e8c;
+    color:#777f8e;
 }
 
 .bank-value{
@@ -835,216 +789,218 @@ input:focus{
     word-break:break-word;
 }
 
-.copy-row{
-    display:flex;
-    gap:7px;
-    margin-top:12px;
-}
-
-.copy-row button{
-    flex:1;
-}
-
-/* =========================
-   DEPOSIT STEPS
-========================= */
-
-.steps{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:6px;
-    margin:18px 0;
-}
-
-.step{
-    text-align:center;
-    color:#626977;
-    font-size:9px;
-}
-
-.step-number{
-    width:25px;
-    height:25px;
-    margin:0 auto 5px;
-    border-radius:50%;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    background:#20232b;
-}
-
-.step.active .step-number{
-    background:#6f56d8;
-    color:#fff;
-}
-
-/* =========================
-   NOTIFICATION
-========================= */
-
-.notification-button{
-    position:relative;
-    width:39px;
-    height:39px;
-    border:1px solid var(--border);
-    border-radius:11px;
-    background:#111319;
-    color:#fff;
-}
-
-.notification-dot{
-    position:absolute;
-    top:6px;
-    right:6px;
-    width:7px;
-    height:7px;
-    border-radius:50%;
-    background:#ff6767;
-    display:none;
-}
-
-.notification-dot.show{
-    display:block;
-}
-
-.notification-panel{
-    position:fixed;
-    right:20px;
-    top:78px;
-    z-index:70;
-    width:min(370px,calc(100vw - 40px));
-    border:1px solid var(--border);
-    border-radius:18px;
-    background:#111319;
-    box-shadow:var(--shadow);
-    display:none;
-}
-
-.notification-panel.show{
-    display:block;
-    animation:pop .18s ease;
-}
-
-.notification-head{
-    padding:16px;
-    border-bottom:1px solid var(--border);
-    display:flex;
-    justify-content:space-between;
-}
-
-.notification-list{
-    max-height:400px;
-    overflow:auto;
-}
-
-.notification-item{
-    padding:14px 16px;
-    border-bottom:1px solid #20232b;
-}
-
-.notification-item strong{
-    display:block;
-    font-size:13px;
-}
-
-.notification-item p{
-    margin-top:4px;
-    color:#777e8c;
-    font-size:12px;
-    line-height:1.5;
-}
-
-/* =========================
+/* ==============================
    WELCOME
-========================= */
+============================== */
 
 .welcome-box{
-    max-width:520px;
-    position:relative;
     text-align:center;
+    position:relative;
 }
 
 .welcome-icon{
-    width:72px;
-    height:72px;
-    margin:0 auto 16px;
-    border-radius:22px;
+    width:75px;
+    height:75px;
+    margin:0 auto 17px;
     display:flex;
     align-items:center;
     justify-content:center;
-    background:linear-gradient(135deg,#251d44,#171328);
-    font-size:34px;
+    border-radius:23px;
+    background:linear-gradient(135deg,#281f49,#151326);
+    font-size:35px;
+    animation:float 3s infinite;
 }
 
 .welcome-title{
-    font-size:24px;
+    font-size:25px;
     font-weight:900;
     margin-bottom:10px;
 }
 
 .welcome-text{
-    color:#8d94a3;
+    color:#838b9a;
     font-size:14px;
-    line-height:1.75;
-    margin-bottom:18px;
+    line-height:1.8;
 }
 
 .welcome-list{
+    margin-top:18px;
+    padding:16px;
     text-align:left;
-    padding:15px 16px;
-    border:1px solid var(--border);
-    border-radius:14px;
-    background:#111319;
-    color:#c4c9d3;
+    border:1px solid var(--line);
+    border-radius:15px;
+    background:#0c0f15;
+    color:#bfc5d0;
     font-size:13px;
     line-height:1.9;
-    margin-bottom:18px;
 }
 
-.welcome-close{
-    position:absolute;
-    top:12px;
-    right:12px;
-    width:36px;
-    height:36px;
-    border:0;
-    border-radius:10px;
-    background:#242733;
+/* ==============================
+   CHATBOT
+============================== */
+
+.chat-button{
+    position:fixed;
+    right:22px;
+    bottom:22px;
+    z-index:200;
+    width:58px;
+    height:58px;
+    border:1px solid #5b4a9c;
+    border-radius:18px;
+    background:linear-gradient(135deg,#9276ff,#6046ff);
     color:#fff;
+    font-size:24px;
+    box-shadow:0 12px 35px rgba(80,58,255,.35);
+    animation:pulse 2s infinite;
+}
+
+.chat-window{
+    position:fixed;
+    right:22px;
+    bottom:92px;
+    z-index:199;
+    width:min(370px,calc(100vw - 30px));
+    height:500px;
+    display:none;
+    flex-direction:column;
+    overflow:hidden;
+    border:1px solid #303645;
+    border-radius:22px;
+    background:#0d1016;
+    box-shadow:0 30px 100px rgba(0,0,0,.6);
+}
+
+.chat-window.show{
+    display:flex;
+    animation:slideUp .25s ease;
+}
+
+.chat-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:16px;
+    border-bottom:1px solid #242934;
+    background:#11151c;
+}
+
+.chat-profile{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.bot-avatar{
+    width:38px;
+    height:38px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:12px;
+    background:#251d44;
+}
+
+.chat-name{
+    font-size:13px;
+    font-weight:900;
+}
+
+.chat-online{
+    margin-top:3px;
+    color:#68dc91;
+    font-size:10px;
+}
+
+.chat-close{
+    border:0;
+    background:none;
+    color:#888f9d;
     font-size:22px;
 }
 
-/* =========================
-   EMPTY
-========================= */
-
-.empty{
-    padding:35px;
-    text-align:center;
-    border:1px dashed #292d38;
-    border-radius:15px;
-    color:#6d7481;
+.chat-body{
+    flex:1;
+    overflow:auto;
+    padding:15px;
 }
 
-/* =========================
+.message{
+    max-width:82%;
+    margin-bottom:10px;
+    padding:10px 12px;
+    border-radius:14px;
+    font-size:12px;
+    line-height:1.6;
+}
+
+.message.bot{
+    background:#181c25;
+    color:#c7ccd5;
+    border-bottom-left-radius:4px;
+}
+
+.message.user{
+    margin-left:auto;
+    background:#684eff;
+    border-bottom-right-radius:4px;
+}
+
+.quick{
+    display:flex;
+    flex-wrap:wrap;
+    gap:6px;
+    margin-top:8px;
+}
+
+.quick button{
+    border:1px solid #373d4a;
+    border-radius:9px;
+    padding:7px 9px;
+    background:#12151c;
+    color:#9ba3b2;
+    font-size:10px;
+}
+
+.chat-input{
+    display:flex;
+    gap:7px;
+    padding:10px;
+    border-top:1px solid #242934;
+}
+
+.chat-input input{
+    margin:0;
+    flex:1;
+}
+
+.chat-send{
+    width:44px;
+    border:0;
+    border-radius:11px;
+    background:#765cff;
+    color:#fff;
+}
+
+/* ==============================
    TOAST
-========================= */
+============================== */
 
 #toast{
     position:fixed;
     left:50%;
-    bottom:22px;
-    z-index:1000;
-    padding:13px 18px;
-    border-radius:12px;
-    background:#191c24;
-    border:1px solid #303542;
-    transform:translate(-50%,20px);
-    opacity:0;
-    transition:.25s;
+    bottom:20px;
+    z-index:500;
     max-width:90%;
+    padding:13px 18px;
+    border:1px solid #343a48;
+    border-radius:13px;
+    background:#171b23;
     text-align:center;
-    box-shadow:var(--shadow);
+    transform:translate(-50%,25px);
+    opacity:0;
+    pointer-events:none;
+    transition:.25s;
 }
 
 #toast.show{
@@ -1052,47 +1008,13 @@ input:focus{
     transform:translate(-50%,0);
 }
 
-/* =========================
-   BOTTOM NAV MOBILE
-========================= */
-
-.mobile-nav{
-    display:none;
-}
-
-/* =========================
-   ANIMATION
-========================= */
-
-@keyframes modalIn{
-    from{
-        opacity:0;
-        transform:scale(.96) translateY(10px);
-    }
-    to{
-        opacity:1;
-        transform:scale(1) translateY(0);
-    }
-}
-
-@keyframes pop{
-    from{
-        opacity:0;
-        transform:translateY(-5px);
-    }
-    to{
-        opacity:1;
-        transform:translateY(0);
-    }
-}
-
-/* =========================
+/* ==============================
    MOBILE
-========================= */
+============================== */
 
-@media(max-width:850px){
+@media(max-width:800px){
 
-    .nav-links{
+    .online{
         display:none;
     }
 
@@ -1104,56 +1026,41 @@ input:focus{
         grid-template-columns:1fr;
     }
 
-    .hero h1{
-        font-size:45px;
+    h1{
+        letter-spacing:-2px;
     }
 
+    .service{
+        align-items:flex-start;
+    }
 }
 
-@media(max-width:650px){
-
-    body{
-        padding-bottom:65px;
-    }
+@media(max-width:600px){
 
     .nav-inner{
-        min-height:64px;
-        padding:0 14px;
+        padding:13px 15px;
     }
 
-    .logo{
-        font-size:18px;
+    .nav-right .btn{
+        display:none;
     }
 
     .balance{
         font-size:11px;
-        padding:9px;
-    }
-
-    .user-button{
-        padding:8px;
-    }
-
-    .user-button span:not(.avatar){
-        display:none;
-    }
-
-    .notification-button{
-        width:35px;
-        height:35px;
+        padding:9px 10px;
     }
 
     .container{
-        padding:22px 14px 80px;
+        padding:10px 15px 90px;
     }
 
     .hero{
-        padding:25px 0 15px;
+        min-height:auto;
+        padding:55px 0 35px;
     }
 
-    .hero h1{
-        font-size:39px;
-        letter-spacing:-1.5px;
+    .hero-actions .btn{
+        width:100%;
     }
 
     .stats{
@@ -1161,11 +1068,24 @@ input:focus{
     }
 
     .stat{
-        padding:15px;
+        padding:16px;
     }
 
     .stat-value{
-        font-size:19px;
+        font-size:18px;
+    }
+
+    .service{
+        flex-direction:column;
+    }
+
+    .service-price{
+        width:100%;
+        text-align:left;
+    }
+
+    .service-price .btn{
+        width:100%;
     }
 
     .free-buff-row{
@@ -1177,55 +1097,16 @@ input:focus{
         width:100%;
     }
 
-    .service{
-        flex-direction:column;
-        align-items:flex-start;
+    .chat-window{
+        right:15px;
+        bottom:85px;
+        width:calc(100vw - 30px);
+        height:470px;
     }
 
-    .service > div:last-child{
-        width:100%;
-    }
-
-    .service .btn{
-        width:100%;
-    }
-
-    .steps{
-        gap:2px;
-    }
-
-    .mobile-nav{
-        position:fixed;
-        display:flex;
-        left:0;
-        right:0;
-        bottom:0;
-        z-index:60;
-        height:62px;
-        background:rgba(12,14,19,.94);
-        border-top:1px solid var(--border);
-        backdrop-filter:blur(18px);
-        justify-content:space-around;
-    }
-
-    .mobile-nav button{
-        border:0;
-        background:none;
-        color:#656c79;
-        font-size:10px;
-        display:flex;
-        flex-direction:column;
-        align-items:center;
-        justify-content:center;
-        gap:4px;
-    }
-
-    .mobile-nav button.active{
-        color:#a894ff;
-    }
-
-    .chart-box{
-        height:250px;
+    .chat-button{
+        right:15px;
+        bottom:15px;
     }
 }
 </style>
@@ -1233,203 +1114,190 @@ input:focus{
 
 <body>
 
-<!-- =========================
-     NAVBAR
-========================= -->
-
 <header class="nav">
+    <div class="nav-inner">
 
-<div class="nav-inner">
-
-    <div class="logo">
-        <span>ADD</span> FR
-    </div>
-
-    <nav class="nav-links">
-
-        <button class="nav-link active"
-                onclick="scrollToSection('home')">
-            Trang chủ
-        </button>
-
-        <button class="nav-link"
-                onclick="scrollToSection('serviceSection')">
-            Dịch vụ
-        </button>
-
-        <button class="nav-link"
-                onclick="scrollToSection('ordersSection')">
-            Đơn hàng
-        </button>
-
-        <button class="nav-link"
-                onclick="openDeposit()">
-            Nạp tiền
-        </button>
-
-        <button class="nav-link"
-                onclick="openFreeBuff()">
-            Xu FREE
-        </button>
-
-    </nav>
-
-    <div class="account">
-
-        <button class="notification-button"
-                onclick="toggleNotifications()">
-            🔔
-            <span id="notificationDot"
-                  class="notification-dot"></span>
-        </button>
-
-        <div class="balance">
-            💰 <span id="balance">0đ</span>
+        <div class="logo">
+            <span>ADD</span> FR
         </div>
 
-        <div class="user-menu">
+        <div class="nav-right">
 
-            <button class="user-button"
-                    onclick="toggleUserMenu()">
-
-                <span class="avatar"
-                      id="avatar">
-                    U
-                </span>
-
-                <span id="navUsername">
-                    User
-                </span>
-
-                ▾
-
-            </button>
-
-            <div class="user-dropdown"
-                 id="userDropdown">
-
-                <button onclick="scrollToSection('home')">
-                    🏠 Tổng quan
-                </button>
-
-                <button onclick="scrollToSection('ordersSection')">
-                    📦 Lịch sử đơn
-                </button>
-
-                <button onclick="scrollToSection('depositSection')">
-                    💳 Lịch sử nạp
-                </button>
-
-                <button onclick="scrollToSection('freeSection')">
-                    🎁 Xu miễn phí
-                </button>
-
-                <button onclick="toggleTheme()">
-                    🌙 Đổi giao diện
-                </button>
-
-                <button class="danger"
-                        onclick="logout()">
-                    🚪 Đăng xuất
-                </button>
-
+            <div class="online">
+                <span class="online-dot"></span>
+                SYSTEM ONLINE
             </div>
 
+            <div class="balance">
+                💰 <span id="balance">0đ</span>
+            </div>
+
+            <button class="btn dark" onclick="logout()">
+                Đăng xuất
+            </button>
+
         </div>
 
     </div>
-
-</div>
-
 </header>
 
 
-<!-- =========================
-     NOTIFICATIONS
-========================= -->
+<main class="container">
 
-<div class="notification-panel"
-     id="notificationPanel">
+<section class="hero animate">
 
-    <div class="notification-head">
-
-        <strong>🔔 Thông báo</strong>
-
-        <button
-            class="btn dark small"
-            onclick="clearNotifications()">
-            Xóa
-        </button>
-
-    </div>
-
-    <div id="notificationList"
-         class="notification-list">
-
-        <div class="empty">
-            Chưa có thông báo.
-        </div>
-
-    </div>
-
-</div>
-
-
-<main class="container"
-      id="home">
-
-<!-- =========================
-     HERO
-========================= -->
-
-<section class="hero">
+    <div class="hero-orb"></div>
 
     <div class="badge">
-        ADD FR PLATFORM
+        ✦ PREMIUM SOCIAL SERVICE
     </div>
 
     <h1>
-        Tăng lời mời kết bạn
+        BOOST YOUR
         <br>
-        <span>nhanh & chuyên nghiệp.</span>
+        <span class="gradient-text">
+            FACEBOOK NETWORK.
+        </span>
     </h1>
 
     <p>
-        Xin chào
-        <strong id="username">...</strong>.
+        Xin chào <strong id="username">...</strong> 👋
         <br>
-        Quản lý đơn hàng, số dư và dịch vụ
-        trực tiếp trên một dashboard.
+        Hệ thống hỗ trợ tăng lời mời kết bạn với giao diện
+        theo dõi đơn hàng trực tiếp.
     </p>
 
     <div class="hero-actions">
 
-        <button class="btn"
-                onclick="openOrder()">
-            ＋ Đặt đơn
+        <button class="btn" onclick="openOrder()">
+            ＋ Đặt đơn ngay
         </button>
 
-        <button class="btn dark"
-                onclick="openDeposit()">
+        <button class="btn dark" onclick="openDeposit()">
             💳 Nạp tiền
         </button>
 
     </div>
 
-    <div class="system-status">
+</section>
 
-        <span class="online-dot"></span>
 
-        <strong>Hệ thống đang hoạt động</strong>
+<!-- DASHBOARD -->
 
-        <span>
-            · Dịch vụ Add Friend đang sẵn sàng
-        </span>
+<section class="stats">
+
+    <div class="stat">
+        <div class="stat-icon">💰</div>
+        <div class="stat-label">Số dư</div>
+        <div class="stat-value" id="statBalance">0đ</div>
+    </div>
+
+    <div class="stat">
+        <div class="stat-icon">📦</div>
+        <div class="stat-label">Tổng đơn</div>
+        <div class="stat-value" id="statOrders">0</div>
+    </div>
+
+    <div class="stat">
+        <div class="stat-icon">⚡</div>
+        <div class="stat-label">Đang xử lý</div>
+        <div class="stat-value" id="statPending">0</div>
+    </div>
+
+    <div class="stat">
+        <div class="stat-icon">✓</div>
+        <div class="stat-label">Hoàn thành</div>
+        <div class="stat-value" id="statCompleted">0</div>
+    </div>
+
+</section>
+
+
+<!-- FEATURES -->
+
+<div class="cards">
+
+    <div class="card">
+        <div class="card-icon">⚡</div>
+        <h3>Xử lý nhanh</h3>
+        <p>
+            Đơn được ghi nhận tự động và hiển thị
+            trạng thái trực tiếp trên tài khoản.
+        </p>
+    </div>
+
+    <div class="card">
+        <div class="card-icon">📡</div>
+        <h3>Theo dõi realtime</h3>
+        <p>
+            Không cần tải lại trang để kiểm tra
+            những thay đổi mới nhất.
+        </p>
+    </div>
+
+    <div class="card">
+        <div class="card-icon">🔐</div>
+        <h3>Hệ thống tự động</h3>
+        <p>
+            Quản lý đơn, số dư và lịch sử
+            tập trung trong một dashboard.
+        </p>
+    </div>
+
+</div>
+
+
+<!-- SERVICE -->
+
+<section class="section">
+
+    <div class="section-title">
+        <div>
+            <div class="badge">SERVICES</div>
+            <h2>Dịch vụ nổi bật</h2>
+        </div>
+    </div>
+
+    <div class="service">
+
+        <div class="service-icon">
+            👥
+        </div>
+
+        <div class="service-info">
+
+            <h3>
+                ＋ Add Friend Facebook
+            </h3>
+
+            <p>
+                Tăng lời mời kết bạn theo số lượng bạn lựa chọn.
+            </p>
+
+            <div class="service-tags">
+                <span class="tag">⚡ Nhanh</span>
+                <span class="tag">📊 Theo dõi đơn</span>
+                <span class="tag">🟢 Online</span>
+            </div>
+
+        </div>
+
+        <div class="service-price">
+
+            <div class="price">
+                10.000đ / 100
+            </div>
+
+            <button class="btn" onclick="openOrder()">
+                Đặt đơn
+            </button>
+
+        </div>
 
     </div>
 
 
-    <!-- FREE BUFF -->
+    <!-- FREE -->
 
     <div class="free-buff">
 
@@ -1442,28 +1310,21 @@ input:focus{
             <div class="free-info">
 
                 <h3>
-                    Nhận Xu FREE
+                    Nhận 5.000 Xu FREE
                 </h3>
 
                 <p>
-                    Gửi yêu cầu tài khoản hợp lệ
-                    để admin kiểm tra và duyệt.
+                    Gửi tài khoản/mã xác minh để admin kiểm tra.
+                    Khi được duyệt, hệ thống cộng phần thưởng vào tài khoản.
                 </p>
 
                 <div class="free-reward">
-                    +5.000 Xu / yêu cầu được duyệt
-                </div>
-
-                <div class="progress">
-                    <div id="freeProgress"
-                         class="progress-bar">
-                    </div>
+                    🎉 1 yêu cầu được duyệt = +5.000 Xu
                 </div>
 
             </div>
 
-            <button class="btn"
-                    onclick="openFreeBuff()">
+            <button class="btn" onclick="openFreeBuff()">
                 Nhận Xu
             </button>
 
@@ -1474,339 +1335,85 @@ input:focus{
 </section>
 
 
-<!-- =========================
-     STATS
-========================= -->
-
-<section class="stats">
-
-    <div class="stat">
-
-        <div class="stat-top">
-            <span>💰</span>
-            <div class="stat-icon">💵</div>
-        </div>
-
-        <div class="stat-label">
-            Số dư hiện tại
-        </div>
-
-        <div class="stat-value"
-             id="statBalance">
-            0đ
-        </div>
-
-    </div>
-
-
-    <div class="stat">
-
-        <div class="stat-top">
-            <span>📦</span>
-            <div class="stat-icon">🛒</div>
-        </div>
-
-        <div class="stat-label">
-            Tổng đơn hàng
-        </div>
-
-        <div class="stat-value"
-             id="statOrders">
-            0
-        </div>
-
-    </div>
-
-
-    <div class="stat">
-
-        <div class="stat-top">
-            <span>✅</span>
-            <div class="stat-icon">✓</div>
-        </div>
-
-        <div class="stat-label">
-            Đơn hoàn thành
-        </div>
-
-        <div class="stat-value"
-             id="statCompleted">
-            0
-        </div>
-
-    </div>
-
-
-    <div class="stat">
-
-        <div class="stat-top">
-            <span>🎁</span>
-            <div class="stat-icon">🎁</div>
-        </div>
-
-        <div class="stat-label">
-            Xu FREE đã nhận
-        </div>
-
-        <div class="stat-value"
-             id="statFree">
-            0 Xu
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- =========================
-     INFO CARDS
-========================= -->
-
-<div class="cards">
-
-    <div class="card">
-
-        <h3>
-            ⚡ Xử lý nhanh
-        </h3>
-
-        <p>
-            Đơn hàng được tiếp nhận và
-            cập nhật trạng thái trực tiếp
-            trên hệ thống.
-        </p>
-
-    </div>
-
-
-    <div class="card">
-
-        <h3>
-            🔒 Theo dõi đơn
-        </h3>
-
-        <p>
-            Theo dõi mã đơn, số lượng,
-            chi phí và trạng thái xử lý.
-        </p>
-
-    </div>
-
-
-    <div class="card">
-
-        <h3>
-            🤖 Hệ thống tự động
-        </h3>
-
-        <p>
-            Hệ thống tự động cập nhật
-            dữ liệu tài khoản và thông báo.
-        </p>
-
-    </div>
-
-</div>
-
-
-<!-- =========================
-     SERVICE
-========================= -->
-
-<section class="section"
-         id="serviceSection">
-
-    <div class="section-title">
-
-        <div>
-            <div class="badge">
-                SERVICES
-            </div>
-
-            <h2>
-                Dịch vụ nổi bật
-            </h2>
-        </div>
-
-    </div>
-
-
-    <div class="service">
-
-        <div class="service-info">
-
-            <h3>
-                ＋ Gói Tăng Lời Mời FB
-            </h3>
-
-            <p>
-                Tăng theo số lượng bạn lựa chọn.
-                Tối thiểu 100.
-            </p>
-
-        </div>
-
-        <div>
-
-            <div class="price">
-                10.000đ / 100
-            </div>
-
-            <button class="btn"
-                    onclick="openOrder()">
-                Đặt đơn
-            </button>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- =========================
-     CHART
-========================= -->
+<!-- ORDERS -->
 
 <section class="section">
 
-    <div class="badge">
-        ACTIVITY
-    </div>
-
-    <h2>
-        Hoạt động của bạn
-    </h2>
-
-    <div class="chart-box">
-
-        <canvas id="activityChart"></canvas>
-
-    </div>
-
-</section>
-
-
-<!-- =========================
-     ORDERS
-========================= -->
-
-<section class="section"
-         id="ordersSection">
-
     <div class="section-title">
 
         <div>
-
-            <div class="badge">
-                ORDER TRACKING
-            </div>
-
-            <h2>
-                Lịch sử đơn hàng
-            </h2>
-
+            <div class="badge">ORDER CENTER</div>
+            <h2>Lịch sử đơn hàng</h2>
         </div>
 
     </div>
 
-
-    <div class="toolbar">
-
-        <div class="search">
-
-            <input
-                id="orderSearch"
-                placeholder="🔍 Tìm mã đơn hoặc Facebook..."
-                oninput="renderOrders()">
-
-        </div>
+    <div class="filters">
 
         <button class="filter active"
-                data-filter="all"
-                onclick="setOrderFilter('all',this)">
+                onclick="filterOrders('all',this)">
             Tất cả
         </button>
 
         <button class="filter"
-                data-filter="pending"
-                onclick="setOrderFilter('pending',this)">
+                onclick="filterOrders('pending',this)">
             Đang xử lý
         </button>
 
         <button class="filter"
-                data-filter="completed"
-                onclick="setOrderFilter('completed',this)">
+                onclick="filterOrders('completed',this)">
             Hoàn thành
         </button>
 
         <button class="filter"
-                data-filter="cancelled"
-                onclick="setOrderFilter('cancelled',this)">
+                onclick="filterOrders('cancelled',this)">
             Đã hủy
         </button>
 
     </div>
 
-
     <div id="orders">
-
         <div class="empty">
             Đang tải...
         </div>
-
     </div>
 
 </section>
 
 
-<!-- =========================
-     FREE HISTORY
-========================= -->
+<!-- FREE HISTORY -->
 
-<section class="section"
-         id="freeSection">
+<section class="section">
 
-    <div class="badge">
-        FREE REWARDS
-    </div>
+    <div class="badge">FREE REWARD</div>
 
-    <h2>
-        Lịch sử Xu miễn phí
+    <h2 style="margin-bottom:20px">
+        Lịch sử nhận Xu
     </h2>
 
     <div id="freeBuffHistory">
-
         <div class="empty">
             Đang tải...
         </div>
-
     </div>
 
 </section>
 
 
-<!-- =========================
-     DEPOSIT HISTORY
-========================= -->
+<!-- DEPOSIT -->
 
-<section class="section"
-         id="depositSection">
+<section class="section">
 
-    <div class="badge">
-        DEPOSIT HISTORY
-    </div>
+    <div class="badge">WALLET</div>
 
-    <h2>
+    <h2 style="margin-bottom:20px">
         Lịch sử nạp tiền
     </h2>
 
     <div id="deposits">
-
         <div class="empty">
             Đang tải...
         </div>
-
     </div>
 
 </section>
@@ -1814,458 +1421,342 @@ input:focus{
 </main>
 
 
-<!-- =========================
-     MOBILE NAV
-========================= -->
-
-<nav class="mobile-nav">
-
-    <button class="active"
-            onclick="scrollToSection('home')">
-        🏠
-        <span>Trang chủ</span>
-    </button>
-
-    <button onclick="scrollToSection('serviceSection')">
-        🛒
-        <span>Dịch vụ</span>
-    </button>
-
-    <button onclick="scrollToSection('ordersSection')">
-        📦
-        <span>Đơn hàng</span>
-    </button>
-
-    <button onclick="openDeposit()">
-        💳
-        <span>Nạp tiền</span>
-    </button>
-
-    <button onclick="openFreeBuff()">
-        🎁
-        <span>Xu FREE</span>
-    </button>
-
-</nav>
-
-
-<!-- =========================
+<!-- ==========================
      ORDER MODAL
-========================= -->
+========================== -->
 
-<div class="modal"
-     id="orderModal">
+<div class="modal" id="orderModal">
 
-    <div class="box">
+<div class="box">
 
-        <button class="close"
-                onclick="closeModal('orderModal')">
-            ×
-        </button>
+<button class="close"
+onclick="closeModal('orderModal')">×</button>
 
-        <h2>
-            📦 Đặt Add Friend
-        </h2>
+<h2>🛒 Đặt Add Friend</h2>
 
-        <div class="sub">
+<div class="sub">
+Vui lòng kiểm tra thông tin trước khi đặt.
+Thời gian xử lý có thể thay đổi tùy tình trạng hệ thống.
+</div>
 
-            Vui lòng tắt chế độ chuyên nghiệp
-            trước khi sử dụng dịch vụ.
+<label>
+Số lượng
 
-            <br><br>
+<input
+id="quantity"
+type="number"
+min="100"
+step="100"
+value="100"
+oninput="updateOrderTotal()">
 
-            Thời gian xử lý có thể từ
-            <b>10 giây đến 24 giờ</b> tùy tình trạng hệ thống.
+</label>
 
-        </div>
+<div class="total-preview">
 
+<div>
+<span>Số lượng</span>
+<strong id="quantityPreview">100</strong>
+</div>
 
-        <label>
+<div>
+<span>Đơn giá</span>
+<strong>10.000đ / 100</strong>
+</div>
 
-            Số lượng
+<div>
+<span>Thành tiền</span>
+<strong id="orderTotal">10.000đ</strong>
+</div>
 
-            <input
-                id="quantity"
-                type="number"
-                min="100"
-                step="100"
-                value="100"
-                oninput="updateOrderTotal()">
+</div>
 
-        </label>
+<label>
+Facebook URL
 
+<input
+id="target"
+placeholder="https://facebook.com/...">
 
-        <div class="total-preview">
+</label>
 
-            <div>
-                <span>Số lượng</span>
+<button
+class="btn full"
+onclick="createOrder()">
+Xác nhận đặt hàng
+</button>
 
-                <strong id="quantityPreview">
-                    100
-                </strong>
-            </div>
-
-            <div>
-                <span>Đơn giá</span>
-
-                <strong>
-                    10.000đ / 100
-                </strong>
-            </div>
-
-            <div>
-                <span>Thành tiền</span>
-
-                <strong id="orderTotal">
-                    10.000đ
-                </strong>
-            </div>
-
-        </div>
-
-
-        <label>
-
-            Facebook URL
-
-            <input
-                id="target"
-                placeholder="https://facebook.com/...">
-
-        </label>
-
-
-        <button
-            class="btn full"
-            id="createOrderBtn"
-            onclick="createOrder()">
-
-            Xác nhận đặt hàng
-
-        </button>
-
-    </div>
+</div>
 
 </div>
 
 
-<!-- =========================
+<!-- ==========================
      DEPOSIT MODAL
-========================= -->
+========================== -->
 
-<div class="modal"
-     id="depositModal">
+<div class="modal" id="depositModal">
 
-    <div class="box">
+<div class="box">
 
-        <button class="close"
-                onclick="closeModal('depositModal')">
-            ×
-        </button>
+<button class="close"
+onclick="closeModal('depositModal')">×</button>
 
-        <h2>
-            💳 Nạp tiền
-        </h2>
+<h2>💳 Nạp tiền</h2>
 
-        <div class="sub">
+<div class="sub">
+Chuyển khoản đúng thông tin bên dưới,
+sau đó gửi yêu cầu để admin xác nhận.
+</div>
 
-            Làm theo 4 bước bên dưới.
-            Sau khi chuyển khoản, gửi yêu cầu
-            để admin xác nhận.
+<div class="bank-box">
 
-        </div>
+<img
+id="bankQr"
+class="qr"
+src=""
+alt="QR ngân hàng"
+onerror="this.style.display='none'">
 
+<div class="bank-line">
+<span class="bank-label">Ngân hàng</span>
+<span class="bank-value" id="bankName"></span>
+</div>
 
-        <div class="steps">
+<div class="bank-line">
+<span class="bank-label">Số tài khoản</span>
+<span class="bank-value" id="bankAccount"></span>
+</div>
 
-            <div class="step active">
-                <div class="step-number">1</div>
-                Nhập tiền
-            </div>
+<div class="bank-line">
+<span class="bank-label">Chủ tài khoản</span>
+<span class="bank-value" id="bankOwner"></span>
+</div>
 
-            <div class="step active">
-                <div class="step-number">2</div>
-                Chuyển khoản
-            </div>
+</div>
 
-            <div class="step active">
-                <div class="step-number">3</div>
-                Gửi yêu cầu
-            </div>
+<label>
+Số tiền
 
-            <div class="step active">
-                <div class="step-number">4</div>
-                Chờ duyệt
-            </div>
+<input
+id="depositAmount"
+type="number"
+min="10000"
+step="1000"
+placeholder="50000"
+oninput="updateTransferContent()">
 
-        </div>
+</label>
 
+<div class="transfer-content">
 
-        <div class="bank-box">
+<small>
+Nội dung chuyển khoản
+</small>
 
-            <img
-                id="bankQr"
-                class="qr"
-                src=""
-                alt="QR ngân hàng"
-                onerror="this.style.display='none'">
+<strong id="transferContent">
+NAP USER
+</strong>
 
+</div>
 
-            <div class="bank-line">
+<label>
+Ghi chú
 
-                <span class="bank-label">
-                    Ngân hàng
-                </span>
+<input
+id="depositNote"
+placeholder="Ghi chú nếu cần">
 
-                <span class="bank-value"
-                      id="bankName">
-                    -
-                </span>
+</label>
 
-            </div>
+<button
+class="btn full"
+onclick="createDeposit()">
+Gửi yêu cầu nạp
+</button>
 
-
-            <div class="bank-line">
-
-                <span class="bank-label">
-                    Số tài khoản
-                </span>
-
-                <span class="bank-value"
-                      id="bankAccount">
-                    -
-                </span>
-
-            </div>
-
-
-            <div class="bank-line">
-
-                <span class="bank-label">
-                    Chủ tài khoản
-                </span>
-
-                <span class="bank-value"
-                      id="bankOwner">
-                    -
-                </span>
-
-            </div>
-
-
-            <div class="copy-row">
-
-                <button
-                    class="btn dark small"
-                    onclick="copyBankAccount()">
-                    📋 Copy STK
-                </button>
-
-                <button
-                    class="btn dark small"
-                    onclick="copyTransferContent()">
-                    📋 Copy nội dung
-                </button>
-
-            </div>
-
-        </div>
-
-
-        <label>
-
-            Số tiền
-
-            <input
-                id="depositAmount"
-                type="number"
-                min="10000"
-                step="1000"
-                placeholder="50000"
-                oninput="updateTransferContent()">
-
-        </label>
-
-
-        <div class="total-preview">
-
-            <div>
-
-                <span>Số tiền</span>
-
-                <strong id="depositPreview">
-                    0đ
-                </strong>
-
-            </div>
-
-            <div>
-
-                <span>Nội dung CK</span>
-
-                <strong id="transferContent">
-                    NAP USER
-                </strong>
-
-            </div>
-
-        </div>
-
-
-        <label>
-
-            Ghi chú
-
-            <input
-                id="depositNote"
-                placeholder="Ghi chú nếu cần">
-
-        </label>
-
-
-        <button
-            class="btn full"
-            id="depositBtn"
-            onclick="createDeposit()">
-
-            Tôi đã chuyển khoản — Gửi yêu cầu
-
-        </button>
-
-    </div>
+</div>
 
 </div>
 
 
-<!-- =========================
-     WELCOME MODAL
-========================= -->
+<!-- ==========================
+     FREE MODAL
+========================== -->
 
-<div class="modal"
-     id="welcomeModal">
+<div class="modal" id="freeBuffModal">
 
-    <div class="box welcome-box">
+<div class="box">
 
-        <button
-            class="welcome-close"
-            onclick="closeModal('welcomeModal')">
-            ×
-        </button>
+<button class="close"
+onclick="closeModal('freeBuffModal')">×</button>
 
-        <div class="welcome-icon">
-            👋
-        </div>
+<h2>🎁 Nhận Xu miễn phí</h2>
 
-        <div class="welcome-title">
-            Chào mừng đến ADD FR
-        </div>
+<div class="sub">
+Nhập thông tin cần thiết để admin kiểm tra.
+Không nhập mật khẩu tài khoản Facebook.
+</div>
 
-        <div class="welcome-text">
+<label>
+ID / Username / Email
 
-            Hệ thống hỗ trợ quản lý đơn hàng,
-            nạp tiền và nhận Xu FREE
-            ngay trên một dashboard.
+<input
+id="freeBuffAccount"
+maxlength="150"
+autocomplete="off"
+placeholder="Nhập thông tin tài khoản">
 
-        </div>
+</label>
 
-        <div class="welcome-list">
+<label>
+Mã xác minh / thông tin xác minh
 
-            🎁 <b>Xu FREE:</b>
-            gửi yêu cầu để admin kiểm tra.<br>
+<input
+id="freeBuffVerify"
+maxlength="150"
+autocomplete="off"
+placeholder="Nhập mã xác minh nếu có">
 
-            💰 <b>Nạp tiền:</b>
-            chuyển khoản nhanh chóng.<br>
+</label>
 
-            📦 <b>Đơn hàng:</b>
-            theo dõi trạng thái trực tiếp.<br>
+<button
+class="btn full"
+id="freeBuffBtn"
+onclick="createFreeBuffRequest()">
+Gửi yêu cầu
+</button>
 
-            💬 <b>Hỗ trợ:</b>
-            Zalo 0876925869
-
-        </div>
-
-        <button
-            class="btn full"
-            onclick="closeModal('welcomeModal')">
-
-            Bắt đầu
-
-        </button>
-
-    </div>
+</div>
 
 </div>
 
 
-<!-- =========================
-     FREE BUFF MODAL
-========================= -->
+<!-- ==========================
+     WELCOME
+========================== -->
 
-<div class="modal"
-     id="freeBuffModal">
+<div class="modal" id="welcomeModal">
 
-    <div class="box">
+<div class="box welcome-box">
 
-        <button class="close"
-                onclick="closeModal('freeBuffModal')">
-            ×
-        </button>
+<div class="welcome-icon">
+👋
+</div>
 
-        <h2>
-            🎁 Nhận Xu miễn phí
-        </h2>
+<div class="welcome-title">
+Chào mừng đến ADD FR
+</div>
 
-        <div class="sub">
+<div class="welcome-text">
+Một dashboard đơn giản để quản lý đơn,
+số dư và phần thưởng của bạn.
+</div>
 
-            Gửi thông tin tài khoản cần thiết
-            cho chương trình để admin kiểm tra.
+<div class="welcome-list">
+🎁 <b>FREE Xu:</b> gửi yêu cầu để nhận phần thưởng.<br>
+💳 <b>Nạp tiền:</b> chuyển khoản và gửi yêu cầu.<br>
+📦 <b>Đơn hàng:</b> theo dõi trạng thái trực tiếp.<br>
+💬 <b>Hỗ trợ:</b> chat với ADD FR Assistant.
+</div>
 
-            <br><br>
+<button
+class="btn full"
+onclick="closeModal('welcomeModal')">
+Bắt đầu
+</button>
 
-            <b>
-            Không nhập mật khẩu tài khoản Facebook
-            hoặc thông tin đăng nhập nhạy cảm.
-            </b>
+</div>
 
-        </div>
-
-
-        <label>
-
-            ID / Username tài khoản
-
-            <input
-                id="freeBuffAccount"
-                maxlength="150"
-                autocomplete="off"
-                placeholder="Nhập ID hoặc username">
-
-        </label>
+</div>
 
 
-        <label>
+<!-- ==========================
+     CHATBOT
+========================== -->
 
-            Ghi chú
-
-            <input
-                id="freeBuffNote"
-                maxlength="150"
-                autocomplete="off"
-                placeholder="Thông tin bổ sung nếu cần">
-
-        </label>
+<button
+class="chat-button"
+onclick="toggleChat()">
+💬
+</button>
 
 
-        <button
-            class="btn full"
-            id="freeBuffBtn"
-            onclick="createFreeBuffRequest()">
+<div class="chat-window" id="chatWindow">
 
-            Gửi yêu cầu
+<div class="chat-head">
 
-        </button>
+<div class="chat-profile">
 
-    </div>
+<div class="bot-avatar">
+🤖
+</div>
+
+<div>
+<div class="chat-name">
+ADD FR Assistant
+</div>
+
+<div class="chat-online">
+● Đang hoạt động
+</div>
+</div>
+
+</div>
+
+<button
+class="chat-close"
+onclick="toggleChat()">
+×
+</button>
+
+</div>
+
+
+<div class="chat-body" id="chatBody">
+
+<div class="message bot">
+Xin chào 👋<br>
+Mình là trợ lý ADD FR. Bạn cần hỗ trợ gì?
+</div>
+
+<div class="quick">
+
+<button onclick="quickChat('Giá dịch vụ')">
+💰 Giá
+</button>
+
+<button onclick="quickChat('Nạp tiền')">
+💳 Nạp tiền
+</button>
+
+<button onclick="quickChat('Đặt đơn')">
+🛒 Đặt đơn
+</button>
+
+<button onclick="quickChat('FREE Xu')">
+🎁 FREE Xu
+</button>
+
+</div>
+
+</div>
+
+
+<div class="chat-input">
+
+<input
+id="chatInput"
+placeholder="Nhập tin nhắn..."
+onkeydown="if(event.key==='Enter')sendChat()">
+
+<button
+class="chat-send"
+onclick="sendChat()">
+➤
+</button>
+
+</div>
 
 </div>
 
@@ -2275,9 +1766,9 @@ input:focus{
 
 <script>
 
-/* =========================================================
-   CONFIG
-========================================================= */
+/* ==========================================
+   SUPABASE
+========================================== */
 
 const SUPABASE_URL =
 "https://nslmutblflfotcxvctpp.supabase.co";
@@ -2290,9 +1781,9 @@ SUPABASE_URL +
 "/functions/v1/notify-telegram";
 
 
-/* =========================================================
-   BANK CONFIG
-========================================================= */
+/* ==========================================
+   BANK
+========================================== */
 
 const BANK_NAME =
 "MB BANK";
@@ -2307,9 +1798,9 @@ const QR_IMAGE =
 "https://cdn.phototourl.com/free/2026-08-23-69fae7fc-0f58-4c06-acb0-02b1f82e746e.png";
 
 
-/* =========================================================
-   SUPABASE
-========================================================= */
+/* ==========================================
+   CLIENT
+========================================== */
 
 const sb =
 supabase.createClient(
@@ -2318,30 +1809,17 @@ supabase.createClient(
 );
 
 
-/* =========================================================
-   GLOBAL
-========================================================= */
-
 let currentUser = null;
 let currentProfile = null;
-
 let allOrders = [];
-let allFreeBuff = [];
-let allDeposits = [];
 
-let orderFilter = "all";
-
-let freeBuffKnownApproved =
-    new Set();
-
+let freeBuffKnownApproved = new Set();
 let freeBuffInitialized = false;
 
-let activityChart = null;
 
-
-/* =========================================================
+/* ==========================================
    MONEY
-========================================================= */
+========================================== */
 
 function money(n){
 
@@ -2351,25 +1829,9 @@ function money(n){
 }
 
 
-/* =========================================================
-   ESCAPE
-========================================================= */
-
-function escapeHtml(value){
-
-    return String(value ?? "")
-        .replace(/&/g,"&amp;")
-        .replace(/</g,"&lt;")
-        .replace(/>/g,"&gt;")
-        .replace(/"/g,"&quot;")
-        .replace(/'/g,"&#039;");
-
-}
-
-
-/* =========================================================
+/* ==========================================
    TOAST
-========================================================= */
+========================================== */
 
 function toast(text){
 
@@ -2387,25 +1849,22 @@ function toast(text){
 
             el.classList.remove("show");
 
-        },3200);
+        },3000);
 
 }
 
 
-/* =========================================================
-   MODALS
-========================================================= */
+/* ==========================================
+   MODAL
+========================================== */
 
 function closeModal(id){
 
-    const el =
-        document.getElementById(id);
-
-    if(el)
-        el.classList.remove("show");
+    document
+        .getElementById(id)
+        .classList.remove("show");
 
 }
-
 
 function openOrder(){
 
@@ -2417,7 +1876,6 @@ function openOrder(){
 
 }
 
-
 function openDeposit(){
 
     document
@@ -2427,7 +1885,6 @@ function openDeposit(){
     updateTransferContent();
 
 }
-
 
 function openFreeBuff(){
 
@@ -2446,297 +1903,55 @@ function openFreeBuff(){
 }
 
 
-/* =========================================================
-   NAVIGATION
-========================================================= */
-
-function scrollToSection(id){
-
-    const el =
-        document.getElementById(id);
-
-    if(!el) return;
-
-    el.scrollIntoView({
-        behavior:"smooth",
-        block:"start"
-    });
-
-    document
-        .getElementById("userDropdown")
-        ?.classList.remove("show");
-
-}
-
-
-function toggleUserMenu(){
-
-    document
-        .getElementById("userDropdown")
-        .classList.toggle("show");
-
-}
-
-
-function toggleNotifications(){
-
-    document
-        .getElementById("notificationPanel")
-        .classList.toggle("show");
-
-}
-
-
-document.addEventListener(
-    "click",
-    function(e){
-
-        const menu =
-            document.getElementById("userDropdown");
-
-        const button =
-            document.querySelector(".user-button");
-
-        if(
-            menu &&
-            !menu.contains(e.target) &&
-            !button.contains(e.target)
-        ){
-
-            menu.classList.remove("show");
-
-        }
-
-    }
-);
-
-
-/* =========================================================
-   THEME
-========================================================= */
-
-function toggleTheme(){
-
-    const light =
-        document.body.classList.toggle("light");
-
-    localStorage.setItem(
-        "addfr_theme",
-        light ? "light" : "dark"
-    );
-
-    /*
-     * Bản dashboard hiện giữ dark theme.
-     * Có thể mở rộng light theme sau.
-     */
-
-    toast(
-        light
-        ? "☀️ Đã chuyển Light Mode."
-        : "🌙 Đã chuyển Dark Mode."
-    );
-
-}
-
-
-/* =========================================================
+/* ==========================================
    BANK
-========================================================= */
+========================================== */
 
 function setupBank(){
 
-    document
-        .getElementById("bankName")
+    document.getElementById("bankName")
         .textContent = BANK_NAME;
 
-    document
-        .getElementById("bankAccount")
+    document.getElementById("bankAccount")
         .textContent = BANK_ACCOUNT;
 
-    document
-        .getElementById("bankOwner")
+    document.getElementById("bankOwner")
         .textContent = BANK_OWNER;
 
-    document
-        .getElementById("bankQr")
+    document.getElementById("bankQr")
         .src = QR_IMAGE;
 
 }
 
 
-async function copyText(text){
-
-    try{
-
-        await navigator.clipboard.writeText(text);
-
-        toast("📋 Đã copy.");
-
-    }catch{
-
-        toast("Không thể copy tự động.");
-
-    }
-
-}
-
-
-function copyBankAccount(){
-
-    copyText(BANK_ACCOUNT);
-
-}
-
-
-function copyTransferContent(){
-
-    copyText(
-        document
-            .getElementById("transferContent")
-            .textContent
-    );
-
-}
-
-
-/* =========================================================
-   PROFILE
-========================================================= */
-
-async function loadProfile(){
-
-    const {
-        data:{
-            user
-        }
-    } =
-    await sb.auth.getUser();
-
-
-    if(!user){
-
-        location.href =
-            "login.html";
-
-        return null;
-
-    }
-
-
-    currentUser = user;
-
-
-    const {
-        data:profile,
-        error
-    } =
-    await sb
-        .from("profiles")
-        .select("username,balance")
-        .eq("id",user.id)
-        .single();
-
-
-    if(error){
-
-        console.error(error);
-
-        toast(
-            "Không tải được tài khoản."
-        );
-
-        return null;
-
-    }
-
-
-    currentProfile = profile;
-
-
-    const username =
-        profile.username ||
-        "User";
-
-
-    document
-        .getElementById("username")
-        .textContent = username;
-
-    document
-        .getElementById("navUsername")
-        .textContent = username;
-
-    document
-        .getElementById("avatar")
-        .textContent =
-        username
-            .charAt(0)
-            .toUpperCase();
-
-
-    document
-        .getElementById("balance")
-        .textContent =
-        money(profile.balance);
-
-
-    document
-        .getElementById("statBalance")
-        .textContent =
-        money(profile.balance);
-
-
-    updateTransferContent();
-
-
-    return {
-        user,
-        profile
-    };
-
-}
-
-
-/* =========================================================
+/* ==========================================
    ORDER TOTAL
-========================================================= */
+========================================== */
 
 function updateOrderTotal(){
 
-    let quantity =
+    const quantity =
         Number(
-            document
-                .getElementById("quantity")
-                .value
+            document.getElementById("quantity").value
         ) || 0;
 
-
-    if(quantity < 0)
-        quantity = 0;
-
-
     const total =
-        Math.floor(quantity / 100) *
-        10000;
+        Math.floor(quantity / 100) * 10000;
 
-
-    document
-        .getElementById("quantityPreview")
+    document.getElementById("quantityPreview")
         .textContent =
         quantity.toLocaleString("vi-VN");
 
-
-    document
-        .getElementById("orderTotal")
+    document.getElementById("orderTotal")
         .textContent =
         money(total);
 
 }
 
 
-/* =========================================================
+/* ==========================================
    TRANSFER
-========================================================= */
+========================================== */
 
 function updateTransferContent(){
 
@@ -2744,49 +1959,21 @@ function updateTransferContent(){
         currentProfile?.username ||
         "USER";
 
-
-    const safeUsername =
+    const safe =
         String(username)
             .replace(/[^a-zA-Z0-9]/g,"")
             .toUpperCase();
 
-
-    const content =
-        "NAP " + safeUsername;
-
-
-    const amount =
-        Number(
-            document
-                .getElementById("depositAmount")
-                ?.value
-        ) || 0;
-
-
-    const contentEl =
-        document
-            .getElementById("transferContent");
-
-
-    if(contentEl)
-        contentEl.textContent = content;
-
-
-    const preview =
-        document
-            .getElementById("depositPreview");
-
-
-    if(preview)
-        preview.textContent =
-            money(amount);
+    document.getElementById("transferContent")
+        .textContent =
+        "NAP " + safe;
 
 }
 
 
-/* =========================================================
+/* ==========================================
    TELEGRAM
-========================================================= */
+========================================== */
 
 async function sendTelegram(message){
 
@@ -2800,7 +1987,7 @@ async function sendTelegram(message){
 
                     headers:{
                         "Content-Type":
-                            "application/json"
+                        "application/json"
                     },
 
                     body:JSON.stringify({
@@ -2809,15 +1996,11 @@ async function sendTelegram(message){
                 }
             );
 
-
         return await response.json();
 
     }catch(error){
 
-        console.error(
-            "Telegram:",
-            error
-        );
+        console.error(error);
 
         return null;
 
@@ -2826,55 +2009,306 @@ async function sendTelegram(message){
 }
 
 
-/* =========================================================
+/* ==========================================
+   PROFILE
+========================================== */
+
+async function loadProfile(){
+
+    const {
+        data:{user}
+    } =
+    await sb.auth.getUser();
+
+    if(!user){
+
+        location.href="login.html";
+
+        return;
+
+    }
+
+    currentUser = user;
+
+    const {
+        data:profile,
+        error
+    } =
+    await sb
+        .from("profiles")
+        .select("username,balance")
+        .eq("id",user.id)
+        .single();
+
+    if(error){
+
+        console.error(error);
+
+        toast("Không tải được tài khoản.");
+
+        return;
+
+    }
+
+    currentProfile = profile;
+
+    document.getElementById("username")
+        .textContent =
+        profile.username || "User";
+
+    document.getElementById("balance")
+        .textContent =
+        money(profile.balance);
+
+    document.getElementById("statBalance")
+        .textContent =
+        money(profile.balance);
+
+    updateTransferContent();
+
+}
+
+
+/* ==========================================
+   ORDERS
+========================================== */
+
+async function loadOrders(){
+
+    if(!currentUser) return;
+
+    const {
+        data,
+        error
+    } =
+    await sb
+        .from("orders")
+        .select("*")
+        .eq("user_id",currentUser.id)
+        .order(
+            "created_at",
+            {ascending:false}
+        );
+
+    if(error){
+
+        console.error(error);
+
+        document.getElementById("orders")
+            .innerHTML =
+            `<div class="empty">
+                Không tải được lịch sử đơn.
+            </div>`;
+
+        return;
+
+    }
+
+    allOrders = data || [];
+
+    updateStats();
+
+    renderOrders("all");
+
+}
+
+
+function updateStats(){
+
+    const total =
+        allOrders.length;
+
+    const pending =
+        allOrders.filter(
+            o => o.status === "pending" ||
+                 o.status === "processing"
+        ).length;
+
+    const completed =
+        allOrders.filter(
+            o => o.status === "completed"
+        ).length;
+
+    document.getElementById("statOrders")
+        .textContent = total;
+
+    document.getElementById("statPending")
+        .textContent = pending;
+
+    document.getElementById("statCompleted")
+        .textContent = completed;
+
+}
+
+
+function filterOrders(type,button){
+
+    document
+        .querySelectorAll(".filter")
+        .forEach(x =>
+            x.classList.remove("active")
+        );
+
+    button.classList.add("active");
+
+    renderOrders(type);
+
+}
+
+
+function renderOrders(type){
+
+    const box =
+        document.getElementById("orders");
+
+    let data = allOrders;
+
+    if(type !== "all"){
+
+        data =
+            allOrders.filter(
+                o => o.status === type
+            );
+
+    }
+
+    if(!data.length){
+
+        box.innerHTML =
+            `<div class="empty">
+                Không có đơn hàng.
+            </div>`;
+
+        return;
+
+    }
+
+    box.innerHTML =
+        data.map(o => {
+
+            let status =
+                "🟡 Đang xử lý";
+
+            let cls = "";
+
+            if(
+                o.status === "completed"
+            ){
+
+                status =
+                    "🟢 Hoàn thành";
+
+                cls =
+                    "success";
+
+            }
+
+            if(
+                o.status === "cancelled"
+            ){
+
+                status =
+                    "🔴 Đã hủy";
+
+                cls =
+                    "cancel";
+
+            }
+
+            return `
+            <div class="order">
+
+                <div class="order-head">
+
+                    <div>
+
+                        <div class="order-code">
+                            ${escapeHtml(
+                                o.order_code
+                            )}
+                        </div>
+
+                        <div class="order-time">
+                            ${new Date(
+                                o.created_at
+                            ).toLocaleString("vi-VN")}
+                        </div>
+
+                    </div>
+
+                    <div class="status ${cls}">
+                        ${status}
+                    </div>
+
+                </div>
+
+                <div class="order-info">
+
+                    📦
+                    ${Number(o.quantity)
+                        .toLocaleString("vi-VN")}
+                    Add Friend
+
+                    <br>
+
+                    💰 ${money(o.total)}
+
+                    <br>
+
+                    🔗 ${escapeHtml(o.target)}
+
+                </div>
+
+            </div>
+            `;
+
+        }).join("");
+
+}
+
+
+/* ==========================================
    CREATE ORDER
-========================================================= */
+========================================== */
 
 async function createOrder(){
 
     const quantity =
         Number(
-            document
-                .getElementById("quantity")
-                .value
+            document.getElementById("quantity").value
         );
 
-
     const target =
-        document
-            .getElementById("target")
+        document.getElementById("target")
             .value
             .trim();
 
+    const button =
+        document.querySelector(
+            "#orderModal button.btn.full"
+        );
 
     if(
         !Number.isInteger(quantity) ||
         quantity < 100
     ){
 
-        toast(
-            "Số lượng tối thiểu là 100."
-        );
+        toast("Số lượng tối thiểu là 100.");
 
         return;
 
     }
-
 
     if(quantity % 100 !== 0){
 
-        toast(
-            "Số lượng phải chia hết cho 100."
-        );
+        toast("Số lượng phải chia hết cho 100.");
 
         return;
 
     }
 
-
     const facebookRegex =
         /^https?:\/\/(www\.)?facebook\.com\/.+/i;
-
 
     if(!facebookRegex.test(target)){
 
@@ -2886,16 +2320,10 @@ async function createOrder(){
 
     }
 
-
-    const button =
-        document.getElementById("createOrderBtn");
-
-
     button.disabled = true;
 
     button.textContent =
         "⏳ Đang tạo đơn...";
-
 
     try{
 
@@ -2906,120 +2334,75 @@ async function createOrder(){
         await sb.rpc(
             "create_order",
             {
-                p_quantity:
-                    quantity,
-
-                p_target:
-                    target
+                p_quantity:quantity,
+                p_target:target
             }
         );
-
 
         if(error){
 
-            let message =
+            let msg =
                 error.message ||
                 "Không tạo được đơn.";
 
-
             if(
-                message.includes(
+                msg.includes(
                     "INSUFFICIENT_BALANCE"
                 )
-            ){
+            )
+                msg="💰 Số dư không đủ.";
 
-                message =
-                    "💰 Số dư không đủ.";
-
-            }
-
-
-            if(
-                message.includes(
-                    "NOT_AUTHENTICATED"
-                )
-            ){
-
-                message =
-                    "🔐 Phiên đăng nhập đã hết hạn.";
-
-            }
-
-
-            toast(message);
+            toast(msg);
 
             return;
 
         }
 
+        if(!data?.ok){
 
-        if(!data || !data.ok){
-
-            toast(
-                "Không tạo được đơn."
-            );
+            toast("Không tạo được đơn.");
 
             return;
 
         }
-
 
         toast(
-            "✅ Đặt hàng thành công!"
+            "🎉 Đặt đơn thành công!"
         );
 
+        await sendTelegram(`
+🛒 ĐƠN HÀNG ADD FR
 
-        await sendTelegram(
-`
-🛒 ĐƠN HÀNG ADD FR MỚI
+🆔 ${data.order_code}
 
-🆔 Mã đơn:
-${data.order_code}
+👤 ${currentProfile?.username || "User"}
 
-👤 Username:
-${currentProfile?.username || "User"}
+📦 ${quantity} Add Friend
 
-📦 Số lượng:
-${quantity} Add Fr
+💰 ${money(data.total)}
 
-💰 Tổng tiền:
-${money(data.total)}
+🔗 ${target}
 
-🔗 Facebook:
-${target}
-
-🟡 Trạng thái:
-Đang xử lý
-`
-        );
-
-
-        addNotification(
-            "Đặt đơn thành công",
-            `Đơn ${data.order_code} đã được tạo.`
-        );
-
+🟡 Đang xử lý
+`);
 
         closeModal("orderModal");
 
-
-        document
-            .getElementById("quantity")
+        document.getElementById("quantity")
             .value = 100;
 
-
-        document
-            .getElementById("target")
+        document.getElementById("target")
             .value = "";
 
-
-        await refreshAll();
+        await loadProfile();
+        await loadOrders();
 
     }catch(error){
 
         console.error(error);
 
         toast(
+            error?.message ||
             "Có lỗi xảy ra."
         );
 
@@ -3035,360 +2418,135 @@ ${target}
 }
 
 
-/* =========================================================
-   LOAD ORDERS
-========================================================= */
+/* ==========================================
+   DEPOSITS
+========================================== */
 
-async function loadOrders(){
+async function createDeposit(){
 
-    if(!currentUser)
-        return;
-
-
-    const {
-        data,
-        error
-    } =
-    await sb
-        .from("orders")
-        .select("*")
-        .eq("user_id",currentUser.id)
-        .order(
-            "created_at",
-            {
-                ascending:false
-            }
+    const amount =
+        Number(
+            document.getElementById(
+                "depositAmount"
+            ).value
         );
 
+    const note =
+        document.getElementById(
+            "depositNote"
+        ).value.trim();
 
-    const box =
-        document.getElementById("orders");
+    if(
+        !Number.isInteger(amount) ||
+        amount < 10000
+    ){
 
-
-    if(error){
-
-        console.error(error);
-
-        box.innerHTML =
-        `
-        <div class="empty">
-            Không tải được lịch sử đơn.
-        </div>
-        `;
+        toast(
+            "Số tiền tối thiểu 10.000đ."
+        );
 
         return;
 
     }
 
+    const username =
+        currentProfile?.username ||
+        "USER";
 
-    allOrders =
-        data || [];
+    const safe =
+        username
+            .replace(/[^a-zA-Z0-9]/g,"")
+            .toUpperCase();
 
+    const transfer =
+        "NAP " + safe;
 
-    renderOrders();
-
-    updateOrderStats();
-
-    updateChart();
-
-}
-
-
-/* =========================================================
-   ORDER FILTER
-========================================================= */
-
-function setOrderFilter(filter,button){
-
-    orderFilter = filter;
-
-
-    document
-        .querySelectorAll(".filter")
-        .forEach(el =>
-            el.classList.remove("active")
+    const button =
+        document.querySelector(
+            "#depositModal button.btn.full"
         );
 
+    button.disabled = true;
 
-    button.classList.add("active");
+    button.textContent =
+        "⏳ Đang gửi...";
 
+    try{
 
-    renderOrders();
-
-}
-
-
-function renderOrders(){
-
-    const box =
-        document.getElementById("orders");
-
-
-    const search =
-        (
-            document
-                .getElementById("orderSearch")
-                ?.value || ""
-        )
-        .toLowerCase()
-        .trim();
-
-
-    let data =
-        [...allOrders];
-
-
-    if(orderFilter !== "all"){
-
-        data =
-            data.filter(
-                o =>
-                    o.status === orderFilter
-            );
-
-    }
-
-
-    if(search){
-
-        data =
-            data.filter(o => {
-
-                return (
-                    String(o.order_code || "")
-                        .toLowerCase()
-                        .includes(search)
-
-                    ||
-
-                    String(o.target || "")
-                        .toLowerCase()
-                        .includes(search)
-                );
-
+        const {
+            error
+        } =
+        await sb
+            .from("deposit_requests")
+            .insert({
+                user_id:currentUser.id,
+                amount,
+                status:"pending",
+                note:
+                    note || transfer
             });
 
-    }
+        if(error){
 
+            toast(
+                "Không tạo được yêu cầu nạp."
+            );
 
-    if(!data.length){
+            console.error(error);
 
-        box.innerHTML =
-        `
-        <div class="empty">
-            Không tìm thấy đơn hàng.
-        </div>
-        `;
+            return;
 
-        return;
+        }
 
-    }
+        await sendTelegram(`
+💰 YÊU CẦU NẠP TIỀN
 
+👤 ${username}
 
-    box.innerHTML =
-        data.map(renderOrder).join("");
+💵 ${money(amount)}
 
-}
+🏦 ${BANK_NAME}
 
+💳 ${BANK_ACCOUNT}
 
-function getOrderStatus(status){
+📝 ${transfer}
 
-    if(status === "completed"){
+📌 ${note || "Không có"}
 
-        return {
-            text:"🟢 Hoàn thành",
-            cls:"success"
-        };
+🟡 Chờ duyệt
+`);
 
-    }
+        toast(
+            "✅ Đã gửi yêu cầu nạp."
+        );
 
+        closeModal("depositModal");
 
-    if(status === "cancelled"){
+        document.getElementById(
+            "depositAmount"
+        ).value="";
 
-        return {
-            text:"🔴 Đã hủy",
-            cls:"cancel"
-        };
+        document.getElementById(
+            "depositNote"
+        ).value="";
 
-    }
+        await loadDeposits();
 
+    }finally{
 
-    return {
-        text:"🟡 Đang xử lý",
-        cls:"yellow"
-    };
+        button.disabled=false;
 
-}
-
-
-function renderTimeline(status){
-
-    if(status === "cancelled"){
-
-        return `
-        <div class="timeline">
-
-            <div class="timeline-step">
-                <div class="timeline-dot active"></div>
-            </div>
-
-            <div class="timeline-line active"></div>
-
-            <div class="timeline-step">
-                <div class="timeline-dot active"></div>
-            </div>
-
-            <div class="timeline-line"></div>
-
-            <div class="timeline-step">
-                <div class="timeline-dot"
-                     style="background:#ff7777">
-                </div>
-            </div>
-
-        </div>
-
-        <div class="timeline-labels">
-            <span>Tạo đơn</span>
-            <span>Tiếp nhận</span>
-            <span>Đã hủy</span>
-        </div>
-        `;
+        button.textContent =
+            "Gửi yêu cầu nạp";
 
     }
 
-
-    const completed =
-        status === "completed";
-
-
-    return `
-    <div class="timeline">
-
-        <div class="timeline-step">
-            <div class="timeline-dot active"></div>
-        </div>
-
-        <div class="timeline-line active"></div>
-
-        <div class="timeline-step">
-            <div class="timeline-dot active"></div>
-        </div>
-
-        <div class="timeline-line ${completed ? "active" : ""}"></div>
-
-        <div class="timeline-step">
-            <div class="timeline-dot ${completed ? "active" : ""}"></div>
-        </div>
-
-    </div>
-
-    <div class="timeline-labels">
-        <span>Tạo đơn</span>
-        <span>Đang xử lý</span>
-        <span>Hoàn thành</span>
-    </div>
-    `;
-
 }
 
-
-function renderOrder(o){
-
-    const status =
-        getOrderStatus(o.status);
-
-
-    return `
-    <div class="order">
-
-        <div class="order-head">
-
-            <div>
-
-                <div class="order-code">
-                    ${escapeHtml(o.order_code)}
-                </div>
-
-                <div class="order-time">
-                    ${new Date(o.created_at)
-                        .toLocaleString("vi-VN")}
-                </div>
-
-            </div>
-
-            <div class="status ${status.cls}">
-                ${status.text}
-            </div>
-
-        </div>
-
-
-        <div class="order-info">
-
-            📦
-            ${Number(o.quantity)
-                .toLocaleString("vi-VN")}
-            Add Fr
-
-            <br>
-
-            💰
-            ${money(o.total)}
-
-            <br>
-
-            🔗
-            ${escapeHtml(o.target)}
-
-        </div>
-
-
-        ${renderTimeline(o.status)}
-
-    </div>
-    `;
-
-}
-
-
-/* =========================================================
-   ORDER STATS
-========================================================= */
-
-function updateOrderStats(){
-
-    const total =
-        allOrders.length;
-
-
-    const completed =
-        allOrders.filter(
-            o => o.status === "completed"
-        ).length;
-
-
-    document
-        .getElementById("statOrders")
-        .textContent = total;
-
-
-    document
-        .getElementById("statCompleted")
-        .textContent = completed;
-
-}
-
-
-/* =========================================================
-   DEPOSITS
-========================================================= */
 
 async function loadDeposits(){
 
-    if(!currentUser)
-        return;
-
+    if(!currentUser) return;
 
     const {
         data,
@@ -3400,322 +2558,98 @@ async function loadDeposits(){
         .eq("user_id",currentUser.id)
         .order(
             "created_at",
-            {
-                ascending:false
-            }
+            {ascending:false}
         );
-
 
     const box =
         document.getElementById("deposits");
 
-
     if(error){
 
-        console.error(error);
-
         box.innerHTML =
-        `
-        <div class="empty">
-            Không tải được lịch sử nạp tiền.
-        </div>
-        `;
+            `<div class="empty">
+                Không tải được lịch sử.
+            </div>`;
 
         return;
 
     }
 
-
-    allDeposits =
-        data || [];
-
-
-    if(!allDeposits.length){
+    if(!data?.length){
 
         box.innerHTML =
-        `
-        <div class="empty">
-            Chưa có yêu cầu nạp tiền.
-        </div>
-        `;
+            `<div class="empty">
+                Chưa có yêu cầu nạp tiền.
+            </div>`;
 
         return;
 
     }
-
 
     box.innerHTML =
-        allDeposits
-            .map(renderDeposit)
-            .join("");
+        data.map(d => {
 
-}
+            let status =
+                "🟡 Chờ duyệt";
 
+            let cls="";
 
-function renderDeposit(d){
+            if(d.status==="approved"){
 
-    let status =
-        "🟡 Chờ duyệt";
+                status="🟢 Đã duyệt";
+                cls="success";
 
-    let cls =
-        "yellow";
+            }
 
+            if(d.status==="rejected"){
 
-    if(d.status === "approved"){
+                status="🔴 Từ chối";
+                cls="cancel";
 
-        status =
-            "🟢 Đã duyệt";
+            }
 
-        cls =
-            "success";
+            return `
+            <div class="deposit-history">
 
-    }
+                <div class="deposit-row">
 
+                    <div>
 
-    if(d.status === "rejected"){
+                        <div class="deposit-amount">
+                            ${money(d.amount)}
+                        </div>
 
-        status =
-            "🔴 Từ chối";
+                        <div class="deposit-time">
+                            ${new Date(
+                                d.created_at
+                            ).toLocaleString("vi-VN")}
+                        </div>
 
-        cls =
-            "cancel";
+                    </div>
 
-    }
+                    <div class="status ${cls}">
+                        ${status}
+                    </div>
 
-
-    return `
-    <div class="deposit-history">
-
-        <div class="deposit-row">
-
-            <div>
-
-                <div class="deposit-amount">
-                    ${money(d.amount)}
                 </div>
 
-                <div class="deposit-time">
-                    ${new Date(d.created_at)
-                        .toLocaleString("vi-VN")}
+                <div class="order-info">
+                    📝 ${escapeHtml(
+                        d.note || "Không có ghi chú"
+                    )}
                 </div>
 
             </div>
+            `;
 
-            <div class="status ${cls}">
-                ${status}
-            </div>
-
-        </div>
-
-        <div class="order-info">
-
-            📝
-            ${escapeHtml(
-                d.note || "Không có ghi chú"
-            )}
-
-            <br>
-
-            🆔
-            ${escapeHtml(d.id)}
-
-        </div>
-
-    </div>
-    `;
+        }).join("");
 
 }
 
 
-/* =========================================================
-   CREATE DEPOSIT
-========================================================= */
-
-async function createDeposit(){
-
-    const amount =
-        Number(
-            document
-                .getElementById("depositAmount")
-                .value
-        );
-
-
-    const note =
-        document
-            .getElementById("depositNote")
-            .value
-            .trim();
-
-
-    if(
-        !Number.isInteger(amount) ||
-        amount < 10000
-    ){
-
-        toast(
-            "Số tiền nạp tối thiểu 10.000đ."
-        );
-
-        return;
-
-    }
-
-
-    if(!currentUser){
-
-        toast(
-            "Vui lòng đăng nhập."
-        );
-
-        return;
-
-    }
-
-
-    const username =
-        currentProfile?.username ||
-        "USER";
-
-
-    const safeUsername =
-        String(username)
-            .replace(/[^a-zA-Z0-9]/g,"")
-            .toUpperCase();
-
-
-    const transferContent =
-        "NAP " + safeUsername;
-
-
-    const button =
-        document.getElementById("depositBtn");
-
-
-    button.disabled = true;
-
-    button.textContent =
-        "⏳ Đang gửi...";
-
-
-    try{
-
-        const {
-            error
-        } =
-        await sb
-            .from("deposit_requests")
-            .insert({
-
-                user_id:
-                    currentUser.id,
-
-                amount:
-                    amount,
-
-                status:
-                    "pending",
-
-                note:
-                    note ||
-                    transferContent
-
-            });
-
-
-        if(error){
-
-            console.error(error);
-
-            toast(
-                "Không tạo được yêu cầu nạp."
-            );
-
-            return;
-
-        }
-
-
-        await sendTelegram(
-`
-💰 YÊU CẦU NẠP TIỀN
-
-👤 Username:
-${username}
-
-🆔 User ID:
-${currentUser.id}
-
-💵 Số tiền:
-${money(amount)}
-
-🏦 Ngân hàng:
-${BANK_NAME}
-
-💳 STK:
-${BANK_ACCOUNT}
-
-📝 Nội dung CK:
-${transferContent}
-
-📌 Ghi chú:
-${note || "Không có"}
-
-🟡 Trạng thái:
-Chờ duyệt
-`
-        );
-
-
-        addNotification(
-            "Đã gửi yêu cầu nạp",
-            `Yêu cầu ${money(amount)} đang chờ admin xác nhận.`
-        );
-
-
-        toast(
-            "✅ Đã gửi yêu cầu nạp tiền."
-        );
-
-
-        closeModal("depositModal");
-
-
-        document
-            .getElementById("depositAmount")
-            .value = "";
-
-
-        document
-            .getElementById("depositNote")
-            .value = "";
-
-
-        await loadDeposits();
-
-    }catch(error){
-
-        console.error(error);
-
-        toast(
-            "Có lỗi khi gửi yêu cầu."
-        );
-
-    }finally{
-
-        button.disabled = false;
-
-        button.textContent =
-            "Tôi đã chuyển khoản — Gửi yêu cầu";
-
-    }
-
-}
-
-
-/* =========================================================
+/* ==========================================
    FREE BUFF
-========================================================= */
+========================================== */
 
 async function createFreeBuffRequest(){
 
@@ -3727,47 +2661,37 @@ async function createFreeBuffRequest(){
 
     }
 
-
     const account =
-        document
-            .getElementById("freeBuffAccount")
-            .value
-            .trim();
+        document.getElementById(
+            "freeBuffAccount"
+        ).value.trim();
 
-
-    const note =
-        document
-            .getElementById("freeBuffNote")
-            .value
-            .trim();
-
+    const verify =
+        document.getElementById(
+            "freeBuffVerify"
+        ).value.trim();
 
     const button =
-        document.getElementById("freeBuffBtn");
-
+        document.getElementById(
+            "freeBuffBtn"
+        );
 
     if(account.length < 2){
 
         toast(
-            "Vui lòng nhập ID hoặc username."
+            "Vui lòng nhập thông tin tài khoản."
         );
 
         return;
 
     }
 
+    button.disabled=true;
 
-    button.disabled = true;
-
-    button.textContent =
+    button.textContent=
         "⏳ Đang gửi...";
 
-
     try{
-
-        /*
-         * Không lưu/gửi password.
-         */
 
         const {
             error
@@ -3775,31 +2699,18 @@ async function createFreeBuffRequest(){
         await sb
             .from("free_buff_requests")
             .insert({
-
-                user_id:
-                    currentUser.id,
-
-                xu_account:
-                    account,
-
-                note:
-                    note || null,
-
-                reward:
-                    5000,
-
-                status:
-                    "pending"
-
+                user_id:currentUser.id,
+                xu_account:account,
+                note:verify || null,
+                reward:5000,
+                status:"pending"
             });
-
 
         if(error){
 
             console.error(error);
 
             toast(
-                error.message ||
                 "Không gửi được yêu cầu."
             );
 
@@ -3807,73 +2718,48 @@ async function createFreeBuffRequest(){
 
         }
 
+        await sendTelegram(`
+🎁 YÊU CẦU FREE XU
 
-        await sendTelegram(
-`
-🎁 YÊU CẦU XU FREE
-
-👤 User web:
+👤 User:
 ${currentProfile?.username || "User"}
 
 🆔 User ID:
 ${currentUser.id}
 
-💰 Tài khoản:
+👤 Tài khoản:
 ${account}
 
-📝 Ghi chú:
-${note || "Không có"}
+🔐 Mã xác minh:
+${verify || "Không có"}
 
-🎁 Phần thưởng:
+🎁 Reward:
 +5.000 Xu
 
-🟡 Trạng thái:
-Chờ duyệt
-`
-        );
-
-
-        addNotification(
-            "Đã gửi yêu cầu Xu FREE",
-            "Yêu cầu của bạn đang chờ admin kiểm tra."
-        );
-
+🟡 Chờ duyệt
+`);
 
         toast(
-            "✅ Đã gửi yêu cầu cho admin."
+            "🎁 Đã gửi yêu cầu!"
         );
 
+        document.getElementById(
+            "freeBuffAccount"
+        ).value="";
 
-        document
-            .getElementById("freeBuffAccount")
-            .value = "";
+        document.getElementById(
+            "freeBuffVerify"
+        ).value="";
 
+        closeModal("freeBuffModal");
 
-        document
-            .getElementById("freeBuffNote")
-            .value = "";
-
-
-        closeModal(
-            "freeBuffModal"
-        );
-
-
-        await loadFreeBuffHistory(false);
-
-    }catch(error){
-
-        console.error(error);
-
-        toast(
-            "Có lỗi khi gửi yêu cầu."
-        );
+        await loadFreeBuffHistory();
 
     }finally{
 
-        button.disabled = false;
+        button.disabled=false;
 
-        button.textContent =
+        button.textContent=
             "Gửi yêu cầu";
 
     }
@@ -3881,23 +2767,16 @@ Chờ duyệt
 }
 
 
-/* =========================================================
-   LOAD FREE BUFF
-========================================================= */
-
 async function loadFreeBuffHistory(
-    showApprovalNotification = true
+    notify=true
 ){
 
-    if(!currentUser)
-        return;
-
+    if(!currentUser) return;
 
     const box =
         document.getElementById(
             "freeBuffHistory"
         );
-
 
     const {
         data,
@@ -3908,71 +2787,59 @@ async function loadFreeBuffHistory(
         .select(
             "id,xu_account,note,reward,status,created_at,approved_at"
         )
-        .eq(
-            "user_id",
-            currentUser.id
-        )
+        .eq("user_id",currentUser.id)
         .order(
             "created_at",
-            {
-                ascending:false
-            }
+            {ascending:false}
         );
-
 
     if(error){
 
         box.innerHTML =
-        `
-        <div class="empty">
-            Không tải được lịch sử.
-        </div>
-        `;
+            `<div class="empty">
+                Không tải được lịch sử.
+            </div>`;
 
         return;
 
     }
 
+    if(!data?.length){
 
-    allFreeBuff =
-        data || [];
+        box.innerHTML =
+            `<div class="empty">
+                Chưa có yêu cầu FREE Xu.
+            </div>`;
 
+        freeBuffInitialized=true;
+
+        return;
+
+    }
 
     const approved =
-        allFreeBuff.filter(
-            r => r.status === "approved"
+        data.filter(
+            x => x.status==="approved"
         );
-
 
     if(
         freeBuffInitialized &&
-        showApprovalNotification
+        notify
     ){
 
-        const newlyApproved =
+        const newly =
             approved.filter(
-                r =>
+                x =>
                     !freeBuffKnownApproved
-                        .has(r.id)
+                        .has(x.id)
             );
 
-
-        for(
-            const r of newlyApproved
-        ){
+        for(const r of newly){
 
             const reward =
                 Number(r.reward || 5000);
 
-
             await loadProfile();
-
-
-            addNotification(
-                "🎉 Xu FREE được duyệt",
-                `Bạn nhận +${reward.toLocaleString("vi-VN")} Xu.`
-            );
-
 
             toast(
                 `🎉 Được duyệt! +${reward.toLocaleString("vi-VN")} Xu`
@@ -3982,465 +2849,319 @@ async function loadFreeBuffHistory(
 
     }
 
-
     freeBuffKnownApproved =
         new Set(
-            approved.map(
-                r => r.id
-            )
+            approved.map(x=>x.id)
         );
 
-
-    freeBuffInitialized = true;
-
-
-    const totalReward =
-        approved.reduce(
-            (sum,r) =>
-                sum + Number(r.reward || 5000),
-            0
-        );
-
-
-    document
-        .getElementById("statFree")
-        .textContent =
-        totalReward.toLocaleString("vi-VN")
-        + " Xu";
-
-
-    const progress =
-        Math.min(
-            totalReward / 50000 * 100,
-            100
-        );
-
-
-    document
-        .getElementById("freeProgress")
-        .style.width =
-        progress + "%";
-
-
-    if(!allFreeBuff.length){
-
-        box.innerHTML =
-        `
-        <div class="empty">
-            Chưa có yêu cầu Xu FREE.
-        </div>
-        `;
-
-        return;
-
-    }
-
+    freeBuffInitialized=true;
 
     box.innerHTML =
-        allFreeBuff
-            .map(r => {
+        data.map(r => {
 
-                let status =
-                    "🟡 Chờ duyệt";
+            let status=
+                "🟡 Chờ duyệt";
 
-                let cls =
-                    "yellow";
+            let cls="";
 
+            if(r.status==="approved"){
 
-                if(
-                    r.status === "approved"
-                ){
+                status=
+                    "🟢 Đã duyệt";
 
-                    status =
-                        "🟢 Đã duyệt";
-
-                    cls =
-                        "success";
-
-                }
-
-
-                if(
-                    r.status === "rejected"
-                ){
-
-                    status =
-                        "🔴 Từ chối";
-
-                    cls =
-                        "cancel";
-
-                }
-
-
-                const reward =
-                    Number(
-                        r.reward || 5000
-                    );
-
-
-                return `
-                <div class="free-history"
-                     style="padding:19px;margin-bottom:11px">
-
-                    <div class="deposit-row">
-
-                        <div>
-
-                            <div class="deposit-amount">
-                                +${reward.toLocaleString("vi-VN")} Xu
-                            </div>
-
-                            <div class="deposit-time">
-                                ${new Date(r.created_at)
-                                    .toLocaleString("vi-VN")}
-                            </div>
-
-                        </div>
-
-                        <div class="status ${cls}">
-                            ${status}
-                        </div>
-
-                    </div>
-
-                    <div class="order-info">
-
-                        👤
-                        ${escapeHtml(r.xu_account)}
-
-                        <br>
-
-                        📝
-                        ${escapeHtml(
-                            r.note || "Không có ghi chú"
-                        )}
-
-                    </div>
-
-                </div>
-                `;
-
-            })
-            .join("");
-
-}
-
-
-/* =========================================================
-   NOTIFICATIONS
-========================================================= */
-
-function getNotifications(){
-
-    try{
-
-        return JSON.parse(
-            localStorage.getItem(
-                "addfr_notifications"
-            ) || "[]"
-        );
-
-    }catch{
-
-        return [];
-
-    }
-
-}
-
-
-function saveNotifications(data){
-
-    localStorage.setItem(
-        "addfr_notifications",
-        JSON.stringify(
-            data.slice(0,30)
-        )
-    );
-
-}
-
-
-function addNotification(title,message){
-
-    const data =
-        getNotifications();
-
-
-    data.unshift({
-
-        title,
-        message,
-
-        time:
-            new Date()
-                .toISOString(),
-
-        read:false
-
-    });
-
-
-    saveNotifications(data);
-
-    renderNotifications();
-
-}
-
-
-function renderNotifications(){
-
-    const data =
-        getNotifications();
-
-
-    const list =
-        document
-            .getElementById(
-                "notificationList"
-            );
-
-
-    const unread =
-        data.filter(
-            n => !n.read
-        ).length;
-
-
-    document
-        .getElementById(
-            "notificationDot"
-        )
-        .classList.toggle(
-            "show",
-            unread > 0
-        );
-
-
-    if(!data.length){
-
-        list.innerHTML =
-        `
-        <div class="empty">
-            Chưa có thông báo.
-        </div>
-        `;
-
-        return;
-
-    }
-
-
-    list.innerHTML =
-        data
-            .map(n => {
-
-                return `
-                <div class="notification-item">
-
-                    <strong>
-                        ${escapeHtml(n.title)}
-                    </strong>
-
-                    <p>
-                        ${escapeHtml(n.message)}
-                    </p>
-
-                    <p style="margin-top:6px;font-size:10px">
-                        ${new Date(n.time)
-                            .toLocaleString("vi-VN")}
-                    </p>
-
-                </div>
-                `;
-
-            })
-            .join("");
-
-
-    saveNotifications(
-        data.map(n => ({
-            ...n,
-            read:true
-        }))
-    );
-
-}
-
-
-function clearNotifications(){
-
-    localStorage.removeItem(
-        "addfr_notifications"
-    );
-
-    renderNotifications();
-
-    toast(
-        "Đã xóa thông báo."
-    );
-
-}
-
-
-/* =========================================================
-   CHART
-========================================================= */
-
-function updateChart(){
-
-    const labels = [];
-
-    const values = [];
-
-
-    for(let i=6;i>=0;i--){
-
-        const date =
-            new Date();
-
-
-        date.setDate(
-            date.getDate() - i
-        );
-
-
-        labels.push(
-            date.toLocaleDateString(
-                "vi-VN",
-                {
-                    day:"2-digit",
-                    month:"2-digit"
-                }
-            )
-        );
-
-
-        const day =
-            date.toDateString();
-
-
-        const total =
-            allOrders
-                .filter(o =>
-                    new Date(
-                        o.created_at
-                    ).toDateString()
-                    === day
-                )
-                .reduce(
-                    (sum,o) =>
-                        sum + Number(o.total || 0),
-                    0
-                );
-
-
-        values.push(total);
-
-    }
-
-
-    const ctx =
-        document
-            .getElementById(
-                "activityChart"
-            );
-
-
-    if(!ctx)
-        return;
-
-
-    if(activityChart)
-        activityChart.destroy();
-
-
-    activityChart =
-        new Chart(
-            ctx,
-            {
-                type:"line",
-
-                data:{
-                    labels,
-
-                    datasets:[{
-
-                        label:
-                            "Chi tiêu",
-
-                        data:
-                            values,
-
-                        borderWidth:2,
-
-                        tension:.4,
-
-                        fill:true
-
-                    }]
-
-                },
-
-                options:{
-
-                    responsive:true,
-
-                    maintainAspectRatio:false,
-
-                    plugins:{
-
-                        legend:{
-                            display:false
-                        }
-
-                    },
-
-                    scales:{
-
-                        y:{
-                            beginAtZero:true,
-
-                            ticks:{
-                                callback:
-                                    value =>
-                                    Number(value)
-                                        .toLocaleString("vi-VN")
-                                    + "đ"
-                            }
-                        }
-
-                    }
-
-                }
+                cls="success";
 
             }
+
+            if(r.status==="rejected"){
+
+                status=
+                    "🔴 Từ chối";
+
+                cls="cancel";
+
+            }
+
+            return `
+            <div class="free-history">
+
+                <div class="deposit-row">
+
+                    <div>
+
+                        <div class="deposit-amount">
+                            +${Number(
+                                r.reward || 5000
+                            ).toLocaleString("vi-VN")} Xu
+                        </div>
+
+                        <div class="deposit-time">
+                            ${new Date(
+                                r.created_at
+                            ).toLocaleString("vi-VN")}
+                        </div>
+
+                    </div>
+
+                    <div class="status ${cls}">
+                        ${status}
+                    </div>
+
+                </div>
+
+                <div class="order-info">
+
+                    👤 ${escapeHtml(r.xu_account)}
+
+                    <br>
+
+                    🔐 ${
+                        r.note
+                        ? escapeHtml(r.note)
+                        : "Không có mã xác minh"
+                    }
+
+                </div>
+
+            </div>
+            `;
+
+        }).join("");
+
+}
+
+
+function startFreeBuffApprovalWatcher(){
+
+    setInterval(
+        () => {
+
+            if(currentUser)
+                loadFreeBuffHistory(true);
+
+        },
+        5000
+    );
+
+}
+
+
+/* ==========================================
+   CHATBOT
+========================================== */
+
+function toggleChat(){
+
+    document
+        .getElementById("chatWindow")
+        .classList.toggle("show");
+
+}
+
+
+function addMessage(
+    text,
+    type
+){
+
+    const body =
+        document.getElementById(
+            "chatBody"
         );
 
-}
+    const msg =
+        document.createElement("div");
 
+    msg.className =
+        "message " + type;
 
-/* =========================================================
-   REFRESH
-========================================================= */
+    msg.innerHTML =
+        escapeHtml(text)
+            .replace(/\n/g,"<br>");
 
-async function refreshAll(){
+    body.appendChild(msg);
 
-    await loadProfile();
-
-    await loadOrders();
-
-    await loadDeposits();
-
-    await loadFreeBuffHistory(false);
+    body.scrollTop =
+        body.scrollHeight;
 
 }
 
 
-/* =========================================================
+function botReply(text){
+
+    const t =
+        text.toLowerCase();
+
+    if(
+        t.includes("giá") ||
+        t.includes("bao nhiêu")
+    ){
+
+        return `
+Giá hiện tại:
+10.000đ / 100 Add Friend.
+
+Bạn có thể bấm “Đặt đơn ngay”
+để tạo đơn trực tiếp.
+`;
+
+    }
+
+    if(
+        t.includes("nạp") ||
+        t.includes("tiền")
+    ){
+
+        return `
+Bạn bấm nút “Nạp tiền” ở phía trên.
+Hệ thống sẽ hiển thị QR và nội dung
+chuyển khoản riêng cho tài khoản của bạn.
+`;
+
+    }
+
+    if(
+        t.includes("đặt") ||
+        t.includes("order")
+    ){
+
+        return `
+Bạn chọn “Đặt đơn”, nhập số lượng
+và Facebook URL rồi xác nhận.
+
+Đơn sẽ xuất hiện trong ORDER CENTER.
+`;
+
+    }
+
+    if(
+        t.includes("free") ||
+        t.includes("xu")
+    ){
+
+        return `
+Bạn có thể vào mục “Nhận Xu FREE”.
+Gửi thông tin cần thiết để admin kiểm tra.
+
+Mỗi yêu cầu được duyệt:
++5.000 Xu.
+`;
+
+    }
+
+    if(
+        t.includes("đơn") ||
+        t.includes("trạng thái")
+    ){
+
+        return `
+Bạn xem mục “Lịch sử đơn hàng”.
+Trạng thái được cập nhật tự động.
+`;
+
+    }
+
+    if(
+        t.includes("hello") ||
+        t.includes("hi") ||
+        t.includes("xin chào")
+    ){
+
+        return `
+Xin chào 👋
+Mình có thể hỗ trợ:
+• Giá dịch vụ
+• Nạp tiền
+• Đặt đơn
+• FREE Xu
+• Trạng thái đơn
+`;
+
+    }
+
+    return `
+Mình chưa hiểu câu hỏi này 😅
+
+Bạn có thể hỏi:
+“Giá bao nhiêu?”
+“Nạp tiền thế nào?”
+“Đặt đơn”
+“FREE Xu”
+hoặc “Trạng thái đơn”.
+`;
+
+}
+
+
+function sendChat(){
+
+    const input =
+        document.getElementById(
+            "chatInput"
+        );
+
+    const text =
+        input.value.trim();
+
+    if(!text) return;
+
+    addMessage(text,"user");
+
+    input.value="";
+
+    setTimeout(
+        () => {
+
+            addMessage(
+                botReply(text),
+                "bot"
+            );
+
+        },
+        450
+    );
+
+}
+
+
+function quickChat(text){
+
+    addMessage(text,"user");
+
+    setTimeout(
+        () => {
+
+            addMessage(
+                botReply(text),
+                "bot"
+            );
+
+        },
+        400
+    );
+
+}
+
+
+/* ==========================================
+   ESCAPE
+========================================== */
+
+function escapeHtml(value){
+
+    return String(value ?? "")
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+
+}
+
+
+/* ==========================================
    LOGOUT
-========================================================= */
+========================================== */
 
 async function logout(){
 
@@ -4452,9 +3173,9 @@ async function logout(){
 }
 
 
-/* =========================================================
-   AUTH STATE
-========================================================= */
+/* ==========================================
+   AUTH
+========================================== */
 
 sb.auth.onAuthStateChange(
     (event,session) => {
@@ -4473,83 +3194,18 @@ sb.auth.onAuthStateChange(
 );
 
 
-/* =========================================================
-   APPROVAL WATCHER
-========================================================= */
-
-function startRealtimeWatcher(){
-
-    setInterval(
-        async () => {
-
-            if(!currentUser)
-                return;
-
-
-            await loadProfile();
-
-            await loadOrders();
-
-            await loadFreeBuffHistory(
-                true
-            );
-
-        },
-        8000
-    );
-
-}
-
-
-/* =========================================================
-   WELCOME
-========================================================= */
-
-function showWelcome(){
-
-    const seen =
-        localStorage.getItem(
-            "addfr_welcome_seen"
-        );
-
-
-    if(seen)
-        return;
-
-
-    document
-        .getElementById(
-            "welcomeModal"
-        )
-        .classList.add("show");
-
-
-    localStorage.setItem(
-        "addfr_welcome_seen",
-        "1"
-    );
-
-}
-
-
-/* =========================================================
+/* ==========================================
    INIT
-========================================================= */
+========================================== */
 
 async function init(){
 
     setupBank();
 
-    renderNotifications();
-
-
     const {
-        data:{
-            session
-        }
+        data:{session}
     } =
     await sb.auth.getSession();
-
 
     if(!session){
 
@@ -4560,7 +3216,6 @@ async function init(){
 
     }
 
-
     await loadProfile();
 
     await loadOrders();
@@ -4569,22 +3224,49 @@ async function init(){
 
     await loadFreeBuffHistory(false);
 
-    updateChart();
-
-    startRealtimeWatcher();
+    startFreeBuffApprovalWatcher();
 
     setTimeout(
-        showWelcome,
-        700
+        () => {
+
+            document
+                .getElementById(
+                    "welcomeModal"
+                )
+                .classList.add("show");
+
+        },
+        500
     );
 
 }
 
 
+/* ==========================================
+   CLOSE MODAL OUTSIDE
+========================================== */
+
 document.addEventListener(
-    "DOMContentLoaded",
-    init
+    "click",
+    e => {
+
+        if(
+            e.target.classList.contains(
+                "modal"
+            )
+        ){
+
+            e.target.classList.remove(
+                "show"
+            );
+
+        }
+
+    }
 );
+
+
+init();
 
 </script>
 
